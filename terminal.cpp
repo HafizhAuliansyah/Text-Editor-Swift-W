@@ -14,11 +14,11 @@ void rawModeOn(){
 	GetConsoleMode(ConsoleOut,&ModeOut);
 	GetConsoleMode(ConsoleIn,&ModeIn);
 	GetCommTimeouts(ConsoleIn,&timeouts);
-	timeouts.ReadIntervalTimeout = 1;
-	timeouts.ReadTotalTimeoutConstant = 1;
-	timeouts.ReadTotalTimeoutMultiplier = MAXDWORD;
-	timeouts.WriteTotalTimeoutConstant = 0;
-	timeouts.WriteTotalTimeoutMultiplier = 0;
+//	timeouts.ReadIntervalTimeout = 1;
+//	timeouts.ReadTotalTimeoutConstant = 1;
+//	timeouts.ReadTotalTimeoutMultiplier = MAXDWORD;
+//	timeouts.WriteTotalTimeoutConstant = 0;
+//	timeouts.WriteTotalTimeoutMultiplier = 0;
 
 	ModeIn &= ~(ENABLE_LINE_INPUT|ENABLE_ECHO_INPUT|ENABLE_PROCESSED_INPUT);
 	ModeOut |= (ENABLE_VIRTUAL_TERMINAL_PROCESSING|DISABLE_NEWLINE_AUTO_RETURN);
@@ -40,6 +40,5 @@ void keyProcess(){
 	DWORD write = readKey();
 
 	WriteFile(ConsoleOut,huruf,write,&written,NULL);
-	wprintf();
 }
 
