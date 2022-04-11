@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
-#include "prototype.h"
+#include "terminal.h"
 
 HANDLE ConsoleIn,ConsoleOut;
 CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
@@ -28,8 +28,8 @@ void rawModeOn(){
 DWORD readKey(){
 	DWORD read,written;
 	
-	while(ReadFile(ConsoleIn,huruf,1,&read,NULL) != 1){
-		//TODO
+	while(ReadFile(ConsoleIn,huruf,10,&read,NULL) != 1){
+//		printf("%c",&huruf[0]);
 	}
 	
 	return read;
