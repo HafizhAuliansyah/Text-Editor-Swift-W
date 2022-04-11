@@ -1,6 +1,5 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include "terminal.h"
+#include "cursor.h"
 
 int main () {
 	rawModeOn();

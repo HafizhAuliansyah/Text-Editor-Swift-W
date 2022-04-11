@@ -1,4 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
+	<ActiveTarget name="default" />
+</CodeBlocks_layout_file>
+[Editors]
+Order=1,2
+Focused=1
 [Editor_0]
+<<<<<<< HEAD
 CursorCol=19
 CursorRow=3
 TopLine=1
@@ -7,12 +16,21 @@ LeftChar=1
 Order=0,1,2
 Focused=2
 [Editor_1]
-CursorCol=74
-CursorRow=23
-TopLine=8
+CursorCol=2
+CursorRow=29
+TopLine=20
 LeftChar=1
 [Editor_2]
-CursorCol=18
-CursorRow=8
+CursorCol=7
+CursorRow=13
+=======
+CursorCol=16
+CursorRow=12
+TopLine=1
+LeftChar=1
+[Editor_1]
+CursorCol=45
+CursorRow=11
+>>>>>>> cursor
 TopLine=1
 LeftChar=1
