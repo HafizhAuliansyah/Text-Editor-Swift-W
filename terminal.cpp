@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <windows.h>
-#include "prototype.h"
+#include "terminal.h"
 
 HANDLE ConsoleIn,ConsoleOut;
 CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
 char *huruf = (char*)malloc(sizeof(char));
- 
+
 void rawModeOn(){
-	DWORD Mode;
+	DWORD Mode, ModeOut;
 	COMMTIMEOUTS timeouts;
 	ConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
 	ConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -27,11 +27,11 @@ void rawModeOn(){
 
 DWORD readKey(){
 	DWORD read,written;
-	
+
 	while(ReadFile(ConsoleIn,huruf,1,&read,NULL) != 1){
 		//TODO
 	}
-	
+
 	return read;
 }
 
@@ -39,6 +39,13 @@ void keyProcess(){
 	DWORD written;
 	DWORD write = readKey();
 	WriteFile(ConsoleOut,huruf,write,&written,NULL);
-	
+
+}
+
+HANDLE getConsoleOut(){
+    return ConsoleOut;
+}
+HANDLE getConsoleIn(){
+    return ConsoleIn;
 }
 

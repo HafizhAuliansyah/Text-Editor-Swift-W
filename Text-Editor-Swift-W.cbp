@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Text-Editor-Swift-W" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="default">
+				<Option output="Text-Editor-Swift-W" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+		</Build>
+		<Unit filename="cursor.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cursor.h">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="terminal.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="terminal.h">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
