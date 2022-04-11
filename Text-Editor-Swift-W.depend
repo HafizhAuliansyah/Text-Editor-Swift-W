@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1649646876 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.cpp
+1649650298 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.cpp
 	"cursor.h"
 
-1649646656 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.h
+1649647343 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.h
 	"terminal.h"
 
-1649646262 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
+1649647052 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	"terminal.h"

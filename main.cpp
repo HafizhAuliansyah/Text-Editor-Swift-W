@@ -5,6 +5,7 @@
 
 int main () {
 	rawModeOn();
+
 	while(1){
 		keyProcess();
 	}
