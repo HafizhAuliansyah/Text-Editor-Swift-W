@@ -4,6 +4,7 @@
 	<ActiveTarget name="default" />
 </CodeBlocks_layout_file>
 [Editors]
+<<<<<<< HEAD
 Order=1,2,3,4,0
 Focused=-1
 [Editor_0]
@@ -22,30 +23,38 @@ CursorRow=23
 TopLine=23
 =======
 CursorCol=2
+=======
+Focused=4
+TopLine=1
+LeftChar=1
+[Editor_0]
+CursorCol=1
+>>>>>>> d38b7a8b67f63ab5fc7e2f7372cbae92ee686a1e
 CursorRow=12
 TopLine=1
 LeftChar=1
-[Editors]
-Order=0,1,2,3
-Focused=3
 [Editor_1]
-CursorCol=28
-CursorRow=41
-TopLine=11
->>>>>>> input_handler
+CursorCol=14
+CursorRow=46
+TopLine=1
 LeftChar=1
 [Editor_2]
+<<<<<<< HEAD
 CursorCol=7
 CursorRow=27
 =======
 CursorCol=16
 CursorRow=12
 TopLine=4
+=======
+CursorCol=1
+CursorRow=1
+TopLine=1
+>>>>>>> d38b7a8b67f63ab5fc7e2f7372cbae92ee686a1e
 LeftChar=1
-[Editor_1]
-CursorCol=45
+[Editor_3]
+CursorCol=29
 CursorRow=11
->>>>>>> cursor
 TopLine=1
 LeftChar=1
 [Editor_4]
@@ -62,4 +71,9 @@ LeftChar=1
 CursorCol=1
 CursorRow=1
 TopLine=1
+LeftChar=1
+[Editor_4]
+CursorCol=21
+CursorRow=50
+TopLine=34
 LeftChar=1
