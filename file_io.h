@@ -1,6 +1,13 @@
 #ifndef fileIO_h
 #define fileIO_h
 
+#include "terminal.h"
+#include <string.h>
+#include <sys/types.h>
+#include "atlstr.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 struct fileHandler{
     char *filename;
     int modified;
