@@ -40,29 +40,6 @@ void die(const char *s)
     exit(1);
 }
 
-int readKey(){
-	DWORD read,written;
-	char c;
-	ReadFile(ConsoleIn,&c,1,&read,NULL);
-	if (iscntrl(c)) {
-      printf("%d\n", c);
-    } else {
-      printf("%d ('%c')", c, c);
-	}
-
-	return c;
-}
-
-void keyProcess(){
-	int key = readKey();
-	DWORD written;
-	DWORD write;
-	if(key == CTRL_KEY('q'))
-		die("EXIT");
-	WriteFile(ConsoleOut,&key, 1,&written,NULL);
-
-}
-
 HANDLE getConsoleOut(){
     return ConsoleOut;
 }

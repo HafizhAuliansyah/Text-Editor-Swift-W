@@ -8,53 +8,78 @@
 #define MAX_COLUMN 10
 #define MAX_ROW 10
 #define SWIFT_TAB_STOP 8
+#define CTRL(k) ((k)&0x1f)
 
 #include "cursor.h"
 
-typedef struct erow{
-	int size;
+typedef struct erow
+{
+    int size;
     int rsize;
     char chars[MAX_COLUMN + 1];
     char render[MAX_COLUMN + 1];
-}erow;
+} erow;
 
-struct teksEditor{
-	int numrows;
-	erow row[MAX_ROW + 1];
+struct teksEditor
+{
+    int numrows;
+    erow row[MAX_ROW + 1];
 };
 
 struct teksEditor teks_editor;
 
+enum editorKey
+{
+    BACKSPACE = 127,
+    ARROW_LEFT = 1000,
+    ARROW_RIGHT,
+    ARROW_UP,
+    ARROW_DOWN,
+    DEL_KEY,
+    HOME_KEY,
+    END_KEY,
+    PAGE_UP,
+    PAGE_DOWN,
+    // Shift + Key
+    SHIFT_ARROW_LEFT,
+    SHIFT_ARROW_RIGHT,
+    SHIFT_ARROW_UP,
+    SHIFT_ARROW_DOWN,
+};
 
-void editorUpdateRow(erow *row);
+// membaca setiap press key di keyboard
+int readKey();
+void keyProcess();
+
+void updateRow(erow *row);
 /* ngatur untuk apa yang d render atau ditampilkan ke layar */
 
-void editorInsertRow(int at, char *s, size_t len);
+void insertRow(int at, char *s, size_t len);
 /* masukin ke array nya harusnya lewat sini tapi per row */
 
 // void editorFreeRow(erow *row);
 /* nge dealloc di memory sebesar erow*/
 
-void editorDelRow(int at);
+void deleteRow(int at);
 /* Untuk menghapus row, jika row setelah ada isinya maka akan naik ke row yang dihapus*/
 
-void editorRowInsertChar(erow *row, int at, int c);
+void rowInsertChar(erow *row, int at, int c);
 /* menambahkan karakter to posisi cursor dalam row */
 
-void editorRowAppendString(erow *row, char *s, size_t len);
+void rowAppendString(erow *row, char *s, size_t len);
 /* menambahkan isi chars ke sebuah row*/
 
-void editorRowDelChar(erow *row, int at);
+void rowDelChar(erow *row, int at);
 /* menghapus 1 karakter posisi cursor*/
 
 /*** editor operations ***/
-void editorInsertChar(int c);
+void InsertChar(int c);
 /* menambahkan 1 karakter*/
 
-void editorDelChar();
+void deleteChar();
 /* module untuk menghapus karakter */
 
-void editorInsertNewline();
+void insertNewline();
 /* handle enter*/
 
 #endif

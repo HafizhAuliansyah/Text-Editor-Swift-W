@@ -14,7 +14,6 @@
 #define ENABLE_VIRTUAL_TERMINAL_INPUT 0x0200
 #endif
 
-#define CTRL_KEY(k) ((k)&0x1f)
 
 typedef struct terminalHandler{
 	DWORD defaultModeIn,defaultModeOut;
@@ -24,8 +23,7 @@ typedef struct terminalHandler{
 
 void rawModeOn();
 void rawModeOff();
-int readKey();
-void keyProcess();
+
 
 // Accessor Configuration Console
 HANDLE getConsoleOut();
