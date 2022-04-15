@@ -4,8 +4,13 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
+<<<<<<< HEAD
 OBJ      = main.o terminal.o cursor.o
 LINKOBJ  = main.o terminal.o cursor.o
+=======
+OBJ      = main.o terminal.o input.o
+LINKOBJ  = main.o terminal.o input.o
+>>>>>>> input_handler
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -30,5 +35,10 @@ main.o: main.cpp
 terminal.o: terminal.cpp
 	$(CC) -c terminal.cpp -o terminal.o $(CFLAGS)
 
+<<<<<<< HEAD
 cursor.o: cursor.cpp
 	$(CC) -c cursor.cpp -o cursor.o $(CFLAGS)
+=======
+input.o: input.cpp
+	$(CC) -c input.cpp -o input.o $(CFLAGS)
+>>>>>>> input_handler
