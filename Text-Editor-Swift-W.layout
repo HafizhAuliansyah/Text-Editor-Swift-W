@@ -4,13 +4,13 @@
 	<ActiveTarget name="default" />
 </CodeBlocks_layout_file>
 [Editors]
-Order=1,2,3,4
-Focused=-1
+Order=1,2,3,4,0
+Focused=0
 [Editor_0]
 <<<<<<< HEAD
 <<<<<<< HEAD
-CursorCol=19
-CursorRow=3
+CursorCol=1
+CursorRow=9
 TopLine=1
 LeftChar=1
 [Editors]
@@ -18,7 +18,7 @@ Order=0,1,2
 Focused=2
 [Editor_1]
 CursorCol=1
-CursorRow=1
+CursorRow=4
 TopLine=1
 =======
 CursorCol=2
@@ -54,6 +54,11 @@ CursorRow=1
 TopLine=1
 LeftChar=1
 [Editor_3]
+CursorCol=1
+CursorRow=1
+TopLine=1
+LeftChar=1
+[Editor_5]
 CursorCol=1
 CursorRow=1
 TopLine=1
