@@ -79,6 +79,18 @@ cursorHandler getCursor(){
 void setCursor(cursorHandler c){
     cursor = c;
 }
+void setCursorX(int x){
+    cursor.x = x;
+}
+void setCursorY(int y){
+    cursor.y = y;
+}
+int getStartRow(){
+    return cursor.start_row;
+}
+int getStartCol(){
+    return cursor.start_col;
+}
 int cursorXToRenderX(erow *row, int x){
 	int rx = 0;
     int j;

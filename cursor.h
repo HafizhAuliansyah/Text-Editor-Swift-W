@@ -29,5 +29,12 @@ int renderXToCursorX(erow *row, int rx);
 /* Modifier nilai start_row dan start_row untuk scrolling */
 void cursorScroll(teksEditor tEditor);
 
+/* SELECTOR */
+cursorHandler getCursor();
+void setCursor(cursorHandler c);
+void setCursorX(int x);
+void setCursorY(int y);
+
+
 
 #endif
