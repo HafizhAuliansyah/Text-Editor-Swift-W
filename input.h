@@ -11,6 +11,7 @@
 #define CTRL(k) ((k)&0x1f)
 
 #include "cursor.h"
+#include "file_io.h"
 
 typedef struct erow
 {

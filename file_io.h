@@ -8,7 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct fileHandler{
+struct fileHandler
+{
     char *filename;
     int modified;
 };

@@ -1,5 +1,4 @@
 #include "input.h"
-cursorHandler C;
 
 int readKey()
 {
@@ -125,14 +124,15 @@ void keyProcess()
         exit(0);
         break;
     case CTRL('s'):
-        //        editorSave();
-        //        break;
+        saveFile();
+        break;
     case HOME_KEY:
-        C.x = 0;
+        setCursorX(0);
         break;
     case END_KEY:
-        if (C.y < teks_editor.numrows)
-            C.x = teks_editor.row[C.y].size;
+        cursorHandler cursor;
+        if (cursor.y < teks_editor.numrows)
+            setCursorX(teks_editor.row[cursor.y].size);
         break;
     case CTRL('f'):
         //        editorFind();
@@ -140,18 +140,18 @@ void keyProcess()
         //        break;
     case BACKSPACE:
     case DEL_KEY:
-        //        if (c == DEL_KEY)
-        //            editorMoveCursor(ARROW_RIGHT);
-        //        deleteChar();
-        //        break;
+        if (c == DEL_KEY)
+            moveCursor(ARROW_RIGHT, teks_editor);
+        deleteChar();
+        break;
     case PAGE_UP:
     case PAGE_DOWN:
     {
-        //        if (c == PAGE_UP)
-        //        {
-        //            // Pindah ke baris paling atas di layar
-        //            C.y = E.rowoff;
-        //        }
+        // if (c == PAGE_UP)
+        // {
+        // Pindah ke baris paling atas di layar
+        // C.y = E.rowoff;
+        // }
         //        else if (c == PAGE_DOWN)
         //        {
         //            // Pindah ke baris paling bawah di layar
@@ -168,8 +168,8 @@ void keyProcess()
     case ARROW_DOWN:
     case ARROW_LEFT:
     case ARROW_RIGHT:
-        //        editorMoveCursor(c);
-        //        break;
+        moveCursor(c, teks_editor);
+        break;
     case CTRL('h'):
         isInHelp = true;
     // HANDLE COPY PASTE
@@ -296,15 +296,16 @@ void rowDelChar(erow *row, int at)
 void insertChar(int c)
 {
     // editorSetStatusMessage(E.row->render);
-    if (C.y == teks_editor.numrows)
+    cursorHandler cursor;
+    if (cursor.y == teks_editor.numrows)
     {
         insertRow(teks_editor.numrows, "", 0);
     }
 
-    if (teks_editor.row[C.y].size < MAX_COLUMN)
+    if (teks_editor.row[cursor.y].size < MAX_COLUMN)
     {
-        rowInsertChar(&teks_editor.row[C.y], C.x, c);
-        C.x++;
+        rowInsertChar(&teks_editor.row[cursor.y], cursor.x, c);
+        setCursorX(cursor.x);
     }
     else
     {
@@ -314,50 +315,51 @@ void insertChar(int c)
 
 void deleteChar()
 {
-
-    if (C.x == 0 && C.y == 0)
+    cursorHandler cursor;
+    if (cursor.x == 0 && cursor.y == 0)
         return;
-    if (C.x > 0)
+    if (cursor.x > 0)
     {
-        rowDelChar(&teks_editor.row[C.y], C.x - 1);
-        C.x--;
+        rowDelChar(&teks_editor.row[cursor.y], cursor.x - 1);
+        setCursorX(cursor.x--);
     }
     else
     {
-        C.x = teks_editor.row[C.y - 1].size;
-        if (teks_editor.row[C.y - 1].size + teks_editor.row[C.y].size <= MAX_COLUMN)
+        setCursorX(teks_editor.row[cursor.y - 1].size);
+        if (teks_editor.row[cursor.y - 1].size + teks_editor.row[cursor.y].size <= MAX_COLUMN)
         {
-            rowAppendString(&teks_editor.row[C.y - 1], teks_editor.row[C.y].chars, teks_editor.row[C.y].size);
-            deleteRow(C.y);
-            C.y--;
+            rowAppendString(&teks_editor.row[cursor.y - 1], teks_editor.row[cursor.y].chars, teks_editor.row[cursor.y].size);
+            deleteRow(cursor.y);
+            setCursorY(cursor.y--);
         }
         else
         {
             //            editorSetStatusMessage("PERINGATAN ! TIDAK BISA MENGHAPUS, KOLOM TIDAK MEMADAI");
-            C.x = teks_editor.row[C.y].size;
+            setCursorX(teks_editor.row[cursor.y].size);
         }
     }
 }
 
 void insertNewline()
 {
+    cursorHandler cursor;
     if (teks_editor.numrows < MAX_ROW)
     {
-        if (C.x == 0)
+        if (cursor.x == 0)
         {
-            insertRow(C.y, "", 0);
+            insertRow(cursor.y, "", 0);
         }
         else
         {
-            erow *row = &teks_editor.row[C.y];
-            insertRow(C.y + 1, &row->chars[C.x], row->size - C.x);
-            row = &teks_editor.row[C.y];
-            row->size = C.x;
+            erow *row = &teks_editor.row[cursor.y];
+            insertRow(cursor.y + 1, &row->chars[cursor.x], row->size - cursor.x);
+            row = &teks_editor.row[cursor.y];
+            row->size = cursor.x;
             row->chars[row->size] = '\0';
             updateRow(&(*row));
         }
-        C.y++;
-        C.x = 0;
+        setCursorY(cursor.y++);
+        setCursorX(0);
     }
     else
     {

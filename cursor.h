@@ -3,7 +3,8 @@
 #include "terminal.h"
 #include "input.h"
 
-struct cursorHandler{
+struct cursorHandler
+{
 	int x;
 	int y;
 	int rx;
@@ -12,7 +13,7 @@ struct cursorHandler{
 };
 
 /* Mengambil posisi cursor */
-void getCursorPosition(int *row,int *column);
+void getCursorPosition(int *row, int *column);
 
 /* Initialize nilai cursor awal */
 void cursorInit();
@@ -34,7 +35,5 @@ cursorHandler getCursor();
 void setCursor(cursorHandler c);
 void setCursorX(int x);
 void setCursorY(int y);
-
-
 
 #endif
