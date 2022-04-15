@@ -8,7 +8,8 @@ struct cursorHandler{
 	int rx;
 };
 
-void moveCursor(int key);
+void moveCursor(int button);
 void getCursorPosition(int *row,int *column);
+void cursorInit();
 
 #endif
