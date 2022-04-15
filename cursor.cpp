@@ -31,7 +31,7 @@ void moveCursor(int button, teksEditor tEditor){
 	erow *row = (cursor.x >= tEditor.numrows) ? NULL : &tEditor.row[cursor.y];
 	// Arrow Handler
 	switch(button){
-		case "ARROW_LEFT":
+		case ARROW_LEFT:
 			if(cursor.x != 0){
 				// Memindahkan Cursor ke kiri 1
 				cursor.x--;
@@ -42,7 +42,7 @@ void moveCursor(int button, teksEditor tEditor){
 				cursor.x = tEditor.row[cursor.y].size;
 			}
 			break;
-		case "ARROW_RIGHT":
+		case ARROW_RIGHT:
 			if( row != NULL && cursor.x < row->size){
 				cursor.x++;
 			}else if(row != NULL && cursor.x == row->size && cursor.y != tEditor.numrows - 1 ){
@@ -52,13 +52,13 @@ void moveCursor(int button, teksEditor tEditor){
 				
 			}
 			break;
-		case "ARROW_UP":
+		case ARROW_UP:
 			if(cursor.y != 0 ){
 				// Cursor pindah ke baris atas
 				cursor.y--;
 			}
 			break;
-		case "ARROW_DOWN":
+		case ARROW_DOWN:
 			if(cursor.y < tEditor.numrows - 1){
 				// Cursor pindah ke baris bawah
 				cursor.y++;
