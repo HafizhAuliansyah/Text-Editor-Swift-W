@@ -6,6 +6,5 @@ int main () {
 	while(1){
 		keyProcess();
 	}
-
 	return 0;
 }

@@ -15,7 +15,15 @@
 #endif
 
 
+typedef struct terminalHandler{
+	DWORD defaultModeIn,defaultModeOut;
+	int screenrows;
+	int screencols;
+}terminal;
+
 void rawModeOn();
+void rawModeOff();
+void die(const char *s);
 
 
 // Accessor Configuration Console
