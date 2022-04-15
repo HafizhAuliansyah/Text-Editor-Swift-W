@@ -130,7 +130,7 @@ void keyProcess()
         setCursorX(0);
         break;
     case END_KEY:
-        cursorHandler cursor;
+        cursorHandler cursor = getCursor();
         if (cursor.y < teks_editor.numrows)
             setCursorX(teks_editor.row[cursor.y].size);
         break;
@@ -149,62 +149,64 @@ void keyProcess()
     {
         // if (c == PAGE_UP)
         // {
-        // Pindah ke baris paling atas di layar
-        // C.y = E.rowoff;
+        //     // Pindah ke baris paling atas di layar
+        //     setCursorY(getStartRow());
         // }
-        //        else if (c == PAGE_DOWN)
-        //        {
-        //            // Pindah ke baris paling bawah di layar
-        //            C.y = E.rowoff + E.screenrows - 1;
-        //            if (C.y > E.numrows)
-        //                C.y = E.numrows - 1;
-        //        }
-        //        int times = E.screenrows;
-        //        while (times--)
-        //            editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
+        // else if (c == PAGE_DOWN)
+        // {
+        //     cursorHandler cursor = getCursor();
+        // Pindah ke baris paling bawah di layar
+        // C.y = E.rowoff + E.screenrows - 1;
+        // setCursorY(getStartRow());
+        // if (cursor.y > teks_editor.numrows)
+        // setCursorY(teks_editor.numrows - 1);
     }
-    // Arrow untuk memindahkan cursor
-    case ARROW_UP:
-    case ARROW_DOWN:
-    case ARROW_LEFT:
-    case ARROW_RIGHT:
-        moveCursor(c, teks_editor);
-        break;
-    case CTRL('h'):
-        isInHelp = true;
-    // HANDLE COPY PASTE
-    case CTRL('c'):
-        //        copy(teks_editor.row);
-        //        break;
-    case CTRL('v'):
-        //        paste();
-        //        break;
-        // SELECT
-    case SHIFT_ARROW_RIGHT:
-    case SHIFT_ARROW_LEFT:
-    case SHIFT_ARROW_UP:
-    case SHIFT_ARROW_DOWN:
-        //        selectMoveCursor(c);
-        //        skipClearSelect = true;
-        //        break;
-    case CTRL('l'):
-    case '\x1b':
+        // int times = E.screenrows;
+        // while (times--)
+        // moveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN, teks_editor);
+    }
+// Arrow untuk memindahkan cursor
+case ARROW_UP:
+case ARROW_DOWN:
+case ARROW_LEFT:
+case ARROW_RIGHT:
+    moveCursor(c, teks_editor);
+    break;
+case CTRL('h'):
+    isInHelp = true;
+// HANDLE COPY PASTE
+case CTRL('c'):
+    //        copy(teks_editor.row);
+    //        break;
+case CTRL('v'):
+    //        paste();
+    //        break;
+    // SELECT
+case SHIFT_ARROW_RIGHT:
+case SHIFT_ARROW_LEFT:
+case SHIFT_ARROW_UP:
+case SHIFT_ARROW_DOWN:
+    //        selectMoveCursor(c);
+    //        skipClearSelect = true;
+    //        break;
+case CTRL('l'):
+case '\x1b':
+{
+    if (isInHelp)
+        isInHelp = false;
+}
+break;
+default:
+    if ((c > 26 || c == 9) && !isInHelp)
     {
-        if (isInHelp)
-            isInHelp = false;
+        insertChar(c);
     }
     break;
-    default:
-        if ((c > 26 || c == 9) && !isInHelp)
-        {
-            insertChar(c);
-        }
-        break;
-    }
-    //    if (!skipClearSelect)
-    // Matikan selection text
-    //        clearSelected(&selection);
-    quit_times = SWIFT_QUIT_TIMES;
+}
+//    if (!skipClearSelect)
+// Matikan selection text
+//        clearSelected(&selection);
+quit_times = SWIFT_QUIT_TIMES;
 }
 
 void updateRow(erow *row)
@@ -296,7 +298,7 @@ void rowDelChar(erow *row, int at)
 void insertChar(int c)
 {
     // editorSetStatusMessage(E.row->render);
-    cursorHandler cursor;
+    cursorHandler cursor = getCursor();
     if (cursor.y == teks_editor.numrows)
     {
         insertRow(teks_editor.numrows, "", 0);
@@ -315,7 +317,7 @@ void insertChar(int c)
 
 void deleteChar()
 {
-    cursorHandler cursor;
+    cursorHandler cursor = getCursor();
     if (cursor.x == 0 && cursor.y == 0)
         return;
     if (cursor.x > 0)
@@ -342,7 +344,7 @@ void deleteChar()
 
 void insertNewline()
 {
-    cursorHandler cursor;
+    cursorHandler cursor = getCursor();
     if (teks_editor.numrows < MAX_ROW)
     {
         if (cursor.x == 0)

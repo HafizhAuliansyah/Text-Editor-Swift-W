@@ -35,5 +35,6 @@ cursorHandler getCursor();
 void setCursor(cursorHandler c);
 void setCursorX(int x);
 void setCursorY(int y);
-
+int getStartRow();
+int getStartCol();
 #endif
