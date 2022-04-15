@@ -16,7 +16,14 @@
 
 #define CTRL_KEY(k) ((k)&0x1f)
 
+typedef struct terminalHandler{
+	DWORD defaultModeIn,defaultModeOut;
+	int screenrows;
+	int screencols;
+}terminal;
+
 void rawModeOn();
+void rawModeOff();
 int readKey();
 void keyProcess();
 
