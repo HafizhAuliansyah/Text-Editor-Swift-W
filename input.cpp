@@ -124,7 +124,7 @@ void keyProcess()
         WriteFile(console_out, "\x1b[H", 3, NULL, NULL);
         exit(0);
         break;
-    case CTRL_KEY('s'):
+    case CTRL('s'):
         //        editorSave();
         //        break;
     case HOME_KEY:
@@ -134,7 +134,7 @@ void keyProcess()
         if (C.y < teks_editor.numrows)
             C.x = teks_editor.row[C.y].size;
         break;
-    case CTRL_KEY('f'):
+    case CTRL('f'):
         //        editorFind();
         //        skipClearSelect = true;
         //        break;
@@ -170,13 +170,13 @@ void keyProcess()
     case ARROW_RIGHT:
         //        editorMoveCursor(c);
         //        break;
-    case CTRL_KEY('h'):
+    case CTRL('h'):
         isInHelp = true;
     // HANDLE COPY PASTE
-    case CTRL_KEY('c'):
+    case CTRL('c'):
         //        copy(teks_editor.row);
         //        break;
-    case CTRL_KEY('v'):
+    case CTRL('v'):
         //        paste();
         //        break;
         // SELECT
@@ -187,7 +187,7 @@ void keyProcess()
         //        selectMoveCursor(c);
         //        skipClearSelect = true;
         //        break;
-    case CTRL_KEY('l'):
+    case CTRL('l'):
     case '\x1b':
     {
         if (isInHelp)
