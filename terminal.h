@@ -23,6 +23,7 @@ typedef struct terminalHandler{
 
 void rawModeOn();
 void rawModeOff();
+void die(const char *s);
 
 
 // Accessor Configuration Console
