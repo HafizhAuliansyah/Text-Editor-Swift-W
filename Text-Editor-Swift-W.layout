@@ -5,21 +5,21 @@
 </CodeBlocks_layout_file>
 [Editors]
 Order=1,2,3,4,0
-Focused=0
+Focused=-1
 [Editor_0]
 <<<<<<< HEAD
 <<<<<<< HEAD
-CursorCol=1
-CursorRow=9
+CursorCol=16
+CursorRow=7
 TopLine=1
 LeftChar=1
 [Editors]
 Order=0,1,2
 Focused=2
 [Editor_1]
-CursorCol=1
-CursorRow=4
-TopLine=1
+CursorCol=40
+CursorRow=23
+TopLine=23
 =======
 CursorCol=2
 CursorRow=12
@@ -36,11 +36,11 @@ TopLine=11
 LeftChar=1
 [Editor_2]
 CursorCol=7
-CursorRow=13
+CursorRow=27
 =======
 CursorCol=16
 CursorRow=12
-TopLine=1
+TopLine=4
 LeftChar=1
 [Editor_1]
 CursorCol=45
@@ -50,7 +50,7 @@ TopLine=1
 LeftChar=1
 [Editor_4]
 CursorCol=1
-CursorRow=1
+CursorRow=4
 TopLine=1
 LeftChar=1
 [Editor_3]

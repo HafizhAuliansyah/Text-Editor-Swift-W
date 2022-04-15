@@ -30,18 +30,6 @@ void die(const char *s)
     exit(1);
 }
 
-int readKey(){
-	DWORD read,written;
-	char c;
-	ReadFile(ConsoleIn,&c,1,&read,NULL);
-	if (iscntrl(c)) {
-      printf("%d\n", c);
-    } else {
-      printf("%d ('%c')\n", c, c);
-	}
-
-	return c;
-}
 
 void keyProcess(){
 	int key = readKey();
