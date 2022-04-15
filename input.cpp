@@ -1,4 +1,5 @@
 #include "input.h"
+cursorHandler C;
 
 void editorUpdateRow(erow *row)
 {

@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "cursor.h"
+#include "input.h"
 
 int main () {
 	rawModeOn();

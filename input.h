@@ -9,13 +9,7 @@
 #define MAX_ROW 10
 #define SWIFT_TAB_STOP 8
 
-struct cursorHandler
-{
-    int x;
-    int y;
-    int rx;
-};
-struct cursorHandler C;
+#include "cursor.h"
 
 typedef struct erow{
 	int size;
