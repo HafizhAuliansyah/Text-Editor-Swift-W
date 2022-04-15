@@ -39,7 +39,10 @@ void die(const char *s)
     perror(s);
     exit(1);
 }
-
+void getWindowSize(int *rows, int *cols){
+	*rows = bufferInfo.dwMaximumWindowSize.Y;
+	*cols = bufferInfo.dwMaximumWindowSize.X; 
+}
 HANDLE getConsoleOut(){
     return ConsoleOut;
 }

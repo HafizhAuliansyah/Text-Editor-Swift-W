@@ -73,6 +73,12 @@ void moveCursor(int button, teksEditor tEditor){
 		cursor.x = len;
 	}
 }
+cursorHandler getCursor(){
+    return cursor;
+}
+void setCursor(cursorHandler c){
+    cursor = c;
+}
 int cursorXToRenderX(erow *row, int x){
 	int rx = 0;
     int j;

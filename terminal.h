@@ -24,6 +24,7 @@ typedef struct terminalHandler{
 void rawModeOn();
 void rawModeOff();
 void die(const char *s);
+void getWindowSize(int *rows, int *cols);
 
 
 // Accessor Configuration Console

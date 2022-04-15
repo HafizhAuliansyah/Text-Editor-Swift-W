@@ -96,7 +96,7 @@ int readKey()
     }
     else
     {
-        return c;
+        return key;
     }
 }
 
