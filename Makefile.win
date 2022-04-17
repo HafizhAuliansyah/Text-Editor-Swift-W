@@ -1,0 +1,37 @@
+# Project: Text-Editor-Swift-W
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = main.o terminal.o cursor.o input.o
+LINKOBJ  = main.o terminal.o cursor.o input.o
+LIBS     = -L"D:/Software/DevC/Dev-Cpp/MinGW64/lib" -L"D:/Software/DevC/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"D:/Software/DevC/Dev-Cpp/MinGW64/include" -I"D:/Software/DevC/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Software/DevC/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"D:/Software/DevC/Dev-Cpp/MinGW64/include" -I"D:/Software/DevC/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Software/DevC/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Software/DevC/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = Text-Editor-Swift-W.exe
+CXXFLAGS = $(CXXINCS) 
+CFLAGS   = $(INCS) 
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CC) -c main.cpp -o main.o $(CFLAGS)
+
+terminal.o: terminal.cpp
+	$(CC) -c terminal.cpp -o terminal.o $(CFLAGS)
+
+cursor.o: cursor.cpp
+	$(CC) -c cursor.cpp -o cursor.o $(CFLAGS)
+
+input.o: input.cpp
+	$(CC) -c input.cpp -o input.o $(CFLAGS)

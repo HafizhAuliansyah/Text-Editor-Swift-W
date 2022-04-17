@@ -13,6 +13,7 @@ void rawModeOn(){
 	ConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
 	ConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	GetConsoleScreenBufferInfo(ConsoleOut, &bufferInfo);
+	GetConsoleTitle(terminalConfig.oldTitle,MAX_PATH);
 	GetConsoleMode(ConsoleOut,&ModeOut);
 	GetConsoleMode(ConsoleIn,&ModeIn);
 	GetCommTimeouts(ConsoleIn,&timeouts);
@@ -31,6 +32,7 @@ void rawModeOn(){
 void rawModeOff(){
 	SetConsoleMode(ConsoleIn,terminalConfig.defaultModeIn);
 	SetConsoleMode(ConsoleOut,terminalConfig.defaultModeOut);
+	SetConsoleTitle(terminalConfig.oldTitle);
 }
 void die(const char *s)
 {
@@ -55,6 +57,7 @@ void terminalInit(){
 	newScreenBuffer.X = bufferInfo.srWindow.Right - bufferInfo.srWindow.Left + 1;
 	newScreenBuffer.Y = bufferInfo.srWindow.Bottom - bufferInfo.srWindow.Top + 1;
 	SetConsoleScreenBufferSize(ConsoleOut,newScreenBuffer);
+	SetConsoleTitle("Text Editor Swift");
 	terminalConfig.screenrows -= 2;
 }
 int getScreenRows(){
