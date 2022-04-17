@@ -1,16 +1,16 @@
 
 #include "buffer.h"
-void abAppend(struct abuf *ab, const char *s, int len)
+void bufferAppend(outputBuffer *ob, const char *s, int len)
 {
-  char *new = realloc(ab->b, ab->len + len);
+  char *new = realloc(ob->b, ob->len + len);
   if (new == NULL)
     return;
-  memcpy(&new[ab->len], s, len);
-  ab->b = new;
-  ab->len += len;
+  memcpy(&new[ob->len], s, len);
+  ob->b = new;
+  ob->len += len;
 }
 
-void abFree(struct abuf *ab)
+void bufferFree(outputBuffer *ob)
 {
-  free(ab->b);
+  free(ob->b);
 }

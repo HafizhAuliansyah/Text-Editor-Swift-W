@@ -5,18 +5,18 @@
 #include <stdlib.h>
 #include <string.h>
 /*** append buffer ***/
-struct abuf
+struct outputBuffer
 {
-  char *b;
+  char *buffer;
   int len;
 };
 
-#define ABUF_INIT \
+#define OUTPUT_INIT \
   {               \
     NULL, 0       \
   }
 
-void abAppend(struct abuf *ab, const char *s, int len);
+void bufferAppend(outputBuffer *ob, const char *s, int len);
 
-void abFree(struct abuf *ab);
+void bufferFree(outputBuffer *ob);
 #endif
