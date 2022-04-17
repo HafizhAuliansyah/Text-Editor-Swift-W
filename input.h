@@ -13,6 +13,7 @@
 
 #include "cursor.h"
 #include "file_io.h"
+#include "text_operation.h"
 
 typedef struct erow
 {

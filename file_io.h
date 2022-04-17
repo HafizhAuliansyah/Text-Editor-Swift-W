@@ -26,4 +26,11 @@ void saveFile();
 /* Opean Help File */
 char **openHelp(int *help_len);
 
+/* Selector */
+fileHandler getFileHandler();
+
+/* Mutator */
+void setFilename();
+void addModified();
+
 #endif

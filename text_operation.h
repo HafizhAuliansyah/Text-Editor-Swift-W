@@ -15,11 +15,11 @@ struct selectionText{
 
 
 void addSelectionText(struct abuf *ab, char *row, int len);
-void clearSelected(selectionText *s);
+void clearSelected();
 void copy(erow row[]);
 void paste();
 void selectShift(selectionText dest);
-void selectMoveCursor(int c);
+void selectMoveCursor(int c, teksEditor tEditor);
 void findText(teksEditor tEditor);
 
 #endif

@@ -93,3 +93,12 @@ char **openHelp(int *help_len)
     *help_len = x;
     return isi_file;
 }
+fileHandler getFileHandler(){
+    return fileStatus;
+}
+void setFilename(char *name){
+    fileStatus.filename = name;
+}
+void addModified(){
+    fileStatus.modified++;
+}
