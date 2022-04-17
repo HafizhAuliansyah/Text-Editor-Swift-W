@@ -8,6 +8,7 @@
 #define MAX_COLUMN 10
 #define MAX_ROW 10
 #define SWIFT_TAB_STOP 8
+#define SWIFT_QUIT_TIMES 1
 #define CTRL(k) ((k)&0x1f)
 
 #include "cursor.h"

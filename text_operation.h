@@ -2,6 +2,7 @@
 #define text_op_h
 
 #include <stdbool.h>
+#include "terminal.h"
 #include "input.h"
 #include "cursor.h"
 
@@ -19,5 +20,6 @@ void copy(erow row[]);
 void paste();
 void selectShift(selectionText dest);
 void selectMoveCursor(int c);
+void findText(teksEditor tEditor);
 
 #endif

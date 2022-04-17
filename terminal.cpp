@@ -49,4 +49,12 @@ HANDLE getConsoleOut(){
 HANDLE getConsoleIn(){
     return ConsoleIn;
 }
-
+void terminalInit(){
+	getWindowSize(&terminalConfig.screenrows, &terminalConfig.screencols);
+}
+int getScrennRows(){
+	return terminalConfig.screenrows;
+}
+int getScrenCols(){
+	return terminalConfig.screencols;
+}

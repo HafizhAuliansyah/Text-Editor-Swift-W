@@ -38,7 +38,6 @@ void moveCursor(int button, teksEditor tEditor){
 			}else if(cursor.x > 0 && cursor.x == 0){
 				// Cursor ke baris atas
 				cursor.y--;
-				int size; // TODO max size dari row sebelumnya
 				cursor.x = tEditor.row[cursor.y].size;
 			}
 			break;
@@ -100,8 +99,8 @@ int renderXToCursorX(erow *row, int rx){
 }
 void cursorScroll(teksEditor tEditor)
 {
-	int screenrows;		// TODO get max screen row
-	int screencols;		// TODO get max screen column
+	int screenrows = getScrennRows();		// get max screen row
+	int screencols = getScrenCols();		// get max screen column
     // Tab Detector and Handler
     cursor.rx = 0;
     if (cursor.y < tEditor.numrows)

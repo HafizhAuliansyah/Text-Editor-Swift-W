@@ -160,53 +160,53 @@ void keyProcess()
         // setCursorY(getStartRow());
         // if (cursor.y > teks_editor.numrows)
         // setCursorY(teks_editor.numrows - 1);
-    }
+        // }
         // int times = E.screenrows;
         // while (times--)
         // moveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN, teks_editor);
     }
-// Arrow untuk memindahkan cursor
-case ARROW_UP:
-case ARROW_DOWN:
-case ARROW_LEFT:
-case ARROW_RIGHT:
-    moveCursor(c, teks_editor);
-    break;
-case CTRL('h'):
-    isInHelp = true;
-// HANDLE COPY PASTE
-case CTRL('c'):
-    //        copy(teks_editor.row);
-    //        break;
-case CTRL('v'):
-    //        paste();
-    //        break;
-    // SELECT
-case SHIFT_ARROW_RIGHT:
-case SHIFT_ARROW_LEFT:
-case SHIFT_ARROW_UP:
-case SHIFT_ARROW_DOWN:
-    //        selectMoveCursor(c);
-    //        skipClearSelect = true;
-    //        break;
-case CTRL('l'):
-case '\x1b':
-{
-    if (isInHelp)
-        isInHelp = false;
-}
-break;
-default:
-    if ((c > 26 || c == 9) && !isInHelp)
+    // Arrow untuk memindahkan cursor
+    case ARROW_UP:
+    case ARROW_DOWN:
+    case ARROW_LEFT:
+    case ARROW_RIGHT:
+        moveCursor(c, teks_editor);
+        break;
+    case CTRL('h'):
+        // isInHelp = true;
+    // HANDLE COPY PASTE
+    case CTRL('c'):
+        //        copy(teks_editor.row);
+        //        break;
+    case CTRL('v'):
+        //        paste();
+        //        break;
+        // SELECT
+    case SHIFT_ARROW_RIGHT:
+    case SHIFT_ARROW_LEFT:
+    case SHIFT_ARROW_UP:
+    case SHIFT_ARROW_DOWN:
+        //        selectMoveCursor(c);
+        //        skipClearSelect = true;
+        //        break;
+    case CTRL('l'):
+    case '\x1b':
     {
-        insertChar(c);
+        if (isInHelp)
+            isInHelp = false;
     }
     break;
-}
-//    if (!skipClearSelect)
-// Matikan selection text
-//        clearSelected(&selection);
-quit_times = SWIFT_QUIT_TIMES;
+    default:
+        if ((c > 26 || c == 9) && !isInHelp)
+        {
+            insertChar(c);
+        }
+        break;
+    }
+    //    if (!skipClearSelect)
+    // Matikan selection text
+    //        clearSelected(&selection);
+    quit_times = SWIFT_QUIT_TIMES;
 }
 
 void updateRow(erow *row)
@@ -367,4 +367,7 @@ void insertNewline()
     {
         //        editorSetStatusMessage("PERINGATAN ! MENCAPAI BATAS BARIS");
     }
+}
+void inputInit(){
+    teks_editor.numrows = 0;
 }

@@ -50,7 +50,7 @@ void selectMoveCursor(int c, teksEditor tEditor)
         // COMMENTED editorSetStatusMessage("Other");
         break;
     }
-    if (dest.y != getCursor().y)
+    if (dest.y != C.y)
     {
         // COMMENTED editorSetStatusMessage("FITUR INI BELUM TERSEDIA");
     }
@@ -108,7 +108,7 @@ void findText(teksEditor tEditor)
             selection.x = getCursor().x;
             selection.len = strlen(query);
             selection.isOn = true;
-            int screenrows; // TODO get screenrows
+            int screenrows = getScrennRows(); // TODO get screenrows
             if (i >= screenrows)
             {
                 setStartRow(getCursor().y);
