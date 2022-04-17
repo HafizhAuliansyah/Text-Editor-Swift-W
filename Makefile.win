@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o terminal.o cursor.o input.o buffer.o file_io.o output.o text_operation.o
-LINKOBJ  = main.o terminal.o cursor.o input.o buffer.o file_io.o output.o text_operation.o
+OBJ      = main.o terminal.o cursor.o input.o
+LINKOBJ  = main.o terminal.o cursor.o input.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -35,15 +35,3 @@ cursor.o: cursor.cpp
 
 input.o: input.cpp
 	$(CC) -c input.cpp -o input.o $(CFLAGS)
-
-buffer.o: buffer.cpp
-	$(CC) -c buffer.cpp -o buffer.o $(CFLAGS)
-
-file_io.o: file_io.cpp
-	$(CC) -c file_io.cpp -o file_io.o $(CFLAGS)
-
-output.o: output.cpp
-	$(CC) -c output.cpp -o output.o $(CFLAGS)
-
-text_operation.o: text_operation.cpp
-	$(CC) -c text_operation.cpp -o text_operation.o $(CFLAGS)

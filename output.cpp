@@ -27,6 +27,7 @@ void drawRows(outputBuffer *ob)
         }
         else
         {
+            
             if (filerow >= tEditor.numrows)
             {
                 if (tEditor.numrows == 0 && y == MAX_ROW / 2)
@@ -80,6 +81,7 @@ void drawRows(outputBuffer *ob)
         }
         bufferAppend(ob, "\x1b[K", 3);
         bufferAppend(ob, "\r\n", 2);
+        
     }
     free(help);
 }
@@ -126,8 +128,6 @@ void addMessageBar(outputBuffer *ob)
 
 void refreshScreen()
 {
-    cursorHandler C = getCursor();
-    cursorHandler stat_cursor = getMessageCursor();
     cursorScroll(getTeksEditor());
 
     outputBuffer ob = OUTPUT_INIT;
@@ -140,8 +140,8 @@ void refreshScreen()
     addMessageBar(&ob);
 
     char buf[32];
-    int y = outputConfig.isInStatus ? stat_cursor.y + 1 : (C.y - getStartRow()) + 1;
-    int x = outputConfig.isInStatus ? stat_cursor.x + 1 : (C.rx - getStartCol()) + 1;
+    int y = outputConfig.isInStatus ? getMessageCursor().y + 1 : (getCursor().y - getStartRow()) + 1;
+    int x = outputConfig.isInStatus ? getMessageCursor().x + 1 : (getCursor().rx - getStartCol()) + 1;
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
 
     bufferAppend(&ob, buf, strlen(buf));
