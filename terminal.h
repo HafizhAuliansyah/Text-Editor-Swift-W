@@ -17,6 +17,7 @@
 
 typedef struct terminalHandler{
 	DWORD defaultModeIn,defaultModeOut;
+	TCHAR oldTitle[MAX_PATH];
 	int screenrows;
 	int screencols;
 }terminal;
