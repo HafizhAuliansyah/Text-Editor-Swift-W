@@ -8,10 +8,8 @@
 #define MAX_COLUMN 10
 #define MAX_ROW 10
 #define SWIFT_TAB_STOP 8
+#define SWIFT_QUIT_TIMES 1
 #define CTRL(k) ((k)&0x1f)
-
-#include "cursor.h"
-#include "file_io.h"
 
 typedef struct erow
 {
@@ -27,7 +25,6 @@ struct teksEditor
     erow row[MAX_ROW + 1];
 };
 
-struct teksEditor teks_editor;
 
 enum editorKey
 {
@@ -47,6 +44,12 @@ enum editorKey
     SHIFT_ARROW_UP,
     SHIFT_ARROW_DOWN,
 };
+#include "cursor.h"
+#include "file_io.h"
+#include "text_operation.h"
+#include "output.h"
+
+
 
 // membaca setiap press key di keyboard
 int readKey();
@@ -55,7 +58,7 @@ void keyProcess();
 void updateRow(erow *row);
 /* ngatur untuk apa yang d render atau ditampilkan ke layar */
 
-void insertRow(int at, char *s, size_t len);
+void insertRow(int at,const char *s, size_t len);
 /* masukin ke array nya harusnya lewat sini tapi per row */
 
 // void editorFreeRow(erow *row);
@@ -74,7 +77,7 @@ void rowDelChar(erow *row, int at);
 /* menghapus 1 karakter posisi cursor*/
 
 /*** editor operations ***/
-void InsertChar(int c);
+void insertChar(int c);
 /* menambahkan 1 karakter*/
 
 void deleteChar();
@@ -82,5 +85,11 @@ void deleteChar();
 
 void insertNewline();
 /* handle enter*/
+
+teksEditor getTeksEditor();
+
+void inputInit();
+
+
 
 #endif

@@ -34,6 +34,7 @@ void cursorScroll(teksEditor tEditor);
 cursorHandler getCursor();
 int getStartRow();
 int getStartCol();
+cursorHandler getMessageCursor();
 
 /* MUTATOR */
 void setCursor(cursorHandler c);
@@ -45,5 +46,7 @@ void setStartRow(int sr);
 void setStartCol(int sc);
 void addStartRow();
 void addStartCol();
+
+void setMessageCursor(cursorHandler new_ms);
 
 #endif
