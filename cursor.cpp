@@ -73,24 +73,6 @@ void moveCursor(int button, teksEditor tEditor){
 		cursor.x = len;
 	}
 }
-cursorHandler getCursor(){
-    return cursor;
-}
-void setCursor(cursorHandler c){
-    cursor = c;
-}
-void setCursorX(int x){
-    cursor.x = x;
-}
-void setCursorY(int y){
-    cursor.y = y;
-}
-int getStartRow(){
-    return cursor.start_row;
-}
-int getStartCol(){
-    return cursor.start_col;
-}
 int cursorXToRenderX(erow *row, int x){
 	int rx = 0;
     int j;
@@ -146,4 +128,34 @@ void cursorScroll(teksEditor tEditor)
     {
         cursor.start_col = cursor.rx - screencols + 1;
     }
+}
+cursorHandler getCursor(){
+    return cursor;
+}
+void setCursor(cursorHandler c){
+    cursor = c;
+}
+void setCursorX(int x){
+    cursor.x = x;
+}
+void addCursorX(){
+    cursor.x++;
+}
+void addCursorY(){
+    cursor.y++;
+}
+void setCursorY(int y){
+    cursor.y = y;
+}
+int getStartRow(){
+    return cursor.start_row;
+}
+int getStartCol(){
+    return cursor.start_col;
+}
+void addStartRow(){
+    cursor.start_row++;
+}
+void addStartCol(){
+    cursor.start_col++;
 }
