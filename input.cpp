@@ -167,6 +167,7 @@ void keyProcess()
         while (times--)
             moveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN, teks_editor);
     }
+    break;
     // Arrow untuk memindahkan cursor
     case ARROW_UP:
     case ARROW_DOWN:
@@ -301,6 +302,7 @@ void rowDelChar(erow *row, int at)
 void insertChar(int c)
 {
     cursorHandler cursor = getCursor();
+    
     if (cursor.y == teks_editor.numrows)
     {
         insertRow(teks_editor.numrows, "", 0);
@@ -309,7 +311,8 @@ void insertChar(int c)
     if (teks_editor.row[cursor.y].size < MAX_COLUMN)
     {
         rowInsertChar(&teks_editor.row[cursor.y], cursor.x, c);
-        setCursorX(cursor.x);
+        addCursorX();
+        setMessage("X : %d, Y : %d", getCursor().x, getCursor().y);
     }
     else
     {
@@ -325,7 +328,7 @@ void deleteChar()
     if (cursor.x > 0)
     {
         rowDelChar(&teks_editor.row[cursor.y], cursor.x - 1);
-        setCursorX(cursor.x--);
+        setCursorX(cursor.x - 1);
     }
     else
     {
@@ -334,7 +337,7 @@ void deleteChar()
         {
             rowAppendString(&teks_editor.row[cursor.y - 1], teks_editor.row[cursor.y].chars, teks_editor.row[cursor.y].size);
             deleteRow(cursor.y);
-            setCursorY(cursor.y--);
+            setCursorY(cursor.y - 1);
         }
         else
         {
@@ -362,7 +365,7 @@ void insertNewline()
             row->chars[row->size] = '\0';
             updateRow(&(*row));
         }
-        setCursorY(cursor.y++);
+        setCursorY(cursor.y + 1);
         setCursorX(0);
     }
     else
