@@ -164,3 +164,9 @@ void addStartRow(){
 void addStartCol(){
     cursor.start_col++;
 }
+cursorHandler getMessageCursor(){
+    return ms_cursor;
+}
+void setMessageCursor(cursorHandler new_ms){
+    ms_cursor = new_ms;
+}

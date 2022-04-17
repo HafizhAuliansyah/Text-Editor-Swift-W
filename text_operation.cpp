@@ -3,22 +3,22 @@
 selectionText selection;
 
 char *hasil_c;
-void addSelectionText(struct abuf *ab, char *row, int len)
+void addSelectionText(outputBuffer *ob, char *row, int len)
 {
     // var at, sebagai penampung koordinat kolom
     int at = 0;
     // Memasukkan kolom sebelum kata terselect ke ab
-    // COMMENTED abAppend(ab, &row[at], selection.x);
+    bufferAppend(ob, &row[at], selection.x);
     // Select Text sesuai kolom selection.x, sejumlah selection.len ke kanan
-    // COMMENTED abAppend(ab, "\x1b[7m", 4);
+    bufferAppend(ob, "\x1b[7m", 4);
     at = selection.x;
-    // COMMENTED abAppend(ab, &row[at], selection.len);
-    // COMMENTED abAppend(ab, "\x1b[m", 3);
+    bufferAppend(ob, &row[at], selection.len);
+    bufferAppend(ob, "\x1b[m", 3);
     // Memasukkan kolom setelah kata terselect ke ab
     at = selection.x + selection.len;
-    // COMMENTED abAppend(ab, &row[at], len - at);
+    bufferAppend(ob, &row[at], len - at);
 }
-void selectMoveCursor(int c, teksEditor tEditor)
+void selectMoveCursor(int key, teksEditor tEditor)
 {
     // editorSetStatusMessage("%d cx, %d size", C.x,E.row[C.y].size);
     selectionText dest;
@@ -26,7 +26,7 @@ void selectMoveCursor(int c, teksEditor tEditor)
     dest.x = C.x;
     dest.y = C.y;
     dest.len = selection.len;
-    switch (c)
+    switch (key)
     {
     case SHIFT_ARROW_LEFT:
         if (C.x == 0)
@@ -44,15 +44,15 @@ void selectMoveCursor(int c, teksEditor tEditor)
         break;
     case SHIFT_ARROW_UP:
     case SHIFT_ARROW_DOWN:
-        // COMMENTED editorSetStatusMessage("FITUR INI BELUM TERSEDIA");
+        setMessage("FITUR INI BELUM TERSEDIA");
         break;
     default:
-        // COMMENTED editorSetStatusMessage("Other");
+        setMessage("Other");
         break;
     }
     if (dest.y != C.y)
     {
-        // COMMENTED editorSetStatusMessage("FITUR INI BELUM TERSEDIA");
+        setMessage("FITUR INI BELUM TERSEDIA");
     }
     setCursor(C);
     selectShift(dest);
@@ -88,8 +88,7 @@ void paste()
 /** Find **/
 void findText(teksEditor tEditor)
 {
-    char *query;
-    // COMMENTED *query = editorPrompt("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
+    char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
     if (query == NULL)
         return;
     int ketemu = 1;

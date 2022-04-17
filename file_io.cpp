@@ -1,4 +1,5 @@
 #include "file_io.h"
+#include <stdio.h>
 
 fileHandler fileStatus;
 
@@ -34,15 +35,15 @@ void editorSave()
     if (fileStatus.filename == NULL)
     {
         // Memasukkan nama file penyimpanan
-        // COMMMENTED fileStatus.filename = editorPrompt("Nama File Penyimpanan : %s  (ESC untuk keluar)", 24);
+        fileStatus.filename = setInputMassage("Nama File Penyimpanan : %s  (ESC untuk keluar)", 24);
         if (fileStatus.filename == NULL)
         {
-            // COMMENTED editorSetStatusMessage("GAGAL MENYIMPAN");
+            setMessage("GAGAL MENYIMPAN");
             return;
         }
     }
     int len;
-    // COMMENTED char *buf = editorRowsToString(&len);
+    char *buffer = rowsToString(&len);
     HANDLE handleFile;
     TCHAR *fName;
     _tcscpy(fName, A2T(fileStatus.filename));
@@ -51,20 +52,20 @@ void editorSave()
     // Jika file yang dicari tersedia
     if (errorID == ERROR_ALREADY_EXISTS || errorID == 0)
     {   
-        // COMMENTED WriteFile(handleFile, buf, len, NULL, NULL);
+        WriteFile(handleFile, buffer, len, NULL, NULL);
         errorID = GetLastError();
         if (errorID != 0)
         {
             CloseHandle(handleFile);
-            // COMMENTED free(buf);
+            free(buffer);
             fileStatus.modified = 0;
-            // COMMENTED editorSetStatusMessage("%d bytes disimpan", len);
+            setMessage("%d bytes disimpan", len);
             return;
         }
         CloseHandle(handleFile);
     }
-    // COMMENTED free(buf);
-    // COMMENTED editorSetStatusMessage("Error menyimpan : %s", strerror(errno));
+    free(buffer);
+    setMessage("Error menyimpan : %s", strerror(errno));
 }
 char **openHelp(int *help_len)
 {
@@ -82,8 +83,8 @@ char **openHelp(int *help_len)
         while (linelen > 0 && (line[linelen - 1] == '\n') || line[linelen - 1] == '\r')
             linelen--;
 
-        isi_file = realloc(isi_file, sizeof(char **) * (x + 1));
-        isi_file[x] = malloc(linelen + 1);
+        isi_file = (char**) realloc(isi_file, sizeof(char **) * (x + 1));
+        isi_file[x] = (char*) malloc(linelen + 1);
         memcpy(isi_file[x], line, linelen);
         isi_file[x][linelen] = '\0';
         x++;

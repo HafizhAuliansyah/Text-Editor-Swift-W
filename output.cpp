@@ -2,13 +2,14 @@
 
 outputHandler outputConfig;
 
-void drawRows( outputBuffer *ob)
+void drawRows(outputBuffer *ob)
 {
-    teksEditor tEditor==getTeksEditor();
+    teksEditor tEditor = getTeksEditor();
+    selectionText selection = getSelection();
     int y;
     char **help = NULL;
     int help_len;
-    if (isInHelp)
+    if (outputConfig.isInHelp)
     {
         help = openHelp(&help_len);
     }
@@ -16,7 +17,7 @@ void drawRows( outputBuffer *ob)
     for (y = 0; y < getScrennRows(); y++)
     {
         int filerow = y + getCursor().start_row;
-        if (isInHelp)
+        if (outputConfig.isInHelp)
         {
             if (filerow < help_len)
             {
@@ -31,7 +32,7 @@ void drawRows( outputBuffer *ob)
                 if (tEditor.numrows == 0 && y == MAX_ROW / 2)
                 {
                     char welcome[80];
-                    int welcomelen = snprintf(welcome, sizeof(welcome), "Swift editor -- version %s", SWIFT_VERSION);
+                    int welcomelen = snprintf(welcome, sizeof(welcome), "Swift Text Editor");
                     if (welcomelen > getScrenCols())
                         welcomelen = getScrenCols();
                     int padding = (getScrenCols() - welcomelen) / 2;
@@ -85,7 +86,8 @@ void drawRows( outputBuffer *ob)
 
 void addStatusBar(outputBuffer *ob)
 {
-    teksEditor tEditor==getTeksEditor();
+    cursorHandler C = getCursor();
+    teksEditor tEditor = getTeksEditor();
     bufferAppend(ob, "\x1b[7m", 4);
     char status[80], rstatus[80];
     int len = snprintf(status, sizeof(status), "%.20s - %d baris %s",
@@ -124,16 +126,18 @@ void addMessageBar(outputBuffer *ob)
 
 void refreshScreen()
 {
-    editorScroll();
+    cursorHandler C = getCursor();
+    cursorHandler stat_cursor = getMessageCursor();
+    cursorScroll(getTeksEditor());
 
     outputBuffer ob = OUTPUT_INIT;
 
     bufferAppend(&ob, "\x1b[?25l", 6);
     bufferAppend(&ob, "\x1b[H", 3);
 
-    editorDrawRows(&ob);
-    editorDrawStatusBar(&ob);
-    editorDrawMessageBar(&ob);
+    drawRows(&ob);
+    addStatusBar(&ob);
+    addMessageBar(&ob);
 
     char buf[32];
     int y = outputConfig.isInStatus ? stat_cursor.y + 1 : (C.y - getStartRow()) + 1;
@@ -142,8 +146,8 @@ void refreshScreen()
 
     bufferAppend(&ob, buf, strlen(buf));
     bufferAppend(&ob, "\x1b[?25h", 6);
-    write(STDOUT_FILENO, ob.b, ob.len);
-    obFree(&ob);
+    WriteFile(getConsoleOut, ob.buffer, ob.len, NULL, NULL);
+    bufferFree(&ob);
 }
 
 void setMessage(const char *fmt, ...)
@@ -157,14 +161,14 @@ void setMessage(const char *fmt, ...)
 
 char *rowsToString(int *buflen)
 {
-    teksEditor tEditor==getTeksEditor();
+    teksEditor tEditor = getTeksEditor();
     int totlen = 0;
     int j;
     for (j = 0; j < tEditor.numrows; j++)
         totlen += tEditor.row[j].size + 1;
     *buflen = totlen;
 
-    char *buf = malloc(totlen);
+    char *buf = (char*) malloc(totlen);
     char *p = buf;
     for (j = 0; j < tEditor.numrows; j++)
     {
@@ -181,7 +185,7 @@ char *setInputMassage(char *prompt, int start_cx)
 {
     // Deklarasi variabel penampung nama file, dengan size 128 bytes
     size_t name_size = 128;
-    char *filename = malloc(name_size);
+    char *filename = (char*) malloc(name_size);
 
     // Inisialisasi awal size isi, dan zero character
     size_t name_len = 0;
@@ -189,14 +193,15 @@ char *setInputMassage(char *prompt, int start_cx)
 
     // Pindah cursor kebawah
     outputConfig.isInStatus = true;
+    cursorHandler stat_cursor = getMessageCursor();
     stat_cursor.y = getScrennRows() + 2;
     stat_cursor.x = start_cx;
 
     while (1)
     {
         // Membuka status bar, untuk menerima input ke filename
-        editorSetStatusMessage(prompt, filename);
-        editorRefreshScreen();
+        setMessage(prompt, filename);
+        refreshScreen();
 
         // Membaca input untuk mengisi file name
         int c = readKey();
@@ -213,7 +218,7 @@ char *setInputMassage(char *prompt, int start_cx)
         // Escape, untuk keluar dari editor Prompt
         else if (c == '\x1b')
         {
-            editorSetStatusMessage("");
+            setMessage("");
             free(filename);
             outputConfig.isInStatus = false;
             return NULL;
@@ -226,7 +231,7 @@ char *setInputMassage(char *prompt, int start_cx)
             {
                 if (name_len != 0)
                 {
-                    editorSetStatusMessage("");
+                    setMessage("");
                     outputConfig.isInStatus = false;
                     return filename;
                 }
@@ -238,7 +243,7 @@ char *setInputMassage(char *prompt, int start_cx)
                 if (name_len == name_size - 1)
                 {
                     name_size *= 2;
-                    filename = realloc(filename, name_size);
+                    filename = (char*) realloc(filename, name_size);
                 }
                 // Mengisi filename
                 filename[name_len++] = c;
@@ -246,5 +251,15 @@ char *setInputMassage(char *prompt, int start_cx)
                 stat_cursor.x++;
             }
         }
+        setMessageCursor(stat_cursor);
     }
+}
+outputHandler getOutputHandler(){
+    return outputConfig;
+}
+void setInStatus(bool new_status){
+    outputConfig.isInStatus = new_status;
+}
+void setInHelp(bool new_help){
+    outputConfig.isInHelp = new_help;
 }
