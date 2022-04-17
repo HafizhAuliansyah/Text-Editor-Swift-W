@@ -105,6 +105,7 @@ void keyProcess()
     static int quit_times = SWIFT_QUIT_TIMES;
     HANDLE console_out = getConsoleOut();
     cursorHandler cursor = getCursor();
+    outputHandler output = getOutputHandler();
 
     int c = readKey();
 
@@ -174,7 +175,7 @@ void keyProcess()
         moveCursor(c, teks_editor);
         break;
     case CTRL('h'):
-        // isInHelp = true;
+        setInHelp(true);
     // HANDLE COPY PASTE
     case CTRL('c'):
         copy(teks_editor.row);
@@ -193,12 +194,12 @@ void keyProcess()
     case CTRL('l'):
     case '\x1b':
     {
-        // if (isInHelp)
-        //     isInHelp = false;
+        if (output.isInHelp)
+            setInHelp(false);
     }
     break;
     default:
-        if ((c > 26 || c == 9)) // Kurang !isInHelp
+        if ((c > 26 || c == 9) && !output.isInHelp)
         {
             insertChar(c);
         }
