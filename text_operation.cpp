@@ -125,3 +125,9 @@ void findText(teksEditor tEditor)
 
     free(query);
 }
+selectionText getSelection(){
+    return selection;
+}
+void setSelection(selectionText new_selection){
+    selection = new_selection;
+}

@@ -22,7 +22,7 @@ void openFile(char *filename)
     {
         while (linelen > 0 && (line[linelen - 1] == '\n') || line[linelen - 1] == '\r')
             linelen--;
-        // COMMENTED editorInsertRow(E.numrows, line, linelen);
+        insertRow(getTeksEditor().numrows, line, linelen);
     }
     free(line);
     fclose(fp);

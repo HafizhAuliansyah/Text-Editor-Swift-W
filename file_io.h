@@ -2,6 +2,7 @@
 #define fileIO_h
 
 #include "terminal.h"
+#include "input.h"
 #include <string.h>
 #include <sys/types.h>
 #include "atlstr.h"
