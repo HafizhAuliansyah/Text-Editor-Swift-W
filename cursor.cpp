@@ -28,23 +28,23 @@ void cursorInit(){
 
 void moveCursor(int button, teksEditor tEditor){
 	// Check jika baris dimana cursor berada tidak kosong
-	erow *row = (cursor.x >= tEditor.numrows) ? NULL : &tEditor.row[cursor.y];
+	erow *row = (cursor.y >= tEditor.numrows) ? NULL : &tEditor.row[cursor.y];
 	// Arrow Handler
 	switch(button){
 		case ARROW_LEFT:
 			if(cursor.x != 0){
 				// Memindahkan Cursor ke kiri 1
 				cursor.x--;
-			}else if(cursor.x > 0 && cursor.x == 0){
+			}else if(cursor.y > 0 && cursor.x == 0){
 				// Cursor ke baris atas
 				cursor.y--;
 				cursor.x = tEditor.row[cursor.y].size;
 			}
 			break;
 		case ARROW_RIGHT:
-			if( row != NULL && cursor.x < row->size){
+			if( row && cursor.x < row->size){
 				cursor.x++;
-			}else if(row != NULL && cursor.x == row->size && cursor.y != tEditor.numrows - 1 ){
+			}else if(row && cursor.x == row->size && cursor.y != tEditor.numrows - 1 ){
 				// Cursor ke baris bawah
 				cursor.y++;
 				cursor.x = 0;
@@ -67,7 +67,7 @@ void moveCursor(int button, teksEditor tEditor){
 	
 	// Error Handling, cursor melebihi jumlah kolom
 	row = (cursor.y >= tEditor.numrows) ? NULL : &tEditor.row[cursor.y];
-	int len = row != NULL ? row->size : 0;
+	int len = row ? row->size : 0;
 	if(cursor.x > len){
 		cursor.x = len;
 	}

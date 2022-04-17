@@ -4,7 +4,6 @@ outputHandler outputConfig;
 
 void drawRows(outputBuffer *ob)
 {
-    teksEditor tEditor = getTeksEditor();
     selectionText selection = getSelection();
     int y;
     char **help = NULL;
@@ -13,7 +12,6 @@ void drawRows(outputBuffer *ob)
     {
         help = openHelp(&help_len);
     }
-
     for (y = 0; y < getScreenRows(); y++)
     {
         int filerow = y + getCursor().start_row;
@@ -27,7 +25,7 @@ void drawRows(outputBuffer *ob)
         }
         else
         {
-            
+            teksEditor tEditor = getTeksEditor();
             if (filerow >= tEditor.numrows)
             {
                 if (tEditor.numrows == 0 && y == MAX_ROW / 2)

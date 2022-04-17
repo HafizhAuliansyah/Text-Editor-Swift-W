@@ -312,7 +312,7 @@ void insertChar(int c)
     {
         rowInsertChar(&teks_editor.row[cursor.y], cursor.x, c);
         addCursorX();
-        setMessage("X : %d, Y : %d", getCursor().x, getCursor().y);
+
     }
     else
     {
