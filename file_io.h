@@ -2,11 +2,11 @@
 #define fileIO_h
 
 #include "terminal.h"
+#include "output.h"
 #include "input.h"
 #include <string.h>
 #include <sys/types.h>
 #include "atlstr.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 struct fileHandler

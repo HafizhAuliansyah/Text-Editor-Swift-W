@@ -14,7 +14,7 @@ struct selectionText{
 };
 
 
-void addSelectionText(struct abuf *ab, char *row, int len);
+void addSelectionText(outputBuffer *ob, char *row, int len);
 void clearSelected();
 void copy(erow row[]);
 void paste();
