@@ -48,26 +48,23 @@ void saveFile()
     }
     int len;
     char *buffer = rowsToString(&len);
-    // // HANDLE handleFile;
-    // // TCHAR *fName;
-    // // _tcscpy(fName, A2T(fileStatus.filename));
-    // // handleFile = CreateFile(fName, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    // DWORD errorID = GetLastError();
-    // // Jika file yang dicari tersedia
-    // if (errorID == ERROR_ALREADY_EXISTS || errorID == 0)
-    // {   
-    //     WriteFile(handleFile, buffer, len, NULL, NULL);
-    //     errorID = GetLastError();
-    //     if (errorID != 0)
-    //     {
-    //         CloseHandle(handleFile);
-    //         free(buffer);
-    //         fileStatus.modified = 0;
-    //         setMessage("%d bytes disimpan", len);
-    //         return;
-    //     }
-    //     CloseHandle(handleFile);
-    // }
+    HANDLE handleFile;
+    handleFile = CreateFile(fileStatus.filename, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    DWORD errorID = GetLastError();
+    // Jika file yang dicari tersedia
+    if (errorID == ERROR_ALREADY_EXISTS || errorID == 0)
+    {   
+        WriteFile(handleFile, buffer, len, NULL, NULL);
+        if (!GetLastError())
+        {
+            CloseHandle(handleFile);
+            free(buffer);
+            fileStatus.modified = 0;
+            setMessage("%d bytes disimpan", len);
+            return;
+        }
+        CloseHandle(handleFile);
+    }
     free(buffer);
     setMessage("Error menyimpan : %s", strerror(errno));
 }
