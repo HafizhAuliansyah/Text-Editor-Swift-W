@@ -31,6 +31,7 @@ struct teksEditor
 
 struct teksEditor teks_editor;
 
+
 enum editorKey
 {
     BACKSPACE = 127,
@@ -84,5 +85,11 @@ void deleteChar();
 
 void insertNewline();
 /* handle enter*/
+
+teksEditor getTeksEditor();
+
+void inputInit();
+
+
 
 #endif

@@ -52,7 +52,7 @@ HANDLE getConsoleIn(){
 void terminalInit(){
 	getWindowSize(&terminalConfig.screenrows, &terminalConfig.screencols);
 }
-int getScrennRows(){
+int (){
 	return terminalConfig.screenrows;
 }
 int getScrenCols(){
