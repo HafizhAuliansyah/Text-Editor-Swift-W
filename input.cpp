@@ -114,12 +114,12 @@ void keyProcess()
         insertNewline();
         break;
     case CTRL('q'):
-            if (getFileHandler().modified && quit_times > 0)
-            {
-                // COMMENTED editorSetStatusMessage("PERINGATAN !! FILE BELUM DISIMPAN TEKAN Ctrl + s UNTUK SIMPAN, Ctrl + q UNTUK KELUAR", quit_times);
-                quit_times--;
-                return;
-            }
+        if (getFileHandler().modified && quit_times > 0)
+        {
+            setMessage("PERINGATAN !! FILE BELUM DISIMPAN TEKAN Ctrl + s UNTUK SIMPAN, Ctrl + q UNTUK KELUAR", quit_times);
+            quit_times--;
+            return;
+        }
         WriteFile(console_out, "\x1b[2J", 4, NULL, NULL);
         WriteFile(console_out, "\x1b[H", 3, NULL, NULL);
         exit(0);
@@ -131,7 +131,7 @@ void keyProcess()
         setCursorX(0);
         break;
     case END_KEY:
-        
+
         if (cursor.y < teks_editor.numrows)
             setCursorX(teks_editor.row[cursor.y].size);
         break;
@@ -160,11 +160,11 @@ void keyProcess()
             cursor.y = cursor.start_row + getScrennRows() - 1;
             setCursorY(getStartRow());
             if (cursor.y > teks_editor.numrows)
-            setCursorY(teks_editor.numrows - 1);
+                setCursorY(teks_editor.numrows - 1);
         }
         int times = getScrennRows();
         while (times--)
-        moveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN, teks_editor);
+            moveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN, teks_editor);
     }
     // Arrow untuk memindahkan cursor
     case ARROW_UP:
@@ -205,8 +205,8 @@ void keyProcess()
         break;
     }
     if (!skipClearSelect)
-    // Matikan selection text
-           clearSelected();
+        // Matikan selection text
+        clearSelected();
     quit_times = SWIFT_QUIT_TIMES;
 }
 
@@ -255,8 +255,8 @@ void insertRow(int at, char *s, size_t len)
 
 void deleteRow(int at)
 {
-    if (at < 0 || at >= teks_editor.numrows)
-        return;
+    // if (at < 0 || at >= teks_editor.numrows)
+    // return;
     // editorFreeRow(&E.row[at]);
     memmove(&teks_editor.row[at], &teks_editor.row[at + 1], sizeof(erow) * (teks_editor.numrows - at - 1));
     teks_editor.numrows--;
@@ -299,7 +299,6 @@ void rowDelChar(erow *row, int at)
 /*** editor operations ***/
 void insertChar(int c)
 {
-    // editorSetStatusMessage(E.row->render);
     cursorHandler cursor = getCursor();
     if (cursor.y == teks_editor.numrows)
     {
@@ -313,7 +312,7 @@ void insertChar(int c)
     }
     else
     {
-        //  editorSetStatusMessage("PERINGATAN ! MENCAPAI BATAS COLUMN");
+        setMessage("PERINGATAN ! MENCAPAI BATAS COLUMN");
     }
 }
 
@@ -338,7 +337,7 @@ void deleteChar()
         }
         else
         {
-            // editorSetStatusMessage("PERINGATAN ! TIDAK BISA MENGHAPUS, KOLOM TIDAK MEMADAI");
+            setMessage("PERINGATAN ! TIDAK BISA MENGHAPUS, KOLOM TIDAK MEMADAI");
             setCursorX(teks_editor.row[cursor.y].size);
         }
     }
@@ -367,16 +366,15 @@ void insertNewline()
     }
     else
     {
-        // editorSetStatusMessage("PERINGATAN ! MENCAPAI BATAS BARIS");
+        setMessage("PERINGATAN ! MENCAPAI BATAS BARIS");
     }
 }
-void inputInit(){
+void inputInit()
+{
     teks_editor.numrows = 0;
 }
 
-teksEditor getTeksEditor(){
+teksEditor getTeksEditor()
+{
     return teks_editor;
-
 }
-
-
