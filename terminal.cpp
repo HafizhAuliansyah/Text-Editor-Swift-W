@@ -51,7 +51,10 @@ HANDLE getConsoleIn(){
 }
 void terminalInit(){
 	getWindowSize(&terminalConfig.screenrows, &terminalConfig.screencols);
-
+	COORD newScreenBuffer;
+	newScreenBuffer.X = bufferInfo.srWindow.Right - bufferInfo.srWindow.Left + 1;
+	newScreenBuffer.Y = bufferInfo.srWindow.Bottom - bufferInfo.srWindow.Top + 1;
+	SetConsoleScreenBufferSize(ConsoleOut,newScreenBuffer);
 	terminalConfig.screenrows -= 2;
 }
 int getScreenRows(){
