@@ -1,37 +1,10 @@
 #include "output.h"
 
-void editorScroll()
-{
-    // Tab Detector and Handler
-    C.rx = 0;
-    if (C.y < E.numrows)
-    {
-        C.rx = editorRowCxToRx(&E.row[C.y], C.x);
-    }
-    // Pengaturan row offset ketika scroll keatas
-    if (C.y < E.rowoff)
-    {
-        E.rowoff = C.y;
-    }
-    // Pengaturan row offset ketika scroll kebawah
-    if (C.y >= E.rowoff + E.screenrows)
-    {
-        E.rowoff = C.y - E.screenrows + 1;
-    }
-    // Pengaturan coll offset ketika scroll ke kiri
-    if (C.rx < E.coloff)
-    {
-        E.coloff = C.rx;
-    }
-    // Pengaturan coll offset ketika scroll ke kanan
-    if (C.rx >= E.coloff + E.screencols)
-    {
-        E.coloff = C.rx - E.screencols + 1;
-    }
-}
+outputHandler outputConfig;
 
-void editorDrawRows(struct abuf *ab)
+void drawRows( outputBuffer *ob)
 {
+    teksEditor tEditor==getTeksEditor();
     int y;
     char **help = NULL;
     int help_len;
@@ -40,161 +13,163 @@ void editorDrawRows(struct abuf *ab)
         help = openHelp(&help_len);
     }
 
-    for (y = 0; y < E.screenrows; y++)
+    for (y = 0; y < getScrennRows(); y++)
     {
-        int filerow = y + E.rowoff;
+        int filerow = y + getCursor().start_row;
         if (isInHelp)
         {
             if (filerow < help_len)
             {
-                int len = strlen(help[filerow]) - E.coloff;
-                abAppend(ab, help[filerow], len);
+                int len = strlen(help[filerow]) - getCursor().start_col;
+                bufferAppend(ob, help[filerow], len);
             }
         }
         else
         {
-            if (filerow >= E.numrows)
+            if (filerow >= tEditor.numrows)
             {
-                if (E.numrows == 0 && y == MAX_ROW / 2)
+                if (tEditor.numrows == 0 && y == MAX_ROW / 2)
                 {
                     char welcome[80];
                     int welcomelen = snprintf(welcome, sizeof(welcome), "Swift editor -- version %s", SWIFT_VERSION);
-                    if (welcomelen > E.screencols)
-                        welcomelen = E.screencols;
-                    int padding = (E.screencols - welcomelen) / 2;
+                    if (welcomelen > getScrenCols())
+                        welcomelen = getScrenCols();
+                    int padding = (getScrenCols() - welcomelen) / 2;
                     if (padding)
                     {
                         if (y < MAX_ROW)
                         {
-                            abAppend(ab, "~", 1);
+                            bufferAppend(ob, "~", 1);
                         }
                         padding--;
                     }
                     while (padding--)
-                        abAppend(ab, " ", 1);
-                    abAppend(ab, welcome, welcomelen);
+                        bufferAppend(ob, " ", 1);
+                    bufferAppend(ob, welcome, welcomelen);
                 }
                 else
                 {
                     if (y < MAX_ROW)
                     {
-                        abAppend(ab, "~", 1);
+                        bufferAppend(ob, "~", 1);
                     }
                 }
             }
             else
             {
-                int len = E.row[filerow].rsize - E.coloff;
+                int len = tEditor.row[filerow].rsize - getStartCol();
                 if (len < 0)
                     len = 0;
-                if (len > E.screencols)
-                    len = E.screencols;
+                if (len > getScrenCols())
+                    len = getScrenCols();
 
                 // Konversi char ke char*
-                char *c = &E.row[filerow].render[E.coloff];
+                char *c = &tEditor.row[filerow].render[getStartCol()];
 
                 // Select Text
-                if (filerow == selection.y && E.coloff <= selection.x && selection.isOn)
+                if (filerow == selection.y && getStartCol() <= selection.x && selection.isOn)
                 {
-                    addSelectionText(ab, c, len);
+                    addSelectionText(ob, c, len);
                 }
                 else
                 {
-                    abAppend(ab, c, len);
+                    bufferAppend(ob, c, len);
                 }
             }
         }
-        abAppend(ab, "\x1b[K", 3);
-        abAppend(ab, "\r\n", 2);
+        bufferAppend(ob, "\x1b[K", 3);
+        bufferAppend(ob, "\r\n", 2);
     }
     free(help);
 }
 
-void editorDrawStatusBar(struct abuf *ab)
+void addStatusBar(outputBuffer *ob)
 {
-    abAppend(ab, "\x1b[7m", 4);
+    teksEditor tEditor==getTeksEditor();
+    bufferAppend(ob, "\x1b[7m", 4);
     char status[80], rstatus[80];
     int len = snprintf(status, sizeof(status), "%.20s - %d baris %s",
-                       E.filename ? E.filename : "[File Kosong]", E.numrows,
-                       E.dirty ? "(modified)" : "");
-    int rlen = snprintf(rstatus, sizeof(rstatus), "%d/%d", C.y + 1, E.numrows);
-    if (len > E.screencols)
-        len = E.screencols;
-    abAppend(ab, status, len);
-    while (len < E.screencols)
+                       getFileHandler().filename ? getFileHandler().filename : "[File Kosong]", tEditor.numrows,
+                       getFileHandler().modified ? "(modified)" : "");
+    int rlen = snprintf(rstatus, sizeof(rstatus), "%d/%d", C.y + 1, tEditor.numrows);
+    if (len > getScrenCols())
+        len = getScrenCols();
+    bufferAppend(ob, status, len);
+    while (len < getScrenCols())
     {
-        if (E.screencols - len == rlen)
+        if (getScrenCols() - len == rlen)
         {
-            abAppend(ab, rstatus, rlen);
+            bufferAppend(ob, rstatus, rlen);
             break;
         }
         else
         {
-            abAppend(ab, " ", 1);
+            bufferAppend(ob, " ", 1);
             len++;
         }
     }
-    abAppend(ab, "\x1b[m", 3);
-    abAppend(ab, "\r\n", 2);
+    bufferAppend(ob, "\x1b[m", 3);
+    bufferAppend(ob, "\r\n", 2);
 }
 
-void editorDrawMessageBar(struct abuf *ab)
+void addMessageBar(outputBuffer *ob)
 {
-    abAppend(ab, "\x1b[K", 3);
-    int msglen = strlen(E.statusmsg);
-    if (msglen > E.screencols)
-        msglen = E.screencols;
-    if (msglen && time(NULL) - E.statusmsg_time < 5)
-        abAppend(ab, E.statusmsg, msglen);
+    bufferAppend(ob, "\x1b[K", 3);
+    int msglen = strlen(outputConfig.statusmsg);
+    if (msglen > getScrenCols())
+        msglen = getScrenCols();
+    if (msglen && time(NULL) - outputConfig.statusmsg_time < 5)
+        bufferAppend(ob, outputConfig.statusmsg, msglen);
 }
 
-void editorRefreshScreen()
+void refreshScreen()
 {
     editorScroll();
 
-    struct abuf ab = ABUF_INIT;
+    outputBuffer ob = OUTPUT_INIT;
 
-    abAppend(&ab, "\x1b[?25l", 6);
-    abAppend(&ab, "\x1b[H", 3);
+    bufferAppend(&ob, "\x1b[?25l", 6);
+    bufferAppend(&ob, "\x1b[H", 3);
 
-    editorDrawRows(&ab);
-    editorDrawStatusBar(&ab);
-    editorDrawMessageBar(&ab);
+    editorDrawRows(&ob);
+    editorDrawStatusBar(&ob);
+    editorDrawMessageBar(&ob);
 
     char buf[32];
-    int y = isInStatus ? stat_cursor.y + 1 : (C.y - E.rowoff) + 1;
-    int x = isInStatus ? stat_cursor.x + 1 : (C.rx - E.coloff) + 1;
+    int y = outputConfig.isInStatus ? stat_cursor.y + 1 : (C.y - getStartRow()) + 1;
+    int x = outputConfig.isInStatus ? stat_cursor.x + 1 : (C.rx - getStartCol()) + 1;
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
 
-    abAppend(&ab, buf, strlen(buf));
-    abAppend(&ab, "\x1b[?25h", 6);
-    write(STDOUT_FILENO, ab.b, ab.len);
-    abFree(&ab);
+    bufferAppend(&ob, buf, strlen(buf));
+    bufferAppend(&ob, "\x1b[?25h", 6);
+    write(STDOUT_FILENO, ob.b, ob.len);
+    obFree(&ob);
 }
 
-void editorSetStatusMessage(const char *fmt, ...)
+void setMessage(const char *fmt, ...)
 {
     va_list ap;
     va_start(ap, fmt);
-    vsnprintf(E.statusmsg, sizeof(E.statusmsg), fmt, ap);
+    vsnprintf(outputConfig.statusmsg, sizeof(outputConfig.statusmsg), fmt, ap);
     va_end(ap);
-    E.statusmsg_time = time(NULL);
+    outputConfig.statusmsg_time = time(NULL);
 }
 
-char *editorRowsToString(int *buflen)
+char *rowsToString(int *buflen)
 {
+    teksEditor tEditor==getTeksEditor();
     int totlen = 0;
     int j;
-    for (j = 0; j < E.numrows; j++)
-        totlen += E.row[j].size + 1;
+    for (j = 0; j < tEditor.numrows; j++)
+        totlen += tEditor.row[j].size + 1;
     *buflen = totlen;
 
     char *buf = malloc(totlen);
     char *p = buf;
-    for (j = 0; j < E.numrows; j++)
+    for (j = 0; j < tEditor.numrows; j++)
     {
-        memcpy(p, E.row[j].chars, E.row[j].size);
-        p += E.row[j].size;
+        memcpy(p, tEditor.row[j].chars, tEditor.row[j].size);
+        p += tEditor.row[j].size;
         *p = '\n';
         p++;
     }
@@ -202,7 +177,7 @@ char *editorRowsToString(int *buflen)
     return buf;
 }
 
-char *editorPrompt(char *prompt, int start_cx)
+char *setInputMassage(char *prompt, int start_cx)
 {
     // Deklarasi variabel penampung nama file, dengan size 128 bytes
     size_t name_size = 128;
@@ -213,8 +188,8 @@ char *editorPrompt(char *prompt, int start_cx)
     filename[0] = '\0';
 
     // Pindah cursor kebawah
-    isInStatus = true;
-    stat_cursor.y = E.screenrows + 2;
+    outputConfig.isInStatus = true;
+    stat_cursor.y = getScrennRows() + 2;
     stat_cursor.x = start_cx;
 
     while (1)
@@ -224,10 +199,10 @@ char *editorPrompt(char *prompt, int start_cx)
         editorRefreshScreen();
 
         // Membaca input untuk mengisi file name
-        int c = editorReadKey();
+        int c = readKey();
 
         // Mini delete character handler
-        if (c == DEL_KEY || c == CTRL_KEY('h') || c == BACKSPACE)
+        if (c == DEL_KEY || c == CTRL('h') || c == BACKSPACE)
         {
             if (name_len != 0)
             {
@@ -240,7 +215,7 @@ char *editorPrompt(char *prompt, int start_cx)
         {
             editorSetStatusMessage("");
             free(filename);
-            isInStatus = false;
+            outputConfig.isInStatus = false;
             return NULL;
         }
         // Memasukkan input ke filename
@@ -252,7 +227,7 @@ char *editorPrompt(char *prompt, int start_cx)
                 if (name_len != 0)
                 {
                     editorSetStatusMessage("");
-                    isInStatus = false;
+                    outputConfig.isInStatus = false;
                     return filename;
                 }
             }

@@ -373,3 +373,10 @@ void insertNewline()
 void inputInit(){
     teks_editor.numrows = 0;
 }
+
+teksEditor getTeksEditor(){
+    return teks_editor;
+
+}
+
+

@@ -1,12 +1,14 @@
 #ifndef output_h
-#define input_h
+#define output_h
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "cursor.h"
 #include "file_io.h"
+#include "input.h"
 
 struct outputHandler
 {
@@ -18,19 +20,19 @@ struct outputHandler
 
 
 
-void editorDrawRows(struct abuf *ab);
+void drawRows(struct abuf *ab);
 
-void editorDrawStatusBar(struct abuf *ab);
+void addStatusBar(struct abuf *ab);
 
-void editorDrawMessageBar(struct abuf *ab);
+void addMessageBar(struct abuf *ab);
 
-void editorRefreshScreen();
+void refreshScreen();
 
-void editorSetStatusMessage(const char *fmt, ...);
+void setMessage(const char *fmt, ...);
 
-char *editorRowsToString(int *buflen);
+char *rowsToString(int *buflen);
 
-char *editorPrompt(char *prompt, int start_cx);
+char *setInputMassage(char *prompt, int start_cx);
 
 
 
