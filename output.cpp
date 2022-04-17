@@ -263,3 +263,9 @@ void setInStatus(bool new_status){
 void setInHelp(bool new_help){
     outputConfig.isInHelp = new_help;
 }
+void outputInit(){
+    outputConfig.isInHelp = false;
+    outputConfig.isInStatus = false;
+    outputConfig.statusmsg[0] = '\0';
+    outputConfig.statusmsg_time = 0;
+}
