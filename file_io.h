@@ -6,7 +6,6 @@
 #include "input.h"
 #include <string.h>
 #include <sys/types.h>
-#include "atlstr.h"
 #include <stdlib.h>
 
 struct fileHandler

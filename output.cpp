@@ -14,7 +14,7 @@ void drawRows(outputBuffer *ob)
         help = openHelp(&help_len);
     }
 
-    for (y = 0; y < getScrennRows(); y++)
+    for (y = 0; y < getScreenRows(); y++)
     {
         int filerow = y + getCursor().start_row;
         if (outputConfig.isInHelp)
@@ -146,7 +146,7 @@ void refreshScreen()
 
     bufferAppend(&ob, buf, strlen(buf));
     bufferAppend(&ob, "\x1b[?25h", 6);
-    WriteFile(getConsoleOut, ob.buffer, ob.len, NULL, NULL);
+    WriteFile(getConsoleOut(), ob.buffer, ob.len, NULL, NULL);
     bufferFree(&ob);
 }
 
@@ -181,7 +181,7 @@ char *rowsToString(int *buflen)
     return buf;
 }
 
-char *setInputMassage(char *prompt, int start_cx)
+char *setInputMassage(const char *prompt, int start_cx)
 {
     // Deklarasi variabel penampung nama file, dengan size 128 bytes
     size_t name_size = 128;
@@ -194,7 +194,7 @@ char *setInputMassage(char *prompt, int start_cx)
     // Pindah cursor kebawah
     outputConfig.isInStatus = true;
     cursorHandler stat_cursor = getMessageCursor();
-    stat_cursor.y = getScrennRows() + 2;
+    stat_cursor.y = getScreenRows() + 2;
     stat_cursor.x = start_cx;
 
     while (1)

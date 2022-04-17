@@ -34,13 +34,16 @@ void setMessage(const char *fmt, ...);
 
 char *rowsToString(int *buflen);
 
-char *setInputMassage(char *prompt, int start_cx);
+char *setInputMassage(const char *prompt, int start_cx);
 
 /* SELECTOR */
 outputHandler getOutputHandler();
 /* MUTATOR */
 void setInStatus(bool new_status);
 void setInHelp(bool new_help);
+
+/* Initialize Value */
+void outputInit();
 
 
 

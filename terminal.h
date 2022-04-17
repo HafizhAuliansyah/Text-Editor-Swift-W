@@ -26,7 +26,7 @@ void rawModeOff();
 void die(const char *s);
 void getWindowSize(int *rows, int *cols);
 void terminalInit();
-int getScrennRows();
+int getScreenRows();
 int getScrenCols();
 
 // Accessor Configuration Console

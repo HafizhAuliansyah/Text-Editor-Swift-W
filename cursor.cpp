@@ -99,7 +99,7 @@ int renderXToCursorX(erow *row, int rx){
 }
 void cursorScroll(teksEditor tEditor)
 {
-	int screenrows = getScrennRows();		// get max screen row
+	int screenrows = getScreenRows();		// get max screen row
 	int screencols = getScrenCols();		// get max screen column
     // Tab Detector and Handler
     cursor.rx = 0;

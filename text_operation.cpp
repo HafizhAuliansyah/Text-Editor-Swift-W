@@ -83,7 +83,7 @@ void paste()
 {
     int column_len = MAX_COLUMN - getCursor().x;
     for (int x = 0; x < strlen(hasil_c); x++)
-        InsertChar(hasil_c[x]);
+        insertChar(hasil_c[x]);
 }
 /** Find **/
 void findText(teksEditor tEditor)
@@ -107,7 +107,7 @@ void findText(teksEditor tEditor)
             selection.x = getCursor().x;
             selection.len = strlen(query);
             selection.isOn = true;
-            int screenrows = getScrennRows(); // TODO get screenrows
+            int screenrows = getScreenRows(); // TODO get screenrows
             if (i >= screenrows)
             {
                 setStartRow(getCursor().y);

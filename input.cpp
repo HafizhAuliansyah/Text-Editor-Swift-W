@@ -1,5 +1,5 @@
 #include "input.h"
-
+teksEditor teks_editor;
 int readKey()
 {
     DWORD read;
@@ -158,12 +158,12 @@ void keyProcess()
         {
             cursorHandler cursor = getCursor();
             // Pindah ke baris paling bawah di layar
-            cursor.y = cursor.start_row + getScrennRows() - 1;
+            cursor.y = cursor.start_row + getScreenRows() - 1;
             setCursorY(getStartRow());
             if (cursor.y > teks_editor.numrows)
                 setCursorY(teks_editor.numrows - 1);
         }
-        int times = getScrennRows();
+        int times = getScreenRows();
         while (times--)
             moveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN, teks_editor);
     }
@@ -238,7 +238,7 @@ void updateRow(erow *row)
     row->rsize = idx;
 }
 
-void insertRow(int at, char *s, size_t len)
+void insertRow(int at,const char *s, size_t len)
 {
     if (teks_editor.numrows >= MAX_ROW)
         return;

@@ -5,6 +5,7 @@
 #include "terminal.h"
 #include "input.h"
 #include "cursor.h"
+#include "buffer.h"
 
 struct selectionText{
     int x;
