@@ -41,6 +41,8 @@ void setCursorX(int x);
 void setCursorY(int y);
 void addCursorX();
 void addCursorY();
+void setStartRow(int sr);
+void setStartCol(int sc);
 void addStartRow();
 void addStartCol();
 

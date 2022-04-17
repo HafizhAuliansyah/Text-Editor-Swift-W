@@ -153,6 +153,12 @@ int getStartRow(){
 int getStartCol(){
     return cursor.start_col;
 }
+void setStartRow(int sr){
+    cursor.start_row = sr;
+}
+void setStartCol(int sc){
+    cursor.start_col = sc;
+}
 void addStartRow(){
     cursor.start_row++;
 }
