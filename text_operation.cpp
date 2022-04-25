@@ -22,23 +22,22 @@ void selectMoveCursor(int key, teksEditor tEditor)
 {
     // editorSetStatusMessage("%d cx, %d size", C.x,E.row[C.y].size);
     selectionText dest;
-    cursorHandler C = getCursor();
-    dest.x = C.x;
-    dest.y = C.y;
+    dest.x = getCursor().x;
+    dest.y = getCursor().y;
     dest.len = selection.len;
     switch (key)
     {
     case SHIFT_ARROW_LEFT:
-        if (C.x == 0)
+        if (getCursor().x == 0)
             return;
         moveCursor(ARROW_LEFT, tEditor);
-        dest.x = C.x;
+        dest.x = getCursor().x;
         dest.len++;
         break;
     case SHIFT_ARROW_RIGHT:
-        if (C.x >= tEditor.row[C.y].size)
+        if (getCursor().x >= tEditor.row[getCursor().y].size)
             return;
-        dest.x = C.x - dest.len;
+        dest.x = getCursor().x - dest.len;
         moveCursor(ARROW_RIGHT, tEditor);
         dest.len++;
         break;
@@ -50,11 +49,10 @@ void selectMoveCursor(int key, teksEditor tEditor)
         setMessage("Other");
         break;
     }
-    if (dest.y != C.y)
+    if (dest.y != getCursor().y)
     {
         setMessage("FITUR INI BELUM TERSEDIA");
     }
-    setCursor(C);
     selectShift(dest);
 }
 void selectShift(selectionText dest)

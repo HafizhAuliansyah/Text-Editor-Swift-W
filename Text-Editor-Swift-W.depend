@@ -1,21 +1,93 @@
 # depslib dependency file v1.0
-1649650298 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.cpp
+1650209042 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.cpp
 	"cursor.h"
 
-1649647343 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.h
+1650186836 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.h
+	"terminal.h"
+	"input.h"
+
+1650189090 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
+	<stdlib.h>
+	"input.h"
+	"output.h"
+
+1650209455 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\terminal.h
+	<windows.h>
+	<stdio.h>
+	<ctype.h>
+
+1650213370 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\terminal.cpp
+	<stdio.h>
+	<windows.h>
 	"terminal.h"
 
-1649647052 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
+1650204406 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\buffer.cpp
+	"buffer.h"
+	"output.h"
+
+1650186628 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\buffer.h
 	<stdio.h>
 	<stdlib.h>
-	"terminal.h"
-	"cursor.h"
+	<string.h>
 
-1649646914 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\terminal.h
+1650190910 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.h
 	<windows.h>
-
-1649646637 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\terminal.cpp
 	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<time.h>
+	"cursor.h"
+	"file_io.h"
+	"input.h"
+	"buffer.h"
+
+1650210970 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.h
 	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"cursor.h"
+	"file_io.h"
+	"text_operation.h"
+	"output.h"
+
+1650189180 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\file_io.h
 	"terminal.h"
+	"output.h"
+	"input.h"
+	<string.h>
+	<sys/types.h>
+	<stdlib.h>
+
+1650190238 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.h
+	<stdbool.h>
+	"terminal.h"
+	"input.h"
+	"cursor.h"
+	"buffer.h"
+
+1650210641 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\file_io.cpp
+	"file_io.h"
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+
+1650208361 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
+	"input.h"
+
+1650213281 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
+	"output.h"
+
+1650210672 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.cpp
+	<stdio.h>
+	<stdlib.h>
+	"SpNRSLL.h"
+
+1650211128 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.h
+	<stdio.h>
+
+1650196483 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
+	"text_operation.h"
 

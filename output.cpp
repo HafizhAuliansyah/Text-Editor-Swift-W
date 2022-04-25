@@ -4,7 +4,6 @@ outputHandler outputConfig;
 
 void drawRows(outputBuffer *ob)
 {
-    selectionText selection = getSelection();
     int y;
     char **help = NULL;
     int help_len;
@@ -67,7 +66,7 @@ void drawRows(outputBuffer *ob)
                 char *c = &tEditor.row[filerow].render[getStartCol()];
 
                 // Select Text
-                if (filerow == selection.y && getStartCol() <= selection.x && selection.isOn)
+                if (filerow == getSelection().y && getStartCol() <= getSelection().x && getSelection().isOn)
                 {
                     addSelectionText(ob, c, len);
                 }
@@ -79,7 +78,7 @@ void drawRows(outputBuffer *ob)
         }
         bufferAppend(ob, "\x1b[K", 3);
         bufferAppend(ob, "\r\n", 2);
-        
+
     }
     free(help);
 }

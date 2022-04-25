@@ -19,7 +19,7 @@ void rawModeOn(){
 	GetCommTimeouts(ConsoleIn,&timeouts);
 	terminalConfig.defaultModeIn = ModeIn;
 	terminalConfig.defaultModeOut = ModeOut;
-	
+
 	ModeIn &= ~(ENABLE_LINE_INPUT|ENABLE_ECHO_INPUT|ENABLE_PROCESSED_INPUT);
 	ModeIn |= (ENABLE_VIRTUAL_TERMINAL_INPUT);
 	ModeOut &= ~(ENABLE_WRAP_AT_EOL_OUTPUT);
@@ -43,7 +43,7 @@ void die(const char *s)
 }
 void getWindowSize(int *rows, int *cols){
 	*rows = bufferInfo.dwMaximumWindowSize.Y;
-	*cols = bufferInfo.dwMaximumWindowSize.X; 
+	*cols = bufferInfo.dwMaximumWindowSize.X;
 }
 HANDLE getConsoleOut(){
     return ConsoleOut;
