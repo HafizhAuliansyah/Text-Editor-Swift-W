@@ -179,10 +179,10 @@ void keyProcess()
         setInHelp(true);
     // HANDLE COPY PASTE
     case CTRL('c'):
-        copy(teks_editor.row);
+        copyGlobal(teks_editor.row);
         break;
     case CTRL('v'):
-        paste();
+        pasteGlobal();
         break;
         // SELECT
     case SHIFT_ARROW_RIGHT:

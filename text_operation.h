@@ -17,8 +17,10 @@ struct selectionText{
 
 void addSelectionText(outputBuffer *ob, char *row, int len);
 void clearSelected();
-void copy(erow row[]);
-void paste();
+void copyLocal(erow row[]);
+void copyGlobal(erow row[]);
+void pasteLocal();
+void pasteGlobal();
 void selectShift(selectionText dest);
 void selectMoveCursor(int c, teksEditor tEditor);
 void findText(teksEditor tEditor);
