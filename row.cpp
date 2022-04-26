@@ -337,3 +337,15 @@ int NbElmt(address_row First)
     }
     return NbEl;
 }
+
+address_row searchByIndex(address_row First, int index)
+{
+    address_row P = First;
+    int i = 0;
+    while (P != Nil && i < index)
+    {
+        P = Next(P);
+        i++;
+    }
+    return P;
+}
