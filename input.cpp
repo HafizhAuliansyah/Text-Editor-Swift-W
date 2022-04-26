@@ -241,16 +241,28 @@ void updateRow(erow *row)
 
 void insertRow(int at, const char *s, size_t len)
 {
-    if (teks_editor.numrows >= MAX_ROW)
-        return;
-    memmove(&teks_editor.row[at + 1], &teks_editor.row[at], sizeof(erow) * (teks_editor.numrows - at));
-    teks_editor.row[at].size = len;
-    memcpy(&teks_editor.row[at].chars, s, len);
+    erow temp;
+    address_row row_temp;
+    address_row prec_row = searchByIndex(at - 1);
+    // setting row baru
+    temp.size = len;
+    memcpy(&temp.chars, s, len);
     teks_editor.row[at].chars[len] = '\0';
-    teks_editor.row[at].rsize = 0;
-    teks_editor.row[at].render[0] = '\0';
-    updateRow(&teks_editor.row[at]);
-
+    temp.chars[len] = '\0';
+    temp.rsize = 0;
+    temp.render[0] = '\0';
+    // alokasi row baru
+    row_temp = Alokasi(temp);
+    // insert after prec
+    if (prec_row == Nil)
+    {
+        InsertFirst(&teks_editor.first_row, row_temp);
+    }
+    else
+    {
+        InsertAfter(&teks_editor.first_row, row_temp, prec_row);
+    }
+    updateRow(&Info(row_temp)); // sepertinya harus diganti
     teks_editor.numrows++;
     addModified();
 }
@@ -349,28 +361,24 @@ void deleteChar()
 void insertNewline()
 {
     cursorHandler cursor = getCursor();
-    if (teks_editor.numrows < MAX_ROW)
+    if (cursor.x == 0)
     {
-        if (cursor.x == 0)
-        {
-            insertRow(cursor.y, "", 0);
-        }
-        else
-        {
-            erow *row = &teks_editor.row[cursor.y];
-            insertRow(cursor.y + 1, &row->chars[cursor.x], row->size - cursor.x);
-            row = &teks_editor.row[cursor.y];
-            row->size = cursor.x;
-            row->chars[row->size] = '\0';
-            updateRow(&(*row));
-        }
-        setCursorY(cursor.y + 1);
-        setCursorX(0);
+        insertRow(cursor.y, "", 0);
     }
     else
     {
-        setMessage("PERINGATAN ! MENCAPAI BATAS BARIS");
+        address_row row = searchByIndex(y);
+        insertRow(cursor.y + 1, &Info(row).chars[cursor.x], Info(row).size - cursor.x);
+        // replace row sebelumnya
+        char *string = (char *)malloc(cursor.x * sizeof(char));
+        for (int i = 0; i < cursor.x; i++)
+        {
+            string[i] = Info(row).chars[i];
+        }
+        insertRow(cursor.y, &string, cursor.x);
     }
+    setCursorY(cursor.y + 1);
+    setCursorX(0);
 }
 void inputInit()
 {
