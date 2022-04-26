@@ -239,7 +239,7 @@ void updateRow(erow *row)
     row->rsize = idx;
 }
 
-void insertRow(int at,const char *s, size_t len)
+void insertRow(int at, const char *s, size_t len)
 {
     if (teks_editor.numrows >= MAX_ROW)
         return;
@@ -302,7 +302,7 @@ void rowDelChar(erow *row, int at)
 void insertChar(int c)
 {
     cursorHandler cursor = getCursor();
-    
+
     if (cursor.y == teks_editor.numrows)
     {
         insertRow(teks_editor.numrows, "", 0);
@@ -312,7 +312,6 @@ void insertChar(int c)
     {
         rowInsertChar(&teks_editor.row[cursor.y], cursor.x, c);
         addCursorX();
-
     }
     else
     {

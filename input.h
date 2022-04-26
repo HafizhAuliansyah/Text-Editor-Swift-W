@@ -19,12 +19,12 @@ typedef struct erow
     char render[MAX_COLUMN + 1];
 } erow;
 
+#include "row.h"
 struct teksEditor
 {
     int numrows;
-    erow row[MAX_ROW + 1];
+    address_row first_row;
 };
-
 
 enum editorKey
 {
@@ -48,8 +48,7 @@ enum editorKey
 #include "file_io.h"
 #include "text_operation.h"
 #include "output.h"
-
-
+#include "row.h"
 
 // membaca setiap press key di keyboard
 int readKey();
@@ -58,7 +57,7 @@ void keyProcess();
 void updateRow(erow *row);
 /* ngatur untuk apa yang d render atau ditampilkan ke layar */
 
-void insertRow(int at,const char *s, size_t len);
+void insertRow(int at, const char *s, size_t len);
 /* masukin ke array nya harusnya lewat sini tapi per row */
 
 // void editorFreeRow(erow *row);
@@ -89,7 +88,5 @@ void insertNewline();
 teksEditor getTeksEditor();
 
 void inputInit();
-
-
 
 #endif
