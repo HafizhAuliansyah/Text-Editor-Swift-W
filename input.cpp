@@ -177,6 +177,10 @@ void keyProcess()
         break;
     case CTRL('h'):
         setInHelp(true);
+        break;
+    case CTRL('o'):
+        openNewFile(&teks_editor);
+        break;
     // HANDLE COPY PASTE
     case CTRL('c'):
         copyGlobal(teks_editor.row);

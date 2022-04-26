@@ -19,6 +19,7 @@ void fileInit();
 
 /* Open File */
 void openFile(char *filename);
+void openNewFile(teksEditor *tEditor);
 
 /* Save file */
 void saveFile();

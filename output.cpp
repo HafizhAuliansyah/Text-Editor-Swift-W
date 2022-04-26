@@ -180,43 +180,44 @@ char *rowsToString(int *buflen)
 
 char *setInputMassage(const char *prompt, int start_cx)
 {
-    // Deklarasi variabel penampung nama file, dengan size 128 bytes
-    size_t name_size = 128;
-    char *filename = (char*) malloc(name_size);
+    // Deklarasi variabel penampung hasil inputan, dengan size 50 bytes
+    size_t name_size = 50;
+    char *inputMessage = (char*) malloc(name_size);
 
     // Inisialisasi awal size isi, dan zero character
     size_t name_len = 0;
-    filename[0] = '\0';
+    inputMessage[0] = '\0';
 
-    // Pindah cursor kebawah
+    // HAFIZH : Pindah cursor kebawah
     outputConfig.isInStatus = true;
     cursorHandler stat_cursor = getMessageCursor();
     stat_cursor.y = getScreenRows() + 2;
     stat_cursor.x = start_cx;
+    setMessageCursor(stat_cursor);
 
     while (1)
     {
-        // Membuka status bar, untuk menerima input ke filename
-        setMessage(prompt, filename);
+        // Menampilkan message ke message bar beserta hasil input message
+        setMessage(prompt, inputMessage);
         refreshScreen();
 
         // Membaca input untuk mengisi file name
         int c = readKey();
-
         // Mini delete character handler
         if (c == DEL_KEY || c == CTRL('h') || c == BACKSPACE)
         {
             if (name_len != 0)
             {
-                filename[--name_len] = '\0';
+                inputMessage[--name_len] = '\0';
+                // HAFIZH : Memindahkan kursor ke kiri
                 stat_cursor.x--;
             }
         }
-        // Escape, untuk keluar dari editor Prompt
+        // Escape, untuk keluar dari status input message, kembali ke text editor
         else if (c == '\x1b')
         {
             setMessage("");
-            free(filename);
+            free(inputMessage);
             outputConfig.isInStatus = false;
             return NULL;
         }
@@ -230,7 +231,7 @@ char *setInputMassage(const char *prompt, int start_cx)
                 {
                     setMessage("");
                     outputConfig.isInStatus = false;
-                    return filename;
+                    return inputMessage;
                 }
             }
             // Jika input bukan control character, masukkan input ke filename
@@ -240,14 +241,16 @@ char *setInputMassage(const char *prompt, int start_cx)
                 if (name_len == name_size - 1)
                 {
                     name_size *= 2;
-                    filename = (char*) realloc(filename, name_size);
+                    inputMessage = (char*) realloc(inputMessage, name_size);
                 }
-                // Mengisi filename
-                filename[name_len++] = c;
-                filename[name_len] = '\0';
+                // Mengisi inputMessage dengan karakter inputan
+                inputMessage[name_len++] = c;
+                inputMessage[name_len] = '\0';
+                // HAFIZH : Memindahkan kursor ke kanan
                 stat_cursor.x++;
             }
         }
+        // HAFIZH : Update cursor position yang ada di message bar
         setMessageCursor(stat_cursor);
     }
 }

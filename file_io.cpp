@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <conio.h>
 using namespace std;
 
 fileHandler fileStatus;
@@ -14,12 +15,21 @@ void fileInit(){
 }
 void openFile(char *filename)
 {
+    // HAFIZH : Mengisi variabel file name
     free(fileStatus.filename);
     fileStatus.filename = strdup(filename);
 
+    // HAFIZH : Pembuka File
     ifstream file_teks;
     file_teks.open(filename, ios::in);
 
+    // HAFIZH : Error handling file tidak ada
+    if(file_teks.fail()){
+        die("ERROR Open File : ");
+        return;
+    }
+
+    // HAFIZH : Proses pembacaan isi file
     string line;
     size_t linecap = 0;
     int linelen;
@@ -32,6 +42,82 @@ void openFile(char *filename)
     }
     file_teks.close();
     fileStatus.modified = 0;
+}
+void openNewFile(teksEditor *tEditor){
+    // HAFIZH : Konfirmasi save file sebelum buka file lain
+    if(fileStatus.modified != 0){
+        char simpan;
+        while(simpan != 'Y' && simpan != 'N' && simpan != '\x1b'){
+            char *s = setInputMassage("Simpan Perubahan File ? [Y/N] : %s (ESC untuk keluar)", 32);
+            if(s != NULL && strlen(s) == 1){
+                simpan = toupper(s[0]);
+            }
+        }
+        if(simpan == 'Y'){
+            saveFile();
+        }else if(simpan == '\x1b'){
+            return;
+        }
+    }
+
+    char *filename;
+    filename = setInputMassage("Open File : %s (ESC untuk keluar)", 12);
+    if(filename == NULL){
+        setMessage("NAMA FILE KOSOSNG!");
+        return;
+    }
+
+    // HAFIZH : Pembuka File
+    ifstream file_teks;
+    file_teks.open(filename, ios::in);
+
+    // HAFIZH : Error handling file tidak ada
+    if(file_teks.fail()){
+        char buat;
+        while(buat != 'Y' && buat != 'N' && buat != '\x1b'){
+            char *s = setInputMassage("File Tidak Ditemukan, Buat File ? [Y/N] : %s (ESC untuk keluar)", 42);
+            if(s != NULL && strlen(s) == 1){
+                buat = toupper(s[0]);
+            }
+        }
+        if(buat == 'N'){
+            setMessage("File Gagal Dibuka");
+            return;
+        }else if(buat == 'Y'){
+            ofstream file_new{filename};
+            if(!file_new.fail())
+                setMessage("File Berhasil Dibuat");
+            else
+                setMessage("File Gagal Dibuat");
+            file_new.close();
+        }else{
+            return;
+        }
+        
+    }
+    
+    // HAFIZH : Clear isi teks_editor
+    erow df_row;
+    fill_n(tEditor->row, MAX_COLUMN + 1, df_row);
+    tEditor->numrows = 0;
+    // HAFIZH : Proses pembacaan isi file
+    string line;
+    size_t linecap = 0;
+    int linelen;
+    while (getline(file_teks, line))
+    {
+        int linelen = line.length();
+        while (linelen > 0 && (line[linelen - 1] == '\n') || line[linelen - 1] == '\r')
+            linelen--;
+        insertRow(getTeksEditor().numrows, line.c_str(), linelen);
+    }
+
+    file_teks.close();
+    fileStatus.modified = 0;
+    free(fileStatus.filename);
+    fileStatus.filename = filename;
+    cursorInit();
+
 }
 void saveFile()
 {
@@ -54,8 +140,8 @@ void saveFile()
     // Jika file yang dicari tersedia
     if (errorID == ERROR_ALREADY_EXISTS || errorID == 0)
     {   
-        WriteFile(handleFile, buffer, len, NULL, NULL);
-        if (!GetLastError())
+        
+        if (WriteFile(handleFile, buffer, len, NULL, NULL))
         {
             CloseHandle(handleFile);
             free(buffer);
