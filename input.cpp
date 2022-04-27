@@ -285,20 +285,24 @@ void insertRow(int at, const char *s, size_t len)
 
 void deleteRow(int at)
 {
-    // if (at < 0 || at >= teks_editor.numrows)
-    // return;
-    // editorFreeRow(&E.row[at]);
-    DelP(&teks_editor.first_row, searchByIndex(teks_editor.first_row, at)->info);
+    address_row row_prec = searchByIndex(teks_editor.first_row, at - 1);
+    address_row row = searchByIndex(teks_editor.first_row, at);
+    infotype temp;
+    if (row_prec == Nil)
+    {
+        DelVFirst(&teks_editor.first_row, &temp);
+    }
+    else
+    {
+        DelAfter(&teks_editor.first_row, &row, row_prec);
+    }
+    // DelP(&teks_editor.first_row, searchByIndex(teks_editor.first_row, at)->info);
     teks_editor.numrows--;
     addModified();
 }
 
 void rowInsertChar(infotype *row, int at, int c)
 {
-    // if (at < 0 || at > row->size)
-    //     at = row->size;
-    // char *dest = row->chars;
-    // char *src = row->chars;
     memmove(&row->chars[at + 1], &row->chars[at], row->size - at + 1);
     row->size++;
     row->chars[at] = c;

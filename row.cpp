@@ -229,19 +229,19 @@ void DelP(address_row *First, infotype X)
     // infotype Y;
     // /* Algoritma*/
     // P = *First;
-    // if (P->info == X)
+    // if (P->info.chars == X.chars)
     // {
     //     DelVFirst(&(*First), &Y);
     // }
     // else
     // {
     //     Prec = Nil;
-    //     while (Next(P) != Nil && P->info != X)
+    //     while (Next(P) != Nil && P->info.chars != X.chars)
     //     {
     //         Prec = P;
     //         P = Next(P);
     //     }
-    //     if (P->info == X)
+    //     if (P->info.chars == X.chars)
     //     {
     //         Next(Prec) = Next(P);
     //         Next(P) = Nil;
