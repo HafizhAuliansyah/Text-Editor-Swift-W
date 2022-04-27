@@ -4,27 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "row.h"
 
-#define MAX_COLUMN 10
-#define MAX_ROW 10
 #define SWIFT_TAB_STOP 8
 #define SWIFT_QUIT_TIMES 1
 #define CTRL(k) ((k)&0x1f)
-
-typedef struct erow
-{
-    int size;
-    int rsize;
-    char chars[MAX_COLUMN + 1];
-    char render[MAX_COLUMN + 1];
-} erow;
-
-#include "row.h"
-struct teksEditor
-{
-    int numrows;
-    address_row first_row;
-};
 
 enum editorKey
 {

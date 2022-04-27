@@ -35,8 +35,8 @@ void selectMoveCursor(int key, teksEditor tEditor)
         dest.len++;
         break;
     case SHIFT_ARROW_RIGHT:
-        if (getCursor().x >= tEditor.row[getCursor().y].size)
-            return;
+        // if (getCursor().x >= tEditor.row[getCursor().y].size)
+        //   return;
         dest.x = getCursor().x - dest.len;
         moveCursor(ARROW_RIGHT, tEditor);
         dest.len++;
@@ -72,14 +72,15 @@ void clearSelected()
 
 void copyLocal(erow row[])
 {
-    hasil_c = (char*) realloc(hasil_c, selection.len + 1);
+    hasil_c = (char *)realloc(hasil_c, selection.len + 1);
     memmove(hasil_c, &row[selection.y].chars[selection.x], selection.len);
     hasil_c[selection.len] = '\0';
 }
-void copyGlobal(erow row[]){
+void copyGlobal(erow row[])
+{
     OpenClipboard(0);
     EmptyClipboard();
-    hasil_c = (char*) realloc(hasil_c, selection.len + 1);
+    hasil_c = (char *)realloc(hasil_c, selection.len + 1);
     memcpy(hasil_c, &row[selection.y].chars[selection.x], selection.len);
     hasil_c[selection.len] = '\0';
     HGLOBAL clipboardText = GlobalAlloc(GMEM_MOVEABLE, selection.len + 1);
@@ -94,56 +95,59 @@ void pasteLocal()
     for (int x = 0; x < strlen(hasil_c); x++)
         insertChar(hasil_c[x]);
 }
-void pasteGlobal(){
+void pasteGlobal()
+{
     OpenClipboard(0);
     HANDLE clipboardText = GetClipboardData(CF_TEXT);
     int column_len = MAX_COLUMN - getCursor().x;
-    for (int x = 0; x < strlen((char*) clipboardText); x++)
-        insertChar( ((char*) clipboardText)[x] );
+    for (int x = 0; x < strlen((char *)clipboardText); x++)
+        insertChar(((char *)clipboardText)[x]);
     CloseClipboard();
 }
 /** Find **/
-void findText(teksEditor tEditor)
+// void findText(teksEditor tEditor)
+// {
+//     char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
+//     if (query == NULL)
+//         return;
+//     int ketemu = 1;
+//     int i;
+//     for (i = 0; i < tEditor.numrows; i++)
+//     {
+//         erow *row = &tEditor.row[i];
+//         char *match = strstr(row->render, query);
+//         if (match)
+//         {
+//             setCursorY(i);
+//             setCursorX(renderXToCursorX(row, match - row->render));
+
+//             // Untuk select text
+//             selection.y = getCursor().y;
+//             selection.x = getCursor().x;
+//             selection.len = strlen(query);
+//             selection.isOn = true;
+//             int screenrows = getScreenRows(); // TODO get screenrows
+//             if (i >= screenrows)
+//             {
+//                 setStartRow(getCursor().y);
+//             }
+
+//             ketemu = 0;
+//             break;
+//         }
+//     }
+//     if (ketemu)
+//     {
+//         // COMMENTED editorSetStatusMessage("Teks Tidak Ada!");
+//     }
+
+//     free(query);
+// }
+selectionText getSelection()
 {
-    char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
-    if (query == NULL)
-        return;
-    int ketemu = 1;
-    int i;
-    for (i = 0; i < tEditor.numrows; i++)
-    {
-        erow *row = &tEditor.row[i];
-        char *match = strstr(row->render, query);
-        if (match)
-        {
-            setCursorY(i);
-            setCursorX(renderXToCursorX(row, match - row->render));
-
-            // Untuk select text
-            selection.y = getCursor().y;
-            selection.x = getCursor().x;
-            selection.len = strlen(query);
-            selection.isOn = true;
-            int screenrows = getScreenRows(); // TODO get screenrows
-            if (i >= screenrows)
-            {
-                setStartRow(getCursor().y);
-            }
-
-            ketemu = 0;
-            break;
-        }
-    }
-    if (ketemu)
-    {
-        // COMMENTED editorSetStatusMessage("Teks Tidak Ada!");
-    }
-
-    free(query);
-}
-selectionText getSelection(){
     return selection;
 }
-void setSelection(selectionText new_selection){
+void setSelection(selectionText new_selection)
+{
     selection = new_selection;
 }

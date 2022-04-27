@@ -5,19 +5,35 @@
 #ifndef row_H
 #define row_H
 #include <stdio.h>
-#include "input.h"
+#include <stdlib.h>
 #define Nil NULL
 #define Info(P) (P)->info
 #define Next(P) (P)->next
+#define MAX_COLUMN 10
+
+typedef struct erow
+{
+    int size;
+    int rsize;
+    char chars[MAX_COLUMN + 1];
+    char render[MAX_COLUMN + 1];
+} erow;
+
 
 typedef erow *infotype;
-typedef struct tElmtList *address_row;
+typedef struct tElmtRow *address_row;
 
 typedef struct tElmtRow
 {
     infotype info;
     address_row next;
 } ElmtRow;
+
+struct teksEditor
+{
+    int numrows;
+    address_row first_row;
+};
 
 /*********** PROTOTYPE ****************/
 /**** Predikat untuk test keadaan LIST  ****/

@@ -91,3 +91,90 @@
 1650196483 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
+1650867290 source:d:\new\2022\github explore\text-editor-swift-w\main.cpp
+	<stdlib.h>
+	"input.h"
+	"output.h"
+
+1651045602 d:\new\2022\github explore\text-editor-swift-w\input.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"row.h"
+	"cursor.h"
+	"file_io.h"
+	"text_operation.h"
+	"output.h"
+	"row.h"
+
+1651045673 d:\new\2022\github explore\text-editor-swift-w\row.h
+	<stdio.h>
+	<stdlib.h>
+
+1651042793 d:\new\2022\github explore\text-editor-swift-w\cursor.h
+	"terminal.h"
+	"input.h"
+
+1650867291 d:\new\2022\github explore\text-editor-swift-w\terminal.h
+	<windows.h>
+	<stdio.h>
+	<ctype.h>
+
+1650867289 d:\new\2022\github explore\text-editor-swift-w\file_io.h
+	"terminal.h"
+	"output.h"
+	"input.h"
+	<string.h>
+	<sys/types.h>
+	<stdlib.h>
+
+1650867291 d:\new\2022\github explore\text-editor-swift-w\output.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<time.h>
+	"cursor.h"
+	"file_io.h"
+	"input.h"
+	"buffer.h"
+
+1650867289 d:\new\2022\github explore\text-editor-swift-w\buffer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1650869677 d:\new\2022\github explore\text-editor-swift-w\text_operation.h
+	<stdbool.h>
+	"terminal.h"
+	"input.h"
+	"cursor.h"
+	"buffer.h"
+
+1650868856 source:d:\new\2022\github explore\text-editor-swift-w\terminal.cpp
+	<stdio.h>
+	<windows.h>
+	"terminal.h"
+
+1651044099 source:d:\new\2022\github explore\text-editor-swift-w\cursor.cpp
+	"cursor.h"
+
+1651044704 source:d:\new\2022\github explore\text-editor-swift-w\input.cpp
+	"input.h"
+
+1650867289 source:d:\new\2022\github explore\text-editor-swift-w\buffer.cpp
+	"buffer.h"
+	"output.h"
+
+1650867289 source:d:\new\2022\github explore\text-editor-swift-w\file_io.cpp
+	"file_io.h"
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+
+1651045129 source:d:\new\2022\github explore\text-editor-swift-w\text_operation.cpp
+	"text_operation.h"
+

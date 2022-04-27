@@ -25,7 +25,7 @@ address_row Alokasi(infotype X)
 /* Jika alokasi gagal, mengirimkan Nil */
 {
     address_row P;
-    P = (address_row)malloc(sizeof(ElmtList));
+    P = (address_row)malloc(sizeof(ElmtRow));
     if (P != Nil)
     {
         Info(P) = X;

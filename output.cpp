@@ -27,7 +27,7 @@ void drawRows(outputBuffer *ob)
             teksEditor tEditor = getTeksEditor();
             if (filerow >= tEditor.numrows)
             {
-                if (tEditor.numrows == 0 && y == MAX_ROW / 2)
+                if (tEditor.numrows == 0 && y == getScreenRows() / 2)
                 {
                     char welcome[80];
                     int welcomelen = snprintf(welcome, sizeof(welcome), "Swift Text Editor");
@@ -36,7 +36,7 @@ void drawRows(outputBuffer *ob)
                     int padding = (getScrenCols() - welcomelen) / 2;
                     if (padding)
                     {
-                        if (y < MAX_ROW)
+                        if (y < getScreenRows())
                         {
                             bufferAppend(ob, "~", 1);
                         }

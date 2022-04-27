@@ -132,9 +132,8 @@ void keyProcess()
         setCursorX(0);
         break;
     case END_KEY:
-
         if (cursor.y < teks_editor.numrows)
-            setCursorX(teks_editor.row[cursor.y].size);
+            setCursorX(searchByIndex(cursor.y)->info->size);
         break;
     case CTRL('f'):
         findText(teks_editor);
@@ -178,9 +177,9 @@ void keyProcess()
     case CTRL('h'):
         setInHelp(true);
     // HANDLE COPY PASTE
-    case CTRL('c'):
-        copyGlobal(teks_editor.row);
-        break;
+    // case CTRL('c'):
+    // copyGlobal(teks_editor.firstrow);
+    // break;
     case CTRL('v'):
         pasteGlobal();
         break;
@@ -241,16 +240,15 @@ void updateRow(erow *row)
 
 void insertRow(int at, const char *s, size_t len)
 {
-    erow temp;
+    infotype temp;
     address_row row_temp;
     address_row prec_row = searchByIndex(at - 1);
     // setting row baru
-    temp.size = len;
-    memcpy(&temp.chars, s, len);
-    teks_editor.row[at].chars[len] = '\0';
-    temp.chars[len] = '\0';
-    temp.rsize = 0;
-    temp.render[0] = '\0';
+    temp->size = len;
+    memcpy(&temp->chars, s, len);
+    temp->chars[len] = '\0';
+    temp->rsize = 0;
+    temp->render[0] = '\0';
     // alokasi row baru
     row_temp = Alokasi(temp);
     // insert after prec
@@ -262,7 +260,7 @@ void insertRow(int at, const char *s, size_t len)
     {
         InsertAfter(&teks_editor.first_row, row_temp, prec_row);
     }
-    updateRow(&Info(row_temp)); // sepertinya harus diganti
+    updateRow(row_temp->info); // sepertinya harus diganti
     teks_editor.numrows++;
     addModified();
 }
@@ -272,7 +270,7 @@ void deleteRow(int at)
     // if (at < 0 || at >= teks_editor.numrows)
     // return;
     // editorFreeRow(&E.row[at]);
-    memmove(&teks_editor.row[at], &teks_editor.row[at + 1], sizeof(erow) * (teks_editor.numrows - at - 1));
+    DelP(&teks_editor.first_row, searchByIndex(at)->info);
     teks_editor.numrows--;
     addModified();
 }
@@ -319,16 +317,8 @@ void insertChar(int c)
     {
         insertRow(teks_editor.numrows, "", 0);
     }
-
-    if (teks_editor.row[cursor.y].size < MAX_COLUMN)
-    {
-        rowInsertChar(&teks_editor.row[cursor.y], cursor.x, c);
-        addCursorX();
-    }
-    else
-    {
-        setMessage("PERINGATAN ! MENCAPAI BATAS COLUMN");
-    }
+    rowInsertChar(searchByIndex(cursor.y)->info, cursor.x, c);
+    addCursorX();
 }
 
 void deleteChar()
@@ -338,23 +328,15 @@ void deleteChar()
         return;
     if (cursor.x > 0)
     {
-        rowDelChar(&teks_editor.row[cursor.y], cursor.x - 1);
+        rowDelChar(searchByIndex(cursor.y)->info, cursor.x - 1);
         setCursorX(cursor.x - 1);
     }
     else
     {
-        setCursorX(teks_editor.row[cursor.y - 1].size);
-        if (teks_editor.row[cursor.y - 1].size + teks_editor.row[cursor.y].size <= MAX_COLUMN)
-        {
-            rowAppendString(&teks_editor.row[cursor.y - 1], teks_editor.row[cursor.y].chars, teks_editor.row[cursor.y].size);
-            deleteRow(cursor.y);
-            setCursorY(cursor.y - 1);
-        }
-        else
-        {
-            setMessage("PERINGATAN ! TIDAK BISA MENGHAPUS, KOLOM TIDAK MEMADAI");
-            setCursorX(teks_editor.row[cursor.y].size);
-        }
+        setCursorX(searchByIndex(cursor.y - 1)->info->size);
+        rowAppendString(searchByIndex(cursor.y - 1)->info, searchByIndex(cursor.y)->info->chars, searchByIndex(cursor.y)->info->size);
+        deleteRow(cursor.y);
+        setCursorY(cursor.y - 1);
     }
 }
 
@@ -367,15 +349,15 @@ void insertNewline()
     }
     else
     {
-        address_row row = searchByIndex(y);
-        insertRow(cursor.y + 1, &Info(row).chars[cursor.x], Info(row).size - cursor.x);
+        address_row row = searchByIndex(cursor.y);
+        insertRow(cursor.y + 1, &row->info->chars[cursor.x], row->info->size - cursor.x);
         // replace row sebelumnya
         char *string = (char *)malloc(cursor.x * sizeof(char));
         for (int i = 0; i < cursor.x; i++)
         {
-            string[i] = Info(row).chars[i];
+            string[i] = row->info->chars[i];
         }
-        insertRow(cursor.y, &string, cursor.x);
+        insertRow(cursor.y, string, cursor.x);
     }
     setCursorY(cursor.y + 1);
     setCursorX(0);
