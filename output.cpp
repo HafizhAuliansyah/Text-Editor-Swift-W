@@ -56,14 +56,14 @@ void drawRows(outputBuffer *ob)
             }
             else
             {
-                int len = Info(searchByIndex(tEditor.first_row, filerow))->rsize - getStartCol();
+                int len = searchByIndex(tEditor.first_row,filerow)->info.rsize - getStartCol();
                 if (len < 0)
                     len = 0;
                 if (len > getScrenCols())
                     len = getScrenCols();
 
                 // Konversi char ke char*
-                char *c = &Info(searchByIndex(tEditor.first_row, filerow))->render[getStartCol()];
+                char *c = &searchByIndex(tEditor.first_row, filerow)->info.render[getStartCol()];
 
                 // Select Text
                 if (filerow == getSelection().y && getStartCol() <= getSelection().x && getSelection().isOn)
@@ -161,15 +161,15 @@ char *rowsToString(int *buflen)
     int totlen = 0;
     int j;
     for (j = 0; j < tEditor.numrows; j++)
-        totlen += Info(searchByIndex(tEditor.first_row, j))->size + 1;
+        totlen += searchByIndex(tEditor.first_row, j)->info.size + 1;
     *buflen = totlen;
 
     char *buf = (char *)malloc(totlen);
     char *p = buf;
     for (j = 0; j < tEditor.numrows; j++)
     {
-        memcpy(p, Info(searchByIndex(tEditor.first_row, j))->chars, Info(searchByIndex(tEditor.first_row, j))->size);
-        p += Info(searchByIndex(tEditor.first_row, j))->size;
+        memcpy(p, searchByIndex(tEditor.first_row, j)->info.chars, searchByIndex(tEditor.first_row, j)->info.size);
+        p += searchByIndex(tEditor.first_row, j)->info.size;
         *p = '\n';
         p++;
     }

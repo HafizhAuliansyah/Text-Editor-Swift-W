@@ -91,12 +91,12 @@
 1650196483 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
-1650867290 source:d:\new\2022\github explore\text-editor-swift-w\main.cpp
+1651051602 source:d:\new\2022\github explore\text-editor-swift-w\main.cpp
 	<stdlib.h>
 	"input.h"
 	"output.h"
 
-1651046258 d:\new\2022\github explore\text-editor-swift-w\input.h
+1651051652 d:\new\2022\github explore\text-editor-swift-w\input.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -107,20 +107,20 @@
 	"text_operation.h"
 	"output.h"
 
-1651050220 d:\new\2022\github explore\text-editor-swift-w\row.h
+1651068925 d:\new\2022\github explore\text-editor-swift-w\row.h
 	<stdio.h>
 	<stdlib.h>
 
-1651042793 d:\new\2022\github explore\text-editor-swift-w\cursor.h
+1651051602 d:\new\2022\github explore\text-editor-swift-w\cursor.h
 	"terminal.h"
 	"input.h"
 
-1650867291 d:\new\2022\github explore\text-editor-swift-w\terminal.h
+1651051602 d:\new\2022\github explore\text-editor-swift-w\terminal.h
 	<windows.h>
 	<stdio.h>
 	<ctype.h>
 
-1650867289 d:\new\2022\github explore\text-editor-swift-w\file_io.h
+1651051652 d:\new\2022\github explore\text-editor-swift-w\file_io.h
 	"terminal.h"
 	"output.h"
 	"input.h"
@@ -128,7 +128,7 @@
 	<sys/types.h>
 	<stdlib.h>
 
-1650867291 d:\new\2022\github explore\text-editor-swift-w\output.h
+1651051602 d:\new\2022\github explore\text-editor-swift-w\output.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -140,46 +140,46 @@
 	"input.h"
 	"buffer.h"
 
-1650867289 d:\new\2022\github explore\text-editor-swift-w\buffer.h
+1651051602 d:\new\2022\github explore\text-editor-swift-w\buffer.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1651046926 d:\new\2022\github explore\text-editor-swift-w\text_operation.h
+1651051652 d:\new\2022\github explore\text-editor-swift-w\text_operation.h
 	<stdbool.h>
 	"terminal.h"
 	"input.h"
 	"cursor.h"
 	"buffer.h"
 
-1650868856 source:d:\new\2022\github explore\text-editor-swift-w\terminal.cpp
+1651051602 source:d:\new\2022\github explore\text-editor-swift-w\terminal.cpp
 	<stdio.h>
 	<windows.h>
 	"terminal.h"
 
-1651046731 source:d:\new\2022\github explore\text-editor-swift-w\cursor.cpp
+1651067629 source:d:\new\2022\github explore\text-editor-swift-w\cursor.cpp
 	"cursor.h"
 
-1651048560 source:d:\new\2022\github explore\text-editor-swift-w\input.cpp
+1651068819 source:d:\new\2022\github explore\text-editor-swift-w\input.cpp
 	"input.h"
 
-1650867289 source:d:\new\2022\github explore\text-editor-swift-w\buffer.cpp
+1651051602 source:d:\new\2022\github explore\text-editor-swift-w\buffer.cpp
 	"buffer.h"
 	"output.h"
 
-1650867289 source:d:\new\2022\github explore\text-editor-swift-w\file_io.cpp
+1651051652 source:d:\new\2022\github explore\text-editor-swift-w\file_io.cpp
 	"file_io.h"
 	<stdio.h>
 	<iostream>
 	<fstream>
 	<string>
 
-1651046887 source:d:\new\2022\github explore\text-editor-swift-w\text_operation.cpp
+1651051652 source:d:\new\2022\github explore\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
-1651050151 source:d:\new\2022\github explore\text-editor-swift-w\row.cpp
+1651067997 source:d:\new\2022\github explore\text-editor-swift-w\row.cpp
 	"row.h"
 
-1651046820 source:d:\new\2022\github explore\text-editor-swift-w\output.cpp
+1651068460 source:d:\new\2022\github explore\text-editor-swift-w\output.cpp
 	"output.h"
 

@@ -7,19 +7,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define Nil NULL
-#define Info(P) (P)->info
+// #define Info(P) (&P)->info
 #define Next(P) (P)->next
 #define MAX_COLUMN 10
-
 typedef struct erow
 {
     int size;
     int rsize;
-    char *chars;
-    char *render;
+    char chars[MAX_COLUMN];
+    char render[MAX_COLUMN];
 } erow;
 
-typedef erow *infotype;
+typedef erow infotype;
 typedef struct tElmtRow *address_row;
 
 typedef struct tElmtRow

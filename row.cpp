@@ -21,14 +21,14 @@ void CreateList(address_row *First)
 address_row Alokasi(infotype X)
 /* Mengirimkan address_row hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address_row != Nil, 	   */
-/*	dan misalnya menghasilkan P, maka Info(P) = X, Next(P) = Nil */
+/*	dan misalnya menghasilkan P, maka P->info = X, Next(P) = Nil */
 /* Jika alokasi gagal, mengirimkan Nil */
 {
     address_row P;
     P = (address_row)malloc(sizeof(ElmtRow));
     if (P != Nil)
     {
-        Info(P) = X;
+        P->info = X;
         Next(P) = Nil;
     }
     return P;
@@ -45,25 +45,25 @@ void DeAlokasi(address_row *P)
 
 /**** Pencarian sebuah elemen List ****/
 address_row Search(address_row First, infotype X)
-/* Mencari apakah ada elemen list dengan Info(P) = X */
+/* Mencari apakah ada elemen list dengan P->info = X */
 /* Jika ada, mengirimkan address_row elemen tsb. */
 /* Jika tidak ada, mengirimkan Nil */
 {
-    address_row P;
-    P = First;
-    bool found = false;
-    while (P != Nil && !found)
-    {
-        if (Info(P) == X)
-        {
-            found = true;
-        }
-        else
-        {
-            P = Next(P);
-        }
-    }
-    return P;
+    // address_row P;
+    // P = First;
+    // bool found = false;
+    // while (P != Nil && !found)
+    // {
+    //     if (P->info == X)
+    //     {
+    //         found = true;
+    //     }
+    //     else
+    //     {
+    //         P = Next(P);
+    //     }
+    // }
+    // return P;
 }
 
 bool FSearch(address_row First, address_row P)
@@ -88,8 +88,8 @@ bool FSearch(address_row First, address_row P)
 
 // address_row SearchPrec(address_row First, infotype X)
 /* Mengirimkan address_row elemen sebelum elemen yang nilainya = X */
-/* Mencari apakah ada elemen list dengan Info(P) = X */
-/* Jika ada, mengirimkan address_row Prec, dengan Next(Prec) = P dan Info(P) = X */
+/* Mencari apakah ada elemen list dengan P->info = X */
+/* Jika ada, mengirimkan address_row Prec, dengan Next(Prec) = P dan P->info = X */
 /* Jika tidak ada, mengirimkan Nil */
 /* Jika P adalah elemen pertama, maka Prec = Nil */
 /* Search dengan spesifikasi seperti ini menghindari */
@@ -106,12 +106,12 @@ bool FSearch(address_row First, address_row P)
 // {
 //     Prec = P;
 //     P = Next(P);
-//     while (P != Nil && Info(P) != X)
+//     while (P != Nil && P->info != X)
 //     {
 //         Prec = P;
 //         P = Next(P);
 //     }
-//     if (Info(P) == X)
+//     if (P->info == X)
 //     {
 //         return Prec;
 //     }
@@ -156,7 +156,7 @@ void DelVFirst(address_row *First, infotype *X)
 {
     address_row P;
     DelFirst(&(*First), &P); /* Hapus elemem pertama, blm didealokasi */
-    *X = Info(P);            /* info dari First disimpan di X       */
+    *X = P->info;            /* info dari First disimpan di X       */
     DeAlokasi(&P);
 }
 void DelVLast(address_row *First, infotype *X)
@@ -166,7 +166,7 @@ void DelVLast(address_row *First, infotype *X)
 {
     address_row P;
     DelLast(&(*First), &P); /* Hapus elemem terakhir, blm didealokasi */
-    *X = Info(P);           /* info dari terakhir disimpan di X       */
+    *X = P->info;           /* info dari terakhir disimpan di X       */
     DeAlokasi(&P);
 }
 /**** PRIMITIF BERDASARKAN ALAMAT ****/
@@ -220,34 +220,34 @@ void DelFirst(address_row *First, address_row *P)
 
 void DelP(address_row *First, infotype X)
 /* IS : L sembarang */
-/* FS : Jika ada elemen list beraddress_row P, dengan Info(P) = X */
+/* FS : Jika ada elemen list beraddress_row P, dengan P->info = X */
 /* 	Maka P dihapus dari list dan di dealokasi */
-/* Jika tidak ada elemen list dengan Info(P) = X, maka list tetap */
+/* Jika tidak ada elemen list dengan P->info = X, maka list tetap */
 /* List mungkin menjadi kosong karena penghapusan */
 {
-    address_row P, Prec;
-    infotype Y;
-    /* Algoritma*/
-    P = *First;
-    if (Info(P) == X)
-    {
-        DelVFirst(&(*First), &Y);
-    }
-    else
-    {
-        Prec = Nil;
-        while (Next(P) != Nil && Info(P) != X)
-        {
-            Prec = P;
-            P = Next(P);
-        }
-        if (Info(P) == X)
-        {
-            Next(Prec) = Next(P);
-            Next(P) = Nil;
-            DeAlokasi(&P);
-        }
-    }
+    // address_row P, Prec;
+    // infotype Y;
+    // /* Algoritma*/
+    // P = *First;
+    // if (P->info == X)
+    // {
+    //     DelVFirst(&(*First), &Y);
+    // }
+    // else
+    // {
+    //     Prec = Nil;
+    //     while (Next(P) != Nil && P->info != X)
+    //     {
+    //         Prec = P;
+    //         P = Next(P);
+    //     }
+    //     if (P->info == X)
+    //     {
+    //         Next(Prec) = Next(P);
+    //         Next(P) = Nil;
+    //         DeAlokasi(&P);
+    //     }
+    // }
 }
 void DelLast(address_row *First, address_row *P)
 /* IS : L TIDAK kosong */
@@ -298,7 +298,7 @@ void PrintInfo(address_row First)
     {
         do
         {
-            printf("%s  ", Info(P)->chars);
+            printf("%s  ", P->info.chars);
             P = Next(P);
         } while (P != Nil);
     }
