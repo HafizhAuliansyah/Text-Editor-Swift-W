@@ -15,10 +15,9 @@ typedef struct erow
 {
     int size;
     int rsize;
-    char chars[MAX_COLUMN + 1];
-    char render[MAX_COLUMN + 1];
+    char *chars;
+    char *render;
 } erow;
-
 
 typedef erow *infotype;
 typedef struct tElmtRow *address_row;
@@ -155,6 +154,5 @@ void DelAll(address_row *First);
 /*Tambahan */
 int NbElmt(address_row First);
 /* Mengirimkan banyaknya elemen list, mengirimkan Nol jika kosong */
-
-address_row searchByIndex(int index);
+address_row searchByIndex(address_row First, int index);
 #endif

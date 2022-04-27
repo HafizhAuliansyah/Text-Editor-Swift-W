@@ -86,7 +86,7 @@ bool FSearch(address_row First, address_row P)
     return found;
 }
 
-address_row SearchPrec(address_row First, infotype X)
+// address_row SearchPrec(address_row First, infotype X)
 /* Mengirimkan address_row elemen sebelum elemen yang nilainya = X */
 /* Mencari apakah ada elemen list dengan Info(P) = X */
 /* Jika ada, mengirimkan address_row Prec, dengan Next(Prec) = P dan Info(P) = X */
@@ -94,33 +94,33 @@ address_row SearchPrec(address_row First, infotype X)
 /* Jika P adalah elemen pertama, maka Prec = Nil */
 /* Search dengan spesifikasi seperti ini menghindari */
 /* traversal ulang jika setelah Search akan dilakukan operasi lain */
-{
-    address_row P, Prec;
-    P = First;
-    if (Next(P) = Nil)
-    {
-        /* list hanya berisi 1 elemen*/
-        Prec = Nil;
-    }
-    else
-    {
-        Prec = P;
-        P = Next(P);
-        while (P != Nil && Info(P) != X)
-        {
-            Prec = P;
-            P = Next(P);
-        }
-        if (Info(P) == X)
-        {
-            return Prec;
-        }
-        else
-        {
-            return Nil;
-        }
-    }
-}
+//{
+// address_row P, Prec;
+// P = First;
+// if (Next(P) = Nil)
+// {
+//     /* list hanya berisi 1 elemen*/
+//     Prec = Nil;
+// }
+// else
+// {
+//     Prec = P;
+//     P = Next(P);
+//     while (P != Nil && Info(P) != X)
+//     {
+//         Prec = P;
+//         P = Next(P);
+//     }
+//     if (Info(P) == X)
+//     {
+//         return Prec;
+//     }
+//     else
+//     {
+//         return Nil;
+//     }
+// }
+// }
 /**** PRIMITIF BERDASARKAN NILAI ****/
 /**** Penambahan Elemen ****/
 void InsVFirst(address_row *First, infotype X)
@@ -298,7 +298,7 @@ void PrintInfo(address_row First)
     {
         do
         {
-            printf("%s  ", Info(P));
+            printf("%s  ", Info(P)->chars);
             P = Next(P);
         } while (P != Nil);
     }

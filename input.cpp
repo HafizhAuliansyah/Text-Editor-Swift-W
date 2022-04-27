@@ -133,7 +133,7 @@ void keyProcess()
         break;
     case END_KEY:
         if (cursor.y < teks_editor.numrows)
-            setCursorX(searchByIndex(cursor.y)->info->size);
+            setCursorX(searchByIndex(teks_editor.first_row, cursor.y)->info->size);
         break;
     case CTRL('f'):
         findText(teks_editor);
@@ -242,7 +242,11 @@ void insertRow(int at, const char *s, size_t len)
 {
     infotype temp;
     address_row row_temp;
-    address_row prec_row = searchByIndex(at - 1);
+    address_row prec_row = searchByIndex(teks_editor.first_row, at - 1);
+    if (!prec_row)
+    {
+        setMessage("Kosong");
+    }
     // setting row baru
     temp->size = len;
     memcpy(&temp->chars, s, len);
@@ -252,15 +256,23 @@ void insertRow(int at, const char *s, size_t len)
     // alokasi row baru
     row_temp = Alokasi(temp);
     // insert after prec
-    if (prec_row == Nil)
-    {
-        InsertFirst(&teks_editor.first_row, row_temp);
-    }
-    else
-    {
-        InsertAfter(&teks_editor.first_row, row_temp, prec_row);
-    }
-    updateRow(row_temp->info); // sepertinya harus diganti
+    // if (teks_editor.first_row == Nil)
+    // {
+    // InsertFirst(&teks_editor.first_row, row_temp);
+    InsVFirst(&teks_editor.first_row, temp);
+    // }
+    // else
+    // {
+    //     if (prec_row == Nil)
+    //     {
+    //         InsertFirst(&teks_editor.first_row, row_temp);
+    //     }
+    //     else
+    //     {
+    //         InsertAfter(&teks_editor.first_row, row_temp, prec_row);
+    //     }
+    // }
+    updateRow(Info(row_temp)); // sepertinya harus diganti
     teks_editor.numrows++;
     addModified();
 }
@@ -270,7 +282,7 @@ void deleteRow(int at)
     // if (at < 0 || at >= teks_editor.numrows)
     // return;
     // editorFreeRow(&E.row[at]);
-    DelP(&teks_editor.first_row, searchByIndex(at)->info);
+    DelP(&teks_editor.first_row, searchByIndex(teks_editor.first_row, at)->info);
     teks_editor.numrows--;
     addModified();
 }
@@ -312,12 +324,11 @@ void rowDelChar(erow *row, int at)
 void insertChar(int c)
 {
     cursorHandler cursor = getCursor();
-
     if (cursor.y == teks_editor.numrows)
     {
         insertRow(teks_editor.numrows, "", 0);
     }
-    rowInsertChar(searchByIndex(cursor.y)->info, cursor.x, c);
+    rowInsertChar(Info(searchByIndex(teks_editor.first_row, cursor.y)), cursor.x, c);
     addCursorX();
 }
 
@@ -328,13 +339,13 @@ void deleteChar()
         return;
     if (cursor.x > 0)
     {
-        rowDelChar(searchByIndex(cursor.y)->info, cursor.x - 1);
+        rowDelChar(searchByIndex(teks_editor.first_row, cursor.y)->info, cursor.x - 1);
         setCursorX(cursor.x - 1);
     }
     else
     {
-        setCursorX(searchByIndex(cursor.y - 1)->info->size);
-        rowAppendString(searchByIndex(cursor.y - 1)->info, searchByIndex(cursor.y)->info->chars, searchByIndex(cursor.y)->info->size);
+        setCursorX(searchByIndex(teks_editor.first_row, cursor.y - 1)->info->size);
+        rowAppendString(searchByIndex(teks_editor.first_row, cursor.y - 1)->info, searchByIndex(teks_editor.first_row, cursor.y)->info->chars, searchByIndex(teks_editor.first_row, cursor.y)->info->size);
         deleteRow(cursor.y);
         setCursorY(cursor.y - 1);
     }
@@ -349,7 +360,7 @@ void insertNewline()
     }
     else
     {
-        address_row row = searchByIndex(cursor.y);
+        address_row row = searchByIndex(teks_editor.first_row, cursor.y);
         insertRow(cursor.y + 1, &row->info->chars[cursor.x], row->info->size - cursor.x);
         // replace row sebelumnya
         char *string = (char *)malloc(cursor.x * sizeof(char));
@@ -365,6 +376,7 @@ void insertNewline()
 void inputInit()
 {
     teks_editor.numrows = 0;
+    teks_editor.first_row = Nil;
 }
 
 teksEditor getTeksEditor()

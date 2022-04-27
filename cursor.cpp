@@ -32,7 +32,7 @@ void cursorInit()
 void moveCursor(int button, teksEditor tEditor)
 {
     // Check jika baris dimana cursor berada tidak kosong
-    erow *row = (cursor.y >= tEditor.numrows) ? NULL : searchByIndex(cursor.y)->info;
+    erow *row = (cursor.y >= tEditor.numrows) ? NULL : searchByIndex(tEditor.first_row, cursor.y)->info;
     // Arrow Handler
     switch (button)
     {
@@ -46,7 +46,7 @@ void moveCursor(int button, teksEditor tEditor)
         {
             // Cursor ke baris atas
             cursor.y--;
-            cursor.x = searchByIndex(cursor.y)->info->size;
+            cursor.x = searchByIndex(tEditor.first_row, cursor.y)->info->size;
         }
         break;
     case ARROW_RIGHT:
@@ -78,7 +78,7 @@ void moveCursor(int button, teksEditor tEditor)
     }
 
     // Error Handling, cursor melebihi jumlah kolom
-    row = (cursor.y >= tEditor.numrows) ? NULL : searchByIndex(cursor.y)->info;
+    row = (cursor.y >= tEditor.numrows) ? NULL : searchByIndex(tEditor.first_row, cursor.y)->info;
     int len = row ? row->size : 0;
     if (cursor.x > len)
     {
@@ -120,7 +120,7 @@ void cursorScroll(teksEditor tEditor)
     cursor.rx = 0;
     if (cursor.y < tEditor.numrows)
     {
-     //   cursor.rx = cursorXToRenderX(&tEditor.row[cursor.y], cursor.x);
+        //   cursor.rx = cursorXToRenderX(&tEditor.row[cursor.y], cursor.x);
     }
     // Pengaturan row offset ketika scroll keatas
     if (cursor.y < cursor.start_row)

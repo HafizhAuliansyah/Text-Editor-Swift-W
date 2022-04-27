@@ -48,7 +48,7 @@ void drawRows(outputBuffer *ob)
                 }
                 else
                 {
-                    if (y < MAX_ROW)
+                    if (y < getScreenRows())
                     {
                         bufferAppend(ob, "~", 1);
                     }
@@ -56,14 +56,14 @@ void drawRows(outputBuffer *ob)
             }
             else
             {
-                int len = tEditor.row[filerow].rsize - getStartCol();
+                int len = Info(searchByIndex(tEditor.first_row, filerow))->rsize - getStartCol();
                 if (len < 0)
                     len = 0;
                 if (len > getScrenCols())
                     len = getScrenCols();
 
                 // Konversi char ke char*
-                char *c = &tEditor.row[filerow].render[getStartCol()];
+                char *c = &Info(searchByIndex(tEditor.first_row, filerow))->render[getStartCol()];
 
                 // Select Text
                 if (filerow == getSelection().y && getStartCol() <= getSelection().x && getSelection().isOn)
@@ -78,7 +78,6 @@ void drawRows(outputBuffer *ob)
         }
         bufferAppend(ob, "\x1b[K", 3);
         bufferAppend(ob, "\r\n", 2);
-
     }
     free(help);
 }
@@ -162,15 +161,15 @@ char *rowsToString(int *buflen)
     int totlen = 0;
     int j;
     for (j = 0; j < tEditor.numrows; j++)
-        totlen += tEditor.row[j].size + 1;
+        totlen += Info(searchByIndex(tEditor.first_row, j))->size + 1;
     *buflen = totlen;
 
-    char *buf = (char*) malloc(totlen);
+    char *buf = (char *)malloc(totlen);
     char *p = buf;
     for (j = 0; j < tEditor.numrows; j++)
     {
-        memcpy(p, tEditor.row[j].chars, tEditor.row[j].size);
-        p += tEditor.row[j].size;
+        memcpy(p, Info(searchByIndex(tEditor.first_row, j))->chars, Info(searchByIndex(tEditor.first_row, j))->size);
+        p += Info(searchByIndex(tEditor.first_row, j))->size;
         *p = '\n';
         p++;
     }
@@ -182,7 +181,7 @@ char *setInputMassage(const char *prompt, int start_cx)
 {
     // Deklarasi variabel penampung nama file, dengan size 128 bytes
     size_t name_size = 128;
-    char *filename = (char*) malloc(name_size);
+    char *filename = (char *)malloc(name_size);
 
     // Inisialisasi awal size isi, dan zero character
     size_t name_len = 0;
@@ -240,7 +239,7 @@ char *setInputMassage(const char *prompt, int start_cx)
                 if (name_len == name_size - 1)
                 {
                     name_size *= 2;
-                    filename = (char*) realloc(filename, name_size);
+                    filename = (char *)realloc(filename, name_size);
                 }
                 // Mengisi filename
                 filename[name_len++] = c;
@@ -251,16 +250,20 @@ char *setInputMassage(const char *prompt, int start_cx)
         setMessageCursor(stat_cursor);
     }
 }
-outputHandler getOutputHandler(){
+outputHandler getOutputHandler()
+{
     return outputConfig;
 }
-void setInStatus(bool new_status){
+void setInStatus(bool new_status)
+{
     outputConfig.isInStatus = new_status;
 }
-void setInHelp(bool new_help){
+void setInHelp(bool new_help)
+{
     outputConfig.isInHelp = new_help;
 }
-void outputInit(){
+void outputInit()
+{
     outputConfig.isInHelp = false;
     outputConfig.isInStatus = false;
     outputConfig.statusmsg[0] = '\0';

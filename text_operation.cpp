@@ -105,44 +105,44 @@ void pasteGlobal()
     CloseClipboard();
 }
 /** Find **/
-// void findText(teksEditor tEditor)
-// {
-//     char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
-//     if (query == NULL)
-//         return;
-//     int ketemu = 1;
-//     int i;
-//     for (i = 0; i < tEditor.numrows; i++)
-//     {
-//         erow *row = &tEditor.row[i];
-//         char *match = strstr(row->render, query);
-//         if (match)
-//         {
-//             setCursorY(i);
-//             setCursorX(renderXToCursorX(row, match - row->render));
+void findText(teksEditor tEditor)
+{
+    // char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
+    // if (query == NULL)
+    //     return;
+    // int ketemu = 1;
+    // int i;
+    // for (i = 0; i < tEditor.numrows; i++)
+    // {
+    //     erow *row = &tEditor.row[i];
+    //     char *match = strstr(row->render, query);
+    //     if (match)
+    //     {
+    //         setCursorY(i);
+    //         setCursorX(renderXToCursorX(row, match - row->render));
 
-//             // Untuk select text
-//             selection.y = getCursor().y;
-//             selection.x = getCursor().x;
-//             selection.len = strlen(query);
-//             selection.isOn = true;
-//             int screenrows = getScreenRows(); // TODO get screenrows
-//             if (i >= screenrows)
-//             {
-//                 setStartRow(getCursor().y);
-//             }
+    //         // Untuk select text
+    //         selection.y = getCursor().y;
+    //         selection.x = getCursor().x;
+    //         selection.len = strlen(query);
+    //         selection.isOn = true;
+    //         int screenrows = getScreenRows(); // TODO get screenrows
+    //         if (i >= screenrows)
+    //         {
+    //             setStartRow(getCursor().y);
+    //         }
 
-//             ketemu = 0;
-//             break;
-//         }
-//     }
-//     if (ketemu)
-//     {
-//         // COMMENTED editorSetStatusMessage("Teks Tidak Ada!");
-//     }
+    //         ketemu = 0;
+    //         break;
+    //     }
+    // }
+    // if (ketemu)
+    // {
+    //     // COMMENTED editorSetStatusMessage("Teks Tidak Ada!");
+    // }
 
-//     free(query);
-// }
+    // free(query);
+}
 selectionText getSelection()
 {
     return selection;

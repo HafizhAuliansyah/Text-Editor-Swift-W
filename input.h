@@ -32,7 +32,6 @@ enum editorKey
 #include "file_io.h"
 #include "text_operation.h"
 #include "output.h"
-#include "row.h"
 
 // membaca setiap press key di keyboard
 int readKey();

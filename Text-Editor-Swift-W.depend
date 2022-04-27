@@ -96,7 +96,7 @@
 	"input.h"
 	"output.h"
 
-1651045602 d:\new\2022\github explore\text-editor-swift-w\input.h
+1651046258 d:\new\2022\github explore\text-editor-swift-w\input.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -106,9 +106,8 @@
 	"file_io.h"
 	"text_operation.h"
 	"output.h"
-	"row.h"
 
-1651045673 d:\new\2022\github explore\text-editor-swift-w\row.h
+1651050220 d:\new\2022\github explore\text-editor-swift-w\row.h
 	<stdio.h>
 	<stdlib.h>
 
@@ -146,7 +145,7 @@
 	<stdlib.h>
 	<string.h>
 
-1650869677 d:\new\2022\github explore\text-editor-swift-w\text_operation.h
+1651046926 d:\new\2022\github explore\text-editor-swift-w\text_operation.h
 	<stdbool.h>
 	"terminal.h"
 	"input.h"
@@ -158,10 +157,10 @@
 	<windows.h>
 	"terminal.h"
 
-1651044099 source:d:\new\2022\github explore\text-editor-swift-w\cursor.cpp
+1651046731 source:d:\new\2022\github explore\text-editor-swift-w\cursor.cpp
 	"cursor.h"
 
-1651044704 source:d:\new\2022\github explore\text-editor-swift-w\input.cpp
+1651048560 source:d:\new\2022\github explore\text-editor-swift-w\input.cpp
 	"input.h"
 
 1650867289 source:d:\new\2022\github explore\text-editor-swift-w\buffer.cpp
@@ -175,6 +174,12 @@
 	<fstream>
 	<string>
 
-1651045129 source:d:\new\2022\github explore\text-editor-swift-w\text_operation.cpp
+1651046887 source:d:\new\2022\github explore\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
+
+1651050151 source:d:\new\2022\github explore\text-editor-swift-w\row.cpp
+	"row.h"
+
+1651046820 source:d:\new\2022\github explore\text-editor-swift-w\output.cpp
+	"output.h"
 
