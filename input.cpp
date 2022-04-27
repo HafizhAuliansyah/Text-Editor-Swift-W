@@ -173,6 +173,7 @@ void keyProcess()
     case ARROW_LEFT:
     case ARROW_RIGHT:
         moveCursor(c, teks_editor);
+        setMessage("%d", cursor.x);
         break;
     case CTRL('h'):
         setInHelp(true);
@@ -201,17 +202,17 @@ void keyProcess()
     default:
         if ((c > 26 || c == 9) && !output.isInHelp)
         {
-            erow temp;
-            temp.size = 1;
-            temp.chars[0] = c;
-            temp.chars[1] = '\0';
-            temp.rsize = 1;
-            temp.render[0] = c;
-            temp.render[1] = '\0';
+            // erow temp;
+            // temp.size = 1;
+            // temp.chars[0] = c;
+            // temp.chars[1] = '\0';
+            // temp.rsize = 1;
+            // temp.render[0] = c;
+            // temp.render[1] = '\0';
 
-            InsVFirst(&teks_editor.first_row, temp);
-            setMessage("%s", teks_editor.first_row->info.chars);
-            // insertChar(c);
+            // InsVFirst(&teks_editor.first_row, temp);
+            // setMessage("%s", teks_editor.first_row->info.chars);
+            insertChar(c);
         }
         break;
     }
@@ -253,10 +254,6 @@ void insertRow(int at, const char *s, size_t len)
     infotype temp;
     address_row row_temp;
     address_row prec_row = searchByIndex(teks_editor.first_row, at - 1);
-    if (!prec_row)
-    {
-        setMessage("Kosong");
-    }
     // setting row baru
     temp.size = len;
     memcpy(&temp.chars, s, len);
@@ -264,24 +261,23 @@ void insertRow(int at, const char *s, size_t len)
     temp.rsize = 0;
     temp.render[0] = '\0';
     // alokasi row baru
-    // row_temp = Alokasi(temp);
+    row_temp = Alokasi(temp);
     // insert after prec
-    // if (teks_editor.first_row == Nil)
-    // {
-    // InsertFirst(&teks_editor.first_row, row_temp);
-    InsVFirst(&teks_editor.first_row, temp);
-    // }
-    // else
-    // {
-    //     if (prec_row == Nil)
-    //     {
-    //         InsertFirst(&teks_editor.first_row, row_temp);
-    //     }
-    //     else
-    //     {
-    //         InsertAfter(&teks_editor.first_row, row_temp, prec_row);
-    //     }
-    // }
+    if (teks_editor.first_row == Nil)
+    {
+        InsertFirst(&teks_editor.first_row, row_temp);
+    }
+    else
+    {
+        if (prec_row == Nil)
+        {
+            InsertFirst(&teks_editor.first_row, row_temp);
+        }
+        else
+        {
+            InsertAfter(&teks_editor.first_row, row_temp, prec_row);
+        }
+    }
     updateRow(&row_temp->info); // sepertinya harus diganti
     teks_editor.numrows++;
     addModified();
@@ -373,12 +369,9 @@ void insertNewline()
         address_row row = searchByIndex(teks_editor.first_row, cursor.y);
         insertRow(cursor.y + 1, &row->info.chars[cursor.x], row->info.size - cursor.x);
         // replace row sebelumnya
-        char *string = (char *)malloc(cursor.x * sizeof(char));
-        for (int i = 0; i < cursor.x; i++)
-        {
-            string[i] = row->info.chars[i];
-        }
-        insertRow(cursor.y, string, cursor.x);
+        row->info.size = cursor.x;
+        row->info.chars[cursor.x] = '\0';
+        updateRow(&row->info);
     }
     setCursorY(cursor.y + 1);
     setCursorX(0);
