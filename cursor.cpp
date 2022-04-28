@@ -120,7 +120,7 @@ void cursorScroll(teksEditor tEditor)
     cursor.rx = 0;
     if (cursor.y < tEditor.numrows)
     {
-        //   cursor.rx = cursorXToRenderX(&tEditor.row[cursor.y], cursor.x);
+        cursor.rx = cursorXToRenderX(&searchByIndex(tEditor.first_row, cursor.y)->info, cursor.x);
     }
     // Pengaturan row offset ketika scroll keatas
     if (cursor.y < cursor.start_row)

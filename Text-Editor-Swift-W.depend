@@ -96,7 +96,7 @@
 	"input.h"
 	"output.h"
 
-1651125200 d:\new\2022\github explore\text-editor-swift-w\input.h
+1651158778 d:\new\2022\github explore\text-editor-swift-w\input.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -160,7 +160,7 @@
 1651067629 source:d:\new\2022\github explore\text-editor-swift-w\cursor.cpp
 	"cursor.h"
 
-1651071951 source:d:\new\2022\github explore\text-editor-swift-w\input.cpp
+1651158789 source:d:\new\2022\github explore\text-editor-swift-w\input.cpp
 	"input.h"
 
 1651051602 source:d:\new\2022\github explore\text-editor-swift-w\buffer.cpp
