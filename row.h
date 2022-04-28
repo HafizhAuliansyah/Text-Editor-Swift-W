@@ -27,12 +27,6 @@ typedef struct tElmtRow
     address_row next;
 } ElmtRow;
 
-struct teksEditor
-{
-    int numrows;
-    address_row first_row;
-};
-
 /*********** PROTOTYPE ****************/
 /**** Predikat untuk test keadaan LIST  ****/
 bool ListEmpty(address_row First);

@@ -28,6 +28,12 @@ enum editorKey
     SHIFT_ARROW_UP,
     SHIFT_ARROW_DOWN,
 };
+
+struct teksEditor
+{
+    int numrows;
+    address_row first_row;
+};
 #include "cursor.h"
 #include "file_io.h"
 #include "text_operation.h"

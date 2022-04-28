@@ -173,7 +173,6 @@ void keyProcess()
     case ARROW_LEFT:
     case ARROW_RIGHT:
         moveCursor(c, teks_editor);
-        setMessage("%d", cursor.x);
         break;
     case CTRL('h'):
         setInHelp(true);
@@ -202,16 +201,6 @@ void keyProcess()
     default:
         if ((c > 26 || c == 9) && !output.isInHelp)
         {
-            // erow temp;
-            // temp.size = 1;
-            // temp.chars[0] = c;
-            // temp.chars[1] = '\0';
-            // temp.rsize = 1;
-            // temp.render[0] = c;
-            // temp.render[1] = '\0';
-
-            // InsVFirst(&teks_editor.first_row, temp);
-            // setMessage("%s", teks_editor.first_row->info.chars);
             insertChar(c);
         }
         break;
