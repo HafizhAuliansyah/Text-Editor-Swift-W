@@ -181,6 +181,9 @@ void keyProcess()
     case CTRL('o'):
         openNewFile(&teks_editor);
         break;
+    case CTRL('n'):
+        newFile(&teks_editor);
+        break;
     // HANDLE COPY PASTE
     case CTRL('c'):
         copyGlobal(teks_editor.row);

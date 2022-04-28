@@ -20,6 +20,7 @@ void fileInit();
 /* Open File */
 void openFile(char *filename);
 void openNewFile(teksEditor *tEditor);
+void newFile(teksEditor *tEditor);
 
 /* Save file */
 void saveFile();
@@ -33,5 +34,6 @@ fileHandler getFileHandler();
 /* Mutator */
 void setFilename();
 void addModified();
+
 
 #endif

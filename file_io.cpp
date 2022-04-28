@@ -47,16 +47,17 @@ void openNewFile(teksEditor *tEditor){
     // HAFIZH : Konfirmasi save file sebelum buka file lain
     if(fileStatus.modified != 0){
         char simpan;
-        while(simpan != 'Y' && simpan != 'N' && simpan != '\x1b'){
+        while(simpan != 'Y' && simpan != 'N'){
             char *s = setInputMassage("Simpan Perubahan File ? [Y/N] : %s (ESC untuk keluar)", 32);
             if(s != NULL && strlen(s) == 1){
                 simpan = toupper(s[0]);
+            }else if(s == NULL){
+                return;
             }
+            
         }
         if(simpan == 'Y'){
             saveFile();
-        }else if(simpan == '\x1b'){
-            return;
         }
     }
 
@@ -74,10 +75,12 @@ void openNewFile(teksEditor *tEditor){
     // HAFIZH : Error handling file tidak ada
     if(file_teks.fail()){
         char buat;
-        while(buat != 'Y' && buat != 'N' && buat != '\x1b'){
+        while(buat != 'Y' && buat != 'N'){
             char *s = setInputMassage("File Tidak Ditemukan, Buat File ? [Y/N] : %s (ESC untuk keluar)", 42);
             if(s != NULL && strlen(s) == 1){
                 buat = toupper(s[0]);
+            }else if(s == NULL){
+                return;
             }
         }
         if(buat == 'N'){
@@ -90,8 +93,6 @@ void openNewFile(teksEditor *tEditor){
             else
                 setMessage("File Gagal Dibuat");
             file_new.close();
-        }else{
-            return;
         }
         
     }
@@ -118,6 +119,48 @@ void openNewFile(teksEditor *tEditor){
     fileStatus.filename = filename;
     cursorInit();
 
+}
+void newFile(teksEditor *tEditor){
+    // HAFIZH : Konfirmasi save file sebelum buka file lain
+    if(fileStatus.modified != 0){
+        char simpan;
+        while(simpan != 'Y' && simpan != 'N'){
+            char *s = setInputMassage("Simpan Perubahan File ? [Y/N] : %s (ESC untuk keluar)", 32);
+            if(s != NULL && strlen(s) == 1){
+                simpan = toupper(s[0]);
+            }else if(s == NULL){
+                return;
+            }
+            
+        }
+        if(simpan == 'Y'){
+            saveFile();
+        }
+    }
+
+
+    // HAFIZH : Input nama file
+    char *filename;
+    filename = setInputMassage("Nama File Baru : %s (ESC untuk keluar)", 18);
+    if(filename == NULL){
+        setMessage("NAMA FILE KOSOSNG!");
+        return;
+    }
+    // HAFIZH : Clear isi teks_editor
+    erow df_row;
+    fill_n(tEditor->row, MAX_COLUMN + 1, df_row);
+    tEditor->numrows = 0;
+
+    // HAFIZH : Create File
+    ofstream file_new{filename};
+    if(!file_new.fail())
+        setMessage("File Berhasil Dibuat");
+    else
+        setMessage("File Gagal Dibuat");
+    file_new.close();
+
+    // HAFIZH : Open File
+    openFile(filename);
 }
 void saveFile()
 {
