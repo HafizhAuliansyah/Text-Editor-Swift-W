@@ -326,11 +326,11 @@ void insertChar(int c)
         insertRow(teks_editor.numrows, "", 0);
     }
     address_row cur = searchByIndex(teks_editor.first_row, cursor.y);
-    if(cur->info.size < MAX_COLUMN){
+    if (cur->info.size < MAX_COLUMN)
+    {
         rowInsertChar(&searchByIndex(teks_editor.first_row, cursor.y)->info, cursor.x, c);
         addCursorX();
     }
-
 }
 
 void deleteChar()
@@ -374,7 +374,7 @@ void insertNewline()
 void inputInit()
 {
     teks_editor.numrows = 0;
-    teks_editor.first_row = Nil;
+    CreateRow(teks_editor.first_row);
 }
 
 teksEditor getTeksEditor()

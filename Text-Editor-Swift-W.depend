@@ -145,7 +145,7 @@
 	<stdlib.h>
 	<string.h>
 
-1651051652 d:\new\2022\github explore\text-editor-swift-w\text_operation.h
+1651164362 d:\new\2022\github explore\text-editor-swift-w\text_operation.h
 	<stdbool.h>
 	"terminal.h"
 	"input.h"
@@ -157,7 +157,7 @@
 	<windows.h>
 	"terminal.h"
 
-1651067629 source:d:\new\2022\github explore\text-editor-swift-w\cursor.cpp
+1651158955 source:d:\new\2022\github explore\text-editor-swift-w\cursor.cpp
 	"cursor.h"
 
 1651158789 source:d:\new\2022\github explore\text-editor-swift-w\input.cpp

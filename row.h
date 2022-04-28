@@ -33,7 +33,7 @@ bool ListEmpty(address_row First);
 /* Mengirim true jika List Kosong */
 
 /**** Konstruktor/Kreator List Kosong ****/
-void CreateList(address_row *First);
+void CreateRow(address_row *First);
 /* IS : L sembarang */
 /* FS : Terbentuk List Kosong */
 
@@ -48,25 +48,6 @@ void DeAlokasi(address_row *P);
 /* IS : P terdefinisi */
 /* FS : P dikembalikan ke sistem */
 /* Melakukan dealokasi / pengembalian address_row P ke system */
-
-/**** Pencarian sebuah elemen List ****/
-address_row Search(address_row First, infotype X);
-/* Mencari apakah ada elemen list dengan Info(P) = X */
-/* Jika ada, mengirimkan address_row elemen tsb. */
-/* Jika tidak ada, mengirimkan Nil */
-
-bool FSearch(address_row First, address_row P);
-/* Mencari apakah ada elemen list yang beralamat P */
-/* Mengirimkan true jika ada, false jika tidak ada */
-
-address_row SearchPrec(address_row First, infotype X);
-/* Mengirimkan address_row elemen sebelum elemen yang nilainya = X */
-/* Mencari apakah ada elemen list dengan Info(P) = X */
-/* Jika ada, mengirimkan address_row Prec, dengan Next(Prec) = P dan Info(P) = X */
-/* Jika tidak ada, mengirimkan Nil */
-/* Jika P adalah elemen pertama, maka Prec = Nil */
-/* Search dengan spesifikasi seperti ini menghindari */
-/* traversal ulang jika setelah Search akan dilakukan operasi lain */
 
 /**** PRIMITIF BERDASARKAN NILAI ****/
 /**** Penambahan Elemen ****/
@@ -114,13 +95,6 @@ void DelFirst(address_row *First, address_row *P);
 /*	elemen list berkurang satu (mungkin menjadi kosong) */
 /* First elemen yang baru adalah suksessor elemen pertama yang lama */
 
-void DelP(address_row *First, infotype X);
-/* IS : L sembarang */
-/* FS : Jika ada elemen list beraddress_row P, dengan Info(P) = X */
-/* 	Maka P dihapus dari list dan di dealokasi */
-/* Jika tidak ada elemen list dengan Info(P) = X, maka list tetap */
-/* List mungkin menjadi kosong karena penghapusan */
-
 void DelLast(address_row *First, address_row *P);
 /* IS : L TIDAK kosong */
 /* FS : P adalah alamat elemen terakhir list sebelum penghapusan */
@@ -131,12 +105,6 @@ void DelAfter(address_row *First, address_row *Pdel, address_row Prec);
 /* IS : L TIDAK Kosong, Prec adalah anggota List */
 /* FS : menghapus Next(Prec): Pdel adalah alamat elemen list yang dihapus */
 
-/**** PROSES SEMUA ELEMEN LIST  ****/
-void PrintInfo(address_row First);
-/* IS : L mungkin kosong */
-/* FS : Jika List tidak kosong, semua info yang disimpan pada elemen list */
-/*	diprint. Jika list kosong, hanya menuliskan "List Kosong" */
-
 /***************************************/
 /*******  PROSES TERHADAP LIST  ********/
 /***************************************/
@@ -144,8 +112,6 @@ void PrintInfo(address_row First);
 void DelAll(address_row *First);
 /* Delete semua elemen list dan alamat elemen di dealokasi */
 
-/*Tambahan */
-int NbElmt(address_row First);
-/* Mengirimkan banyaknya elemen list, mengirimkan Nol jika kosong */
 address_row searchByIndex(address_row First, int index);
+/* mencari elemen berdasarkan index keberapa elemen tersebut */
 #endif
