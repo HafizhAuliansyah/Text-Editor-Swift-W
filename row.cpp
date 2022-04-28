@@ -64,6 +64,7 @@ address_row Search(address_row First, infotype X)
     //     }
     // }
     // return P;
+    return NULL;
 }
 
 bool FSearch(address_row First, address_row P)

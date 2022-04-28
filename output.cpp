@@ -9,6 +9,7 @@ void drawRows(outputBuffer *ob)
     int help_len;
     if (outputConfig.isInHelp)
     {
+        bufferAppend(ob,"\x1b[96m",5);
         help = openHelp(&help_len);
     }
     for (y = 0; y < getScreenRows(); y++)
@@ -19,6 +20,7 @@ void drawRows(outputBuffer *ob)
             if (filerow < help_len)
             {
                 int len = strlen(help[filerow]) - getCursor().start_col;
+                
                 bufferAppend(ob, help[filerow], len);
             }
         }
@@ -79,6 +81,8 @@ void drawRows(outputBuffer *ob)
         bufferAppend(ob, "\x1b[K", 3);
         bufferAppend(ob, "\r\n", 2);
     }
+    if(outputConfig.isInHelp)
+        bufferAppend(ob, "\x1b[m",3);
     free(help);
 }
 
@@ -141,7 +145,8 @@ void refreshScreen()
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
 
     bufferAppend(&ob, buf, strlen(buf));
-    bufferAppend(&ob, "\x1b[?25h", 6);
+    if(!outputConfig.isInHelp)
+        bufferAppend(&ob, "\x1b[?25h", 6);
     WriteFile(getConsoleOut(), ob.buffer, ob.len, NULL, NULL);
     bufferFree(&ob);
 }

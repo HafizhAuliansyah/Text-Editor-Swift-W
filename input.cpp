@@ -3,24 +3,22 @@ teksEditor teks_editor;
 int readKey()
 {
     DWORD read;
-    char key;
+    char key[3];
     HANDLE console_in = getConsoleIn();
     // READ KEYBOARD
-    ReadFile(console_in, &key, 1, &read, NULL);
+    ReadFile(console_in, &key, 3, &read, NULL);
 
-    if (key == '\x1b')
+    if (key[0] == '\x1b' && read > 1)
     {
         char seq[3];
-        if (ReadFile(console_in, &seq[0], 1, &read, NULL) != 1)
-            return '\x1b';
-        if (ReadFile(console_in, &seq[1], 1, &read, NULL) != 1)
-            return '\x1b';
+        seq[0] = key[1];
+        seq[1] = key[2];
 
         if (seq[0] == '[')
         {
             if (seq[1] >= '0' && seq[1] <= '9')
             {
-                if (ReadFile(console_in, &seq[2], 1, &read, NULL) != 1)
+                if (ReadFile(console_in, &seq[2], 1, &read, NULL) == 0)
                     return '\x1b';
                 if (seq[2] == '~')
                 {
@@ -95,7 +93,7 @@ int readKey()
     }
     else
     {
-        return key;
+        return key[0];
     }
 }
 
@@ -177,9 +175,9 @@ void keyProcess()
     case CTRL('h'):
         setInHelp(true);
     // HANDLE COPY PASTE
-    // case CTRL('c'):
-    // copyGlobal(teks_editor.firstrow);
-    // break;
+    case CTRL('c'):
+        copyGlobal(teks_editor);
+        break;
     case CTRL('v'):
         pasteGlobal();
         break;
@@ -327,8 +325,12 @@ void insertChar(int c)
     {
         insertRow(teks_editor.numrows, "", 0);
     }
-    rowInsertChar(&searchByIndex(teks_editor.first_row, cursor.y)->info, cursor.x, c);
-    addCursorX();
+    address_row cur = searchByIndex(teks_editor.first_row, cursor.y);
+    if(cur->info.size < MAX_COLUMN){
+        rowInsertChar(&searchByIndex(teks_editor.first_row, cursor.y)->info, cursor.x, c);
+        addCursorX();
+    }
+
 }
 
 void deleteChar()

@@ -76,12 +76,13 @@ void copyLocal(erow row[])
     memmove(hasil_c, &row[selection.y].chars[selection.x], selection.len);
     hasil_c[selection.len] = '\0';
 }
-void copyGlobal(erow row[])
+void copyGlobal(teksEditor tEditor)
 {
     OpenClipboard(0);
     EmptyClipboard();
     hasil_c = (char *)realloc(hasil_c, selection.len + 1);
-    memcpy(hasil_c, &row[selection.y].chars[selection.x], selection.len);
+    address_row row = searchByIndex(tEditor.first_row, selection.y);
+    memcpy(hasil_c, &row->info.chars[selection.x], selection.len);
     hasil_c[selection.len] = '\0';
     HGLOBAL clipboardText = GlobalAlloc(GMEM_MOVEABLE, selection.len + 1);
     memcpy(GlobalLock(clipboardText), hasil_c, selection.len + 1);
