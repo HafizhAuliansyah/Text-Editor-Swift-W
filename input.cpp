@@ -374,6 +374,10 @@ void insertNewline()
 void inputInit()
 {
     teks_editor.numrows = 0;
+    teks_editor.first_row->info.size = 0;
+    teks_editor.first_row->info.rsize = 0;
+    CreateColumn(teks_editor.first_row->info.chars);
+    CreateColumn(teks_editor.first_row->info.render);
     CreateRow(teks_editor.first_row);
 }
 
