@@ -6,16 +6,10 @@
 #define row_H
 #include <stdio.h>
 #include <stdlib.h>
+#include "column.h"
 #define Nil NULL
 #define Next(P) (P)->next
 #define MAX_COLUMN 10
-typedef struct erow
-{
-    int size;
-    int rsize;
-    char chars[MAX_COLUMN];
-    char render[MAX_COLUMN];
-} erow;
 
 typedef erow infotype;
 typedef struct tElmtRow *address_row;
