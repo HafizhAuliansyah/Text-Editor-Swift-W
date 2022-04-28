@@ -316,9 +316,17 @@ void rowAppendString(erow *row, char *s, size_t len)
 
 void rowDelChar(erow *row, int at)
 {
-    // if (at < 0 || at >= row->size)
-    //     return;
-    memmove(&row->chars[at], &row->chars[at + 1], row->size - at);
+    address_column column_prec = SearchCharByIndex(row->chars, at - 1);
+    address_column column = SearchCharByIndex(row->chars, at);
+    columnInfotype temp;
+    if (column_prec == Nil)
+    {
+        DelVFirstChar(&row->chars, &temp);
+    }
+    else
+    {
+        DelAfterChar(&row->chars, &column, column_prec);
+    }
     row->size--;
     updateRow(row);
 
