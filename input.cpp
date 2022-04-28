@@ -283,16 +283,24 @@ void deleteRow(int at)
     {
         DelAfter(&teks_editor.first_row, &row, row_prec);
     }
-    // DelP(&teks_editor.first_row, searchByIndex(teks_editor.first_row, at)->info);
     teks_editor.numrows--;
     addModified();
 }
 
 void rowInsertChar(infotype *row, int at, int c)
 {
-    memmove(&row->chars[at + 1], &row->chars[at], row->size - at + 1);
+    address_column column_prec = SearchCharByIndex(row->chars, at - 1);
+    address_column column_temp;
+    if (column_prec == Nil)
+    {
+        InsVFirstChar(&row->chars, c);
+    }
+    else
+    {
+        column_temp = AlokasiChar(c);
+        InsertAfterChar(&row->chars, column_temp, column_prec);
+    }
     row->size++;
-    row->chars[at] = c;
     updateRow(&(*row));
     addModified();
 }
@@ -326,11 +334,8 @@ void insertChar(int c)
         insertRow(teks_editor.numrows, "", 0);
     }
     address_row cur = searchByIndex(teks_editor.first_row, cursor.y);
-    if (cur->info.size < MAX_COLUMN)
-    {
-        rowInsertChar(&searchByIndex(teks_editor.first_row, cursor.y)->info, cursor.x, c);
-        addCursorX();
-    }
+    rowInsertChar(&cur->info, cursor.x, c);
+    addCursorX();
 }
 
 void deleteChar()
