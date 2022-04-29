@@ -46,7 +46,7 @@ void keyProcess();
 void updateRow(erow *row);
 /* ngatur untuk apa yang d render atau ditampilkan ke layar */
 
-void insertRow(int at, const char *s, size_t len);
+void insertRow(int at, const char *s, int len);
 /* masukin ke array nya harusnya lewat sini tapi per row */
 
 // void editorFreeRow(erow *row);
@@ -58,7 +58,7 @@ void deleteRow(int at);
 void rowInsertChar(erow *row, int at, int c);
 /* menambahkan karakter to posisi cursor dalam row */
 
-void rowAppendString(erow *row, char *s, size_t len);
+void rowAppendString(erow *row, address_column s, int len);
 /* menambahkan isi chars ke sebuah row*/
 
 void rowDelChar(erow *row, int at);
@@ -77,5 +77,7 @@ void insertNewline();
 teksEditor getTeksEditor();
 
 void inputInit();
+
+void columnInit(infotype *row)
 
 #endif

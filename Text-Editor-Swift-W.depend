@@ -96,7 +96,7 @@
 	"input.h"
 	"output.h"
 
-1651158778 d:\new\2022\github explore\text-editor-swift-w\input.h
+1651238482 d:\new\2022\github explore\text-editor-swift-w\input.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -107,9 +107,10 @@
 	"text_operation.h"
 	"output.h"
 
-1651125219 d:\new\2022\github explore\text-editor-swift-w\row.h
+1651176258 d:\new\2022\github explore\text-editor-swift-w\row.h
 	<stdio.h>
 	<stdlib.h>
+	"column.h"
 
 1651051602 d:\new\2022\github explore\text-editor-swift-w\cursor.h
 	"terminal.h"
@@ -174,12 +175,19 @@
 	<fstream>
 	<string>
 
-1651051652 source:d:\new\2022\github explore\text-editor-swift-w\text_operation.cpp
+1651164362 source:d:\new\2022\github explore\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
 1651071598 source:d:\new\2022\github explore\text-editor-swift-w\row.cpp
 	"row.h"
 
-1651068460 source:d:\new\2022\github explore\text-editor-swift-w\output.cpp
+1651164362 source:d:\new\2022\github explore\text-editor-swift-w\output.cpp
 	"output.h"
+
+1651177889 d:\new\2022\github explore\text-editor-swift-w\column.h
+	<stdio.h>
+	<stdlib.h>
+
+1651177919 source:d:\new\2022\github explore\text-editor-swift-w\column.cpp
+	"column.h"
 

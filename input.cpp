@@ -209,44 +209,57 @@ void keyProcess()
     quit_times = SWIFT_QUIT_TIMES;
 }
 
-void updateRow(erow *row)
+void updateRow(infotype *row)
 {
     int tabs = 0;
     int j;
+    address_column P = row->chars; // untuk pindah pindah
     for (j = 0; j < row->size; j++)
-        if (row->chars[j] == '\t')
+    {
+        if (Info(P) == '\t')
             tabs++;
+        P = NextColumn(P);
+    }
+
     int idx = 0;
     for (j = 0; j < row->size; j++)
     {
-        if (row->chars[j] == '\t')
+        if (Info(P) == '\t')
         {
-            row->render[idx++] = ' ';
+            InsVLastChar(&row->render, ' ');
+            idx++;
             while (idx % SWIFT_TAB_STOP != 0 && idx < MAX_COLUMN)
-                row->render[idx++] = ' ';
+            {
+                InsVLastChar(&row->render, ' ');
+                idx++;
+            }
         }
         else
         {
-            row->render[idx++] = row->chars[j];
+            InsVLastChar(&row->render, Info(P));
+            idx++;
         }
         if (idx >= MAX_COLUMN)
             break;
     }
-    row->render[idx] = '\0';
     row->rsize = idx;
 }
 
-void insertRow(int at, const char *s, size_t len)
+void insertRow(int at, const char *s, int len)
 {
     infotype temp;
     address_row row_temp;
     address_row prec_row = searchByIndex(teks_editor.first_row, at - 1);
     // setting row baru
+    columnInit(&temp);
+    if (s[0] != Nil)
+    {
+        for (int i = 0; i < len; i++)
+        {
+            InsVLastChar(&temp.chars, s[i]);
+        }
+    }
     temp.size = len;
-    memcpy(&temp.chars, s, len);
-    temp.chars[len] = '\0';
-    temp.rsize = 0;
-    temp.render[0] = '\0';
     // alokasi row baru
     row_temp = Alokasi(temp);
     // insert after prec
@@ -305,16 +318,15 @@ void rowInsertChar(infotype *row, int at, int c)
     addModified();
 }
 
-void rowAppendString(erow *row, char *s, size_t len)
+void rowAppendString(infotype *row, address_column s, int len)
 {
-    memcpy(&row->chars[row->size], s, len);
+    InsertLastChar(&row->chars, s);
     row->size += len;
-    row->chars[row->size] = '\0';
     updateRow(&(*row));
     addModified();
 }
 
-void rowDelChar(erow *row, int at)
+void rowDelChar(infotype *row, int at)
 {
     address_column column_prec = SearchCharByIndex(row->chars, at - 1);
     address_column column = SearchCharByIndex(row->chars, at);
@@ -378,7 +390,6 @@ void insertNewline()
         insertRow(cursor.y + 1, &row->info.chars[cursor.x], row->info.size - cursor.x);
         // replace row sebelumnya
         row->info.size = cursor.x;
-        row->info.chars[cursor.x] = '\0';
         updateRow(&row->info);
     }
     setCursorY(cursor.y + 1);
@@ -387,11 +398,15 @@ void insertNewline()
 void inputInit()
 {
     teks_editor.numrows = 0;
-    teks_editor.first_row->info.size = 0;
-    teks_editor.first_row->info.rsize = 0;
-    CreateColumn(teks_editor.first_row->info.chars);
-    CreateColumn(teks_editor.first_row->info.render);
     CreateRow(teks_editor.first_row);
+}
+
+void columnInit(infotype *row)
+{
+    row->size = 0;
+    row->rsize = 0;
+    CreateColumn(&row->chars);
+    CreateColumn(&row->render);
 }
 
 teksEditor getTeksEditor()
