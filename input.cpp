@@ -213,6 +213,7 @@ void updateRow(infotype *row)
 {
     address_column P = row->chars; // untuk pindah pindah
     int idx = 0;
+    row->render = Nil;
     while (P != Nil)
     {
         if (Info(P) == '\t')

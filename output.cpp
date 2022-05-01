@@ -67,19 +67,18 @@ void drawRows(outputBuffer *ob)
                 // Konversi char ke char*
                 infotype row = searchByIndex(tEditor.first_row, filerow)->info;
                 // char *c = &searchByIndex(tEditor.first_row, filerow)->info.render[getStartCol()];
-                setMessage("%d", getStartCol());
-                address_column column = SearchCharByIndex(row.render, getStartCol());
-                char *c = (char *)malloc((row.rsize + 1) * sizeof(char));
-                c[row.rsize] = '\0';
+                address_column column = row.render;
+                char *temp_char = (char *)malloc((row.rsize + 1) * sizeof(char));
+                temp_char[row.rsize] = '\0';
                 int i = 0;
                 while (i < row.rsize)
                 {
-                    c[i] = Info(column);
+                    temp_char[i] = Info(column);
                     // setMessage("%c, rsize : %d, x: %d,y: %d", Info(column), row.rsize, getCursor().x, getCursor().y);
                     column = NextColumn(column);
                     i++;
                 }
-
+                char *c = &temp_char[getStartCol()];
                 // Select Text
                 if (filerow == getSelection().y && getStartCol() <= getSelection().x && getSelection().isOn)
                 {
