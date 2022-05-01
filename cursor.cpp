@@ -89,29 +89,27 @@ int cursorXToRenderX(erow *row, int x)
 {
     int rx = 0;
     int j;
-    // DICOMMENT
-    //  for (j = 0; j < x; j++)
-    //  {
-    //      if (SearchCharByIndex(row.chars, j)->info == '\t')
-    //          rx += (SWIFT_TAB_STOP - 1) - (rx % SWIFT_TAB_STOP);
-    //      rx++;
-    //  }
+    for (j = 0; j < x; j++)
+    {
+        if (SearchCharByIndex(row->chars, j)->info == '\t')
+            rx += (SWIFT_TAB_STOP - 1) - (rx % SWIFT_TAB_STOP);
+        rx++;
+    }
     return rx;
 }
 int renderXToCursorX(erow *row, int rx)
 {
     int cur_rx = 0;
     int x;
-    // DICOMMENT
-    //  for (x = 0; x < row->size; x++)
-    //  {
-    //      if (Info(SearchCharByIndex(row.chars, x)) == '\t')
-    //          cur_rx += (SWIFT_TAB_STOP) - (cur_rx % SWIFT_TAB_STOP);
-    //      cur_rx++;
+    for (x = 0; x < row->size; x++)
+    {
+        if (Info(SearchCharByIndex(row->chars, x)) == '\t')
+            cur_rx += (SWIFT_TAB_STOP) - (cur_rx % SWIFT_TAB_STOP);
+        cur_rx++;
 
-    //     if (cur_rx > rx)
-    //         return x;
-    // }
+        if (cur_rx > rx)
+            return x;
+    }
     return x;
 }
 void cursorScroll(teksEditor tEditor)

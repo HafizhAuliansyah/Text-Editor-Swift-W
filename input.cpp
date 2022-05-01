@@ -211,17 +211,7 @@ void keyProcess()
 
 void updateRow(infotype *row)
 {
-    int tabs = 0;
-    // int j;
     address_column P = row->chars; // untuk pindah pindah
-    // for (j = 0; j < row->size; j++)
-    while (P != Nil)
-    {
-        if (Info(P) == '\t')
-            tabs++;
-        P = NextColumn(P);
-    }
-
     int idx = 0;
     while (P != Nil)
     {
@@ -242,7 +232,7 @@ void updateRow(infotype *row)
         }
         P = NextColumn(P);
     }
-    row->rsize = idx;
+    row->rsize = row->size;
 }
 
 void insertRow(int at, address_column s, int len)
