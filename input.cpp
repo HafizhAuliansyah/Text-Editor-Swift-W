@@ -383,7 +383,15 @@ void insertNewline()
     if (cursor.x == 0)
     {
         address_column s = Nil;
-        insertRow(cursor.y, s, 0);
+        if (teks_editor.first_row == Nil)
+        {
+            insertRow(cursor.y, s, 0);
+            insertRow(cursor.y + 1, s, 0);
+        }
+        else
+        {
+            insertRow(cursor.y, s, 0);
+        }
     }
     else
     {
