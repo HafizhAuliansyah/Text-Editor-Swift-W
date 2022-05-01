@@ -379,7 +379,9 @@ void insertNewline()
     else
     {
         address_row row = searchByIndex(teks_editor.first_row, cursor.y);
-        insertRow(cursor.y + 1, SearchCharByIndex(teks_editor.first_row->info.chars, cursor.x), row->info.size - cursor.x);
+        address_column prec_x = SearchCharByIndex(row->info.chars, cursor.x - 1);
+        insertRow(cursor.y + 1, SearchCharByIndex(row->info.chars, cursor.x), row->info.size - cursor.x);
+        Next(prec_x) = Nil;
         // replace row sebelumnya
         row->info.size = cursor.x;
         updateRow(&row->info);
