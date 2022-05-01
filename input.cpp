@@ -291,15 +291,15 @@ void deleteRow(int at)
 
 void rowInsertChar(infotype *row, int at, int c)
 {
-    address_column column_prec = SearchCharByIndex(row->chars, at - 1);
-    address_column column_temp;
-    if (column_prec == Nil)
+
+    if (at - 1 < 0)
     {
         InsVFirstChar(&row->chars, c);
     }
     else
     {
-        column_temp = AlokasiChar(c);
+        address_column column_prec = SearchCharByIndex(row->chars, at - 1);
+        address_column column_temp = AlokasiChar(c);
         InsertAfterChar(&row->chars, column_temp, column_prec);
     }
 
