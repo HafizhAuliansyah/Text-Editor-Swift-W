@@ -67,14 +67,15 @@ void drawRows(outputBuffer *ob)
                 // Konversi char ke char*
                 infotype row = searchByIndex(tEditor.first_row, filerow)->info;
                 // char *c = &searchByIndex(tEditor.first_row, filerow)->info.render[getStartCol()];
-                address_column column = SearchCharByIndex(row.chars, getStartCol());
-                char *c = (char *)malloc((row.size + 1) * sizeof(char));
-                c[row.size] = '\0';
+                setMessage("%d", getStartCol());
+                address_column column = SearchCharByIndex(row.render, getStartCol());
+                char *c = (char *)malloc((row.rsize + 1) * sizeof(char));
+                c[row.rsize] = '\0';
                 int i = 0;
-                while (column != Nil)
+                while (i < row.rsize)
                 {
                     c[i] = Info(column);
-                    // setMessage("%s, rsize : %d, x: %d,y: %d", c, row.rsize, getCursor().x, getCursor().y);
+                    // setMessage("%c, rsize : %d, x: %d,y: %d", Info(column), row.rsize, getCursor().x, getCursor().y);
                     column = NextColumn(column);
                     i++;
                 }

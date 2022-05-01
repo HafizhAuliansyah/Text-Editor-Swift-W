@@ -232,7 +232,7 @@ void updateRow(infotype *row)
         }
         P = NextColumn(P);
     }
-    row->rsize = row->size;
+    row->rsize = idx;
 }
 
 void insertRow(int at, address_column s, int len)
