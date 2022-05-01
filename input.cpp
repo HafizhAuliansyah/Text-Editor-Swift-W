@@ -310,7 +310,11 @@ void rowInsertChar(infotype *row, int at, int c)
 
 void rowAppendString(infotype *row, address_column s, int len)
 {
-    InsertLastChar(&row->chars, s);
+    while (s != Nil)
+    {
+        InsVLastChar(&row->chars, Info(s));
+        s = NextColumn(s);
+    }
     row->size += len;
     updateRow(&(*row));
     addModified();
@@ -365,7 +369,7 @@ void deleteChar()
         setCursorX(searchByIndex(teks_editor.first_row, cursor.y - 1)->info.size);
         if (row_y->info.chars != Nil)
         {
-            rowAppendString(&searchByIndex(teks_editor.first_row, cursor.y - 1)->info, searchByIndex(teks_editor.first_row, cursor.y)->info.chars, searchByIndex(teks_editor.first_row, cursor.y)->info.size);
+            rowAppendString(&searchByIndex(teks_editor.first_row, cursor.y - 1)->info, row_y->info.chars, row_y->info.size);
             row_y->info.chars = Nil;
         }
         deleteRow(cursor.y);
