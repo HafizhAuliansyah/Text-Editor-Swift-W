@@ -360,9 +360,13 @@ void deleteChar()
     }
     else
     {
+        address_row row_y = searchByIndex(teks_editor.first_row, cursor.y);
         setCursorX(searchByIndex(teks_editor.first_row, cursor.y - 1)->info.size);
-        if (searchByIndex(teks_editor.first_row, cursor.y)->info.chars != Nil)
+        if (row_y->info.chars != Nil)
+        {
             rowAppendString(&searchByIndex(teks_editor.first_row, cursor.y - 1)->info, searchByIndex(teks_editor.first_row, cursor.y)->info.chars, searchByIndex(teks_editor.first_row, cursor.y)->info.size);
+            row_y->info.chars = Nil;
+        }
         deleteRow(cursor.y);
         setCursorY(cursor.y - 1);
     }
