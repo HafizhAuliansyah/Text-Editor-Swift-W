@@ -20,7 +20,9 @@ void clearSelected();
 void copyLocal(erow row[]);
 void copyGlobal(erow row[]);
 void pasteLocal();
-void pasteGlobal();
+void pasteGlobal(teksEditor *tEditor);
+void cut(teksEditor *tEditor);
+
 void selectShift(selectionText dest);
 void selectMoveCursor(int c, teksEditor tEditor);
 void findText(teksEditor tEditor);

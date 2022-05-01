@@ -91,16 +91,32 @@ void copyGlobal(erow row[]){
 void pasteLocal()
 {
     int column_len = MAX_COLUMN - getCursor().x;
+    
     for (int x = 0; x < strlen(hasil_c); x++)
-        insertChar(hasil_c[x]);
+        insertChar(hasil_c[x]);teksEditor *tEditor;
 }
-void pasteGlobal(){
+void pasteGlobal(teksEditor *tEditor){
+    if(selection.isOn){
+        int currentX = selection.x + selection.len;
+        while(currentX != selection.x){
+            rowDelChar(&tEditor->row[selection.y], currentX);
+            currentX--;
+        }
+    }
     OpenClipboard(0);
     HANDLE clipboardText = GetClipboardData(CF_TEXT);
     int column_len = MAX_COLUMN - getCursor().x;
     for (int x = 0; x < strlen((char*) clipboardText); x++)
         insertChar( ((char*) clipboardText)[x] );
     CloseClipboard();
+}
+void cut(teksEditor *tEditor){
+    copyGlobal(tEditor->row);
+    int currentX = selection.x + selection.len;
+    while(currentX != selection.x){
+        rowDelChar(&tEditor->row[selection.y], currentX);
+        currentX--;
+    }
 }
 /** Find **/
 void findText(teksEditor tEditor)

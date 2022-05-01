@@ -189,7 +189,10 @@ void keyProcess()
         copyGlobal(teks_editor.row);
         break;
     case CTRL('v'):
-        pasteGlobal();
+        pasteGlobal(&teks_editor);
+        break;
+    case CTRL('x'):
+        cut(&teks_editor);
         break;
         // SELECT
     case SHIFT_ARROW_RIGHT:
