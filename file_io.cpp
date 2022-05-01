@@ -28,7 +28,7 @@ void openFile(char *filename)
         int linelen = line.length();
         while (linelen > 0 && (line[linelen - 1] == '\n') || line[linelen - 1] == '\r')
             linelen--;
-        insertRow(getTeksEditor().numrows, line.c_str(), linelen);
+        //insertRow(getTeksEditor().numrows, line.c_str(), linelen);
     }
     file_teks.close();
     fileStatus.modified = 0;
@@ -53,7 +53,7 @@ void saveFile()
     DWORD errorID = GetLastError();
     // Jika file yang dicari tersedia
     if (errorID == ERROR_ALREADY_EXISTS || errorID == 0)
-    {   
+    {
         WriteFile(handleFile, buffer, len, NULL, NULL);
         if (!GetLastError())
         {

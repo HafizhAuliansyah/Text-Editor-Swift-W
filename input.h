@@ -46,7 +46,7 @@ void keyProcess();
 void updateRow(erow *row);
 /* ngatur untuk apa yang d render atau ditampilkan ke layar */
 
-void insertRow(int at, const char *s, int len);
+void insertRow(int at, address_column s, int len);
 /* masukin ke array nya harusnya lewat sini tapi per row */
 
 // void editorFreeRow(erow *row);
@@ -78,6 +78,6 @@ teksEditor getTeksEditor();
 
 void inputInit();
 
-void columnInit(infotype *row)
+void columnInit(infotype *row);
 
 #endif

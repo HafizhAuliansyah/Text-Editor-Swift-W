@@ -9,7 +9,7 @@ void drawRows(outputBuffer *ob)
     int help_len;
     if (outputConfig.isInHelp)
     {
-        bufferAppend(ob,"\x1b[96m",5);
+        bufferAppend(ob, "\x1b[96m", 5);
         help = openHelp(&help_len);
     }
     for (y = 0; y < getScreenRows(); y++)
@@ -20,7 +20,7 @@ void drawRows(outputBuffer *ob)
             if (filerow < help_len)
             {
                 int len = strlen(help[filerow]) - getCursor().start_col;
-                
+
                 bufferAppend(ob, help[filerow], len);
             }
         }
@@ -58,14 +58,26 @@ void drawRows(outputBuffer *ob)
             }
             else
             {
-                int len = searchByIndex(tEditor.first_row,filerow)->info.rsize - getStartCol();
+                int len = searchByIndex(tEditor.first_row, filerow)->info.rsize - getStartCol();
                 if (len < 0)
                     len = 0;
                 if (len > getScrenCols())
                     len = getScrenCols();
 
                 // Konversi char ke char*
-                char *c = &searchByIndex(tEditor.first_row, filerow)->info.render[getStartCol()];
+                infotype row = searchByIndex(tEditor.first_row, filerow)->info;
+                // char *c = &searchByIndex(tEditor.first_row, filerow)->info.render[getStartCol()];
+                address_column column = SearchCharByIndex(row.chars, getStartCol());
+                char *c = (char *)malloc((row.size + 1) * sizeof(char));
+                c[row.size] = '\0';
+                int i = 0;
+                while (column != Nil)
+                {
+                    c[i] = Info(column);
+                    // setMessage("%s, rsize : %d, x: %d,y: %d", c, row.rsize, getCursor().x, getCursor().y);
+                    column = NextColumn(column);
+                    i++;
+                }
 
                 // Select Text
                 if (filerow == getSelection().y && getStartCol() <= getSelection().x && getSelection().isOn)
@@ -81,8 +93,8 @@ void drawRows(outputBuffer *ob)
         bufferAppend(ob, "\x1b[K", 3);
         bufferAppend(ob, "\r\n", 2);
     }
-    if(outputConfig.isInHelp)
-        bufferAppend(ob, "\x1b[m",3);
+    if (outputConfig.isInHelp)
+        bufferAppend(ob, "\x1b[m", 3);
     free(help);
 }
 
@@ -145,7 +157,7 @@ void refreshScreen()
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
 
     bufferAppend(&ob, buf, strlen(buf));
-    if(!outputConfig.isInHelp)
+    if (!outputConfig.isInHelp)
         bufferAppend(&ob, "\x1b[?25h", 6);
     WriteFile(getConsoleOut(), ob.buffer, ob.len, NULL, NULL);
     bufferFree(&ob);
