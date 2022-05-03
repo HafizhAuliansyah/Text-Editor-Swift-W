@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 	outputInit();
 	cursorInit();
 	fileInit();
+    selectInit();
 	
     if (argc >= 2)
     {

@@ -11,6 +11,8 @@ void drawRows(outputBuffer *ob)
     {
         help = openHelp(&help_len);
     }
+    selectionText scanSelected = getSelection();
+    setMessage("selection x : %d, cursor x : %d", scanSelected.x, getCursor().x);
     for (y = 0; y < getScreenRows(); y++)
     {
         int filerow = y + getCursor().start_row;
@@ -66,9 +68,9 @@ void drawRows(outputBuffer *ob)
                 char *c = &tEditor.row[filerow].render[getStartCol()];
 
                 // Select Text
-                if (filerow == getSelection().y && getStartCol() <= getSelection().x && getSelection().isOn)
+                if (filerow == scanSelected.y && getStartCol() <= getSelection().x && getSelection().isOn)
                 {
-                    addSelectionText(ob, c, len);
+                    addSelectionText(ob, c, len, &scanSelected);
                 }
                 else
                 {

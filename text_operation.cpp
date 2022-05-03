@@ -3,20 +3,37 @@
 selectionText selection;
 
 char *hasil_c;
-void addSelectionText(outputBuffer *ob, char *row, int len)
+void addSelectionText(outputBuffer *ob, char *row, int len, selectionText *scanSelected)
 {
     // var at, sebagai penampung koordinat kolom
     int at = 0;
+    int lenAvailable = len;
+    int lenSelect;
     // Memasukkan kolom sebelum kata terselect ke ab
-    bufferAppend(ob, &row[at], selection.x);
+    bufferAppend(ob, &row[at], scanSelected->x);
+    lenAvailable -= scanSelected->x;
     // Select Text sesuai kolom selection.x, sejumlah selection.len ke kanan
     bufferAppend(ob, "\x1b[7m", 4);
-    at = selection.x;
-    bufferAppend(ob, &row[at], selection.len);
+    at = scanSelected->x;
+    
+    if(lenAvailable < scanSelected->len){
+        lenSelect = lenAvailable;
+        scanSelected->len -= lenAvailable;
+        scanSelected->y++;
+        scanSelected->x = 0;
+    }else{
+        lenSelect = scanSelected->len;
+    }
+    bufferAppend(ob, &row[at], lenSelect);
     bufferAppend(ob, "\x1b[m", 3);
-    // Memasukkan kolom setelah kata terselect ke ab
-    at = selection.x + selection.len;
-    bufferAppend(ob, &row[at], len - at);
+
+    lenAvailable -= lenSelect;
+    if(lenAvailable > 0){
+        // Memasukkan kolom setelah kata terselect ke ab
+        at = scanSelected->x + scanSelected->len;
+        bufferAppend(ob, &row[at], len - at);
+    }
+
 }
 void selectMoveCursor(int key, teksEditor tEditor)
 {
@@ -32,16 +49,36 @@ void selectMoveCursor(int key, teksEditor tEditor)
             return;
         moveCursor(ARROW_LEFT, tEditor);
         dest.x = getCursor().x;
-        dest.len++;
+        dest.len += 1;
         break;
     case SHIFT_ARROW_RIGHT:
+    {
         if (getCursor().x >= tEditor.row[getCursor().y].size)
             return;
-        dest.x = getCursor().x - dest.len;
-        moveCursor(ARROW_RIGHT, tEditor);
-        dest.len++;
+        
+        if(selection.x == getCursor().x){
+            moveCursor(ARROW_RIGHT, tEditor);
+            dest.x = getCursor().x;
+            dest.len -= 1;
+        }else{
+            dest.x = getCursor().x - dest.len;
+            moveCursor(ARROW_RIGHT, tEditor);
+            dest.len += 1;
+        }
+    }
         break;
     case SHIFT_ARROW_UP:
+    {
+        if(getCursor().y == 0)
+            return;
+        moveCursor(ARROW_UP, tEditor);
+        dest.y = getCursor().y;
+        int sizeFirst = tEditor.row[dest.y].size - dest.x;
+        int sizeLast = dest.x;
+        dest.len += (sizeFirst + sizeLast);
+        setMessage("len : %d", dest.len);
+    }
+        break;
     case SHIFT_ARROW_DOWN:
         setMessage("FITUR INI BELUM TERSEDIA");
         break;
@@ -49,10 +86,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
         setMessage("Other");
         break;
     }
-    if (dest.y != getCursor().y)
-    {
-        setMessage("FITUR INI BELUM TERSEDIA");
-    }
+    
     selectShift(dest);
 }
 void selectShift(selectionText dest)
@@ -162,4 +196,9 @@ selectionText getSelection(){
 }
 void setSelection(selectionText new_selection){
     selection = new_selection;
+}
+void selectInit(){
+    clearSelected();
+    free(hasil_c);
+    
 }

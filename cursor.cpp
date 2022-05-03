@@ -52,6 +52,7 @@ void moveCursor(int button, teksEditor tEditor){
 			}
 			break;
 		case ARROW_UP:
+            
 			if(cursor.y != 0 ){
 				// Cursor pindah ke baris atas
 				cursor.y--;

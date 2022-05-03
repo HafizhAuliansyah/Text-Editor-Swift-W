@@ -14,8 +14,10 @@ struct selectionText{
     bool isOn;
 };
 
+/* INIT */
+void selectInit();
 
-void addSelectionText(outputBuffer *ob, char *row, int len);
+void addSelectionText(outputBuffer *ob, char *row, int len, selectionText *scanSelected);
 void clearSelected();
 void copyLocal(erow row[]);
 void copyGlobal(erow row[]);
