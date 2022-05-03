@@ -12,7 +12,6 @@ void drawRows(outputBuffer *ob)
         help = openHelp(&help_len);
     }
     selectionText scanSelected = getSelection();
-    setMessage("selection x : %d, cursor x : %d", scanSelected.x, getCursor().x);
     for (y = 0; y < getScreenRows(); y++)
     {
         int filerow = y + getCursor().start_row;

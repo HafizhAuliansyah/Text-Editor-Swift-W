@@ -35,4 +35,6 @@ selectionText getSelection();
 /* MUTATOR */
 void setSelection(selectionText new_selection);
 
+int abs(int x);
+
 #endif

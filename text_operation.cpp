@@ -45,23 +45,61 @@ void selectMoveCursor(int key, teksEditor tEditor)
     switch (key)
     {
     case SHIFT_ARROW_LEFT:
-        if (getCursor().x == 0)
+        if (getCursor().x == 0){
+            if(getCursor().y == 0)
+                return;
+            
+            if(selection.x == getCursor().x){
+                moveCursor(ARROW_LEFT, tEditor);
+                dest.x = getCursor().x;
+                dest.y = getCursor().y;
+            }else{
+                moveCursor(ARROW_LEFT, tEditor);
+                dest.x = selection.x;
+                dest.y = selection.y;
+            }
+            selectShift(dest);
             return;
-        moveCursor(ARROW_LEFT, tEditor);
-        dest.x = getCursor().x;
-        dest.len += 1;
+        }
+        
+        if((selection.x != getCursor().x || selection.y != getCursor().y) && selection.isOn){
+            moveCursor(ARROW_LEFT, tEditor);
+            dest.x = selection.x;
+            dest.y = selection.y;
+            dest.len -= 1;
+        }else{
+            moveCursor(ARROW_LEFT, tEditor);
+            dest.x = getCursor().x;
+            dest.len += 1;
+        }
         break;
     case SHIFT_ARROW_RIGHT:
     {
-        if (getCursor().x >= tEditor.row[getCursor().y].size)
+        if (getCursor().x >= tEditor.row[getCursor().y].size){
+            if(getCursor().y == tEditor.numrows - 1)
+                return;
+            if(selection.x == getCursor().x){
+                moveCursor(ARROW_RIGHT, tEditor);
+                dest.x = getCursor().x;
+                dest.y = getCursor().y;
+            }else{
+                moveCursor(ARROW_RIGHT, tEditor);
+                dest.x = selection.x;
+                dest.y = selection.y;
+            }
+            selectShift(dest);
             return;
+        }
         
-        if(selection.x == getCursor().x){
+        if(selection.x == getCursor().x && selection.y == getCursor().y){
             moveCursor(ARROW_RIGHT, tEditor);
             dest.x = getCursor().x;
             dest.len -= 1;
         }else{
-            dest.x = getCursor().x - dest.len;
+            if(selection.isOn){
+                dest.x = selection.x;
+                dest.y = selection.y;
+            }
             moveCursor(ARROW_RIGHT, tEditor);
             dest.len += 1;
         }
@@ -71,23 +109,68 @@ void selectMoveCursor(int key, teksEditor tEditor)
     {
         if(getCursor().y == 0)
             return;
-        moveCursor(ARROW_UP, tEditor);
-        dest.y = getCursor().y;
-        int sizeFirst = tEditor.row[dest.y].size - dest.x;
-        int sizeLast = dest.x;
-        dest.len += (sizeFirst + sizeLast);
-        setMessage("len : %d", dest.len);
+        int sizeFirst, sizeLast;
+        
+        if(selection.y != getCursor().y && selection.isOn){
+            moveCursor(ARROW_UP, tEditor);
+            dest.x = selection.x;
+            dest.y = selection.y;
+            sizeFirst = tEditor.row[getCursor().y].size - getCursor().x;
+            sizeLast = getCursor().x;
+            dest.len -= (sizeFirst + sizeLast);
+            if(dest.len < 0){
+                dest.len = abs(dest.len);
+                dest.x = getCursor().x;
+            }
+        }else{
+            moveCursor(ARROW_UP, tEditor);
+            dest.y = getCursor().y;
+            sizeFirst = tEditor.row[dest.y].size - dest.x;
+            sizeLast = dest.x;
+            dest.len += (sizeFirst + sizeLast);
+        }
     }
         break;
     case SHIFT_ARROW_DOWN:
-        setMessage("FITUR INI BELUM TERSEDIA");
+    {
+        if(getCursor().y == tEditor.numrows - 1)
+            return;
+        
+        int sizeFirst, sizeLast;
+        if(selection.y == getCursor().y && selection.x == getCursor().x && selection.isOn){
+            sizeFirst = tEditor.row[getCursor().y].size - getCursor().x;
+            sizeLast = getCursor().x;
+            moveCursor(ARROW_DOWN, tEditor);
+            dest.x = selection.x;
+            dest.y = getCursor().y;
+            dest.len -= (sizeFirst + sizeLast);
+            if(dest.len < 0){
+                dest.len = abs(dest.len);
+                dest.x = selection.x - dest.len;
+            }
+        }else{
+            if(selection.isOn){
+                dest.x = selection.x;
+                dest.y = selection.y;
+            }
+            sizeFirst = tEditor.row[getCursor().y].size - getCursor().x;
+            sizeLast = getCursor().x;
+            moveCursor(ARROW_DOWN, tEditor);
+            dest.len += (sizeFirst + sizeLast);
+        }
+    }
         break;
     default:
         setMessage("Other");
         break;
     }
     
-    selectShift(dest);
+    if(dest.len == 0){
+        clearSelected();
+    }else{
+        selectShift(dest);
+    }
+    
 }
 void selectShift(selectionText dest)
 {
@@ -201,4 +284,11 @@ void selectInit(){
     clearSelected();
     free(hasil_c);
     
+}
+int abs(int x){
+    if(x < 0){
+        return x * -1;
+    }else{
+        return x;
+    }
 }
