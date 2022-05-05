@@ -273,13 +273,28 @@ void pasteLocal()
 }
 void pasteGlobal(teksEditor *tEditor){
     // HAFIZH : Handle paste saat select nyala
+    int currentY = selection.y;
+    int currentX = selection.x;
     if(selection.isOn){
-        int currentX = selection.x + selection.len;
-        while(currentX != selection.x){
-            rowDelChar(&tEditor->row[selection.y], currentX);
-            currentX--;
+        for(int x = 0; x < selection.len; x++){
+            if(currentX < tEditor->row[currentY].size){
+                currentX++;
+            }else{
+                currentX = 0;
+                currentY++;
+            }
+        }
+        while(currentX != selection.x || currentY != selection.y){
+            if(currentX >=0){
+                rowDelChar(&tEditor->row[currentY], currentX);
+                currentX--;
+            }else{
+                currentY--;
+                currentX = tEditor->row[currentY].size;
+            }
         }
     }
+    currentY = getCursor().y;
     OpenClipboard(0);
     HANDLE clipboardText = GetClipboardData(CF_TEXT);
     int len_paste = strlen((char*) clipboardText);
@@ -289,7 +304,13 @@ void pasteGlobal(teksEditor *tEditor){
             continue;
         }
         if(((char*) clipboardText)[x] == '\r'){
-            insertNewline();
+            currentY++;
+            if(tEditor->numrows - 1 < currentY)
+                insertNewline();
+            else{
+                setCursorX(0);
+                addCursorY();
+            }
             continue;
         }
         insertChar( ((char*) clipboardText)[x]);
