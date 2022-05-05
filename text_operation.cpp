@@ -125,24 +125,26 @@ void selectMoveCursor(int key, teksEditor tEditor)
 
         int sizeFirst, sizeLast;
         // HAFIZH : IF selection y != cursor y dan select nyala -> select dikurangi, selection x & y tetap
-        if(selection.y != getCursor().y && selection.isOn){
+        if(selection.x != getCursor().x || selection.y != getCursor().y && selection.isOn){
+            sizeFirst = getCursor().x;
             moveCursor(ARROW_UP, tEditor);
             dest.x = selection.x;
             dest.y = selection.y;
-            sizeFirst = tEditor.row[getCursor().y].size - getCursor().x;
-            sizeLast = getCursor().x;
+            sizeLast =  tEditor.row[getCursor().y].size - getCursor().x;
             dest.len -= (sizeFirst + sizeLast);
             // HAFIZH : IF pengurangan negatif
             if(dest.len < 0){
                 dest.len = abs(dest.len);
                 dest.x = getCursor().x;
+                dest.y = getCursor().y;
             }
         }else{
             // HAFIZH : ELSE Proses selection up normal
+            sizeFirst = dest.x;
             moveCursor(ARROW_UP, tEditor);
+            dest.x = getCursor().x;
             dest.y = getCursor().y;
-            sizeFirst = tEditor.row[dest.y].size - dest.x;
-            sizeLast = dest.x;
+            sizeLast = tEditor.row[dest.y].size - dest.x;
             dest.len += (sizeFirst + sizeLast);
         }
     }
@@ -165,7 +167,8 @@ void selectMoveCursor(int key, teksEditor tEditor)
             // HAFIZH : IF hasil pengurangan negatif
             if(dest.len < 0){
                 dest.len = abs(dest.len);
-                dest.x = selection.x - dest.len;
+                dest.x = selection.x + selection.len < tEditor.row[selection.y].size ? selection.x + selection.len : selection.x - dest.len;
+                dest.y = selection.x + selection.len < tEditor.row[selection.y].size ? selection.y : getCursor().y;
             }
         }else{
             // HAFIZH : ELSE proses selection down normal
@@ -241,18 +244,19 @@ void copyGlobal(erow row[]){
     // HAFIZH : realokasi panjang hasil_c
     hasil_c = (char*) realloc(hasil_c, len_cpy);
     // HAFIZH : Memasukkan hasil copy ke variabel hasil_c
-    for(int x = 0; x < selection.len; x++){
+    for(int x = 0; x < len_cpy - 1; x++){
         if(currentX < row[currentY].size){
             hasil_c[x] = row[currentY].chars[currentX];
             currentX++;
         }else{
             hasil_c[x] = '\r';
-            hasil_c[x+1] = '\n';
+            x += 1;
+            hasil_c[x] = '\n';
             currentX = 0;
             currentY += 1;
         }
     }
-    hasil_c[selection.len] = '\0';
+    hasil_c[len_cpy] = '\0';
     // HAFIZH : Proses memasukkan ke clipboard
     HGLOBAL clipboardText = GlobalAlloc(GMEM_MOVEABLE, len_cpy);
     memcpy(GlobalLock(clipboardText), hasil_c, len_cpy);
@@ -279,14 +283,17 @@ void pasteGlobal(teksEditor *tEditor){
     OpenClipboard(0);
     HANDLE clipboardText = GetClipboardData(CF_TEXT);
     int len_paste = strlen((char*) clipboardText);
+    
     for (int x = 0; x < len_paste; x++){
         if(((char*) clipboardText)[x] == '\n'){
-            len_paste--;
+            continue;
+        }
+        if(((char*) clipboardText)[x] == '\r'){
+            insertNewline();
             continue;
         }
         insertChar( ((char*) clipboardText)[x]);
     }
-
     CloseClipboard();
 }
 void cut(teksEditor *tEditor){
