@@ -12,10 +12,10 @@
 				<Option compiler="gcc" />
 			</Target>
 		</Build>
-		<Unit filename="SpNRSLL.cpp" />
-		<Unit filename="SpNRSLL.h" />
 		<Unit filename="buffer.cpp" />
 		<Unit filename="buffer.h" />
+		<Unit filename="column.cpp" />
+		<Unit filename="column.h" />
 		<Unit filename="cursor.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -35,6 +35,8 @@
 		</Unit>
 		<Unit filename="output.cpp" />
 		<Unit filename="output.h" />
+		<Unit filename="row.cpp" />
+		<Unit filename="row.h" />
 		<Unit filename="terminal.cpp">
 			<Option compilerVar="CC" />
 		</Unit>

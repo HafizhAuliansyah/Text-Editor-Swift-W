@@ -82,7 +82,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
     case SHIFT_ARROW_RIGHT:
     {
         // HAFIZH : IF cursor berada di akhir kolom
-        if (getCursor().x >= tEditor.row[getCursor().y].size){
+        if (getCursor().x >= searchByIndex(tEditor.first_row, getCursor().y)->info.size){
             // HAFIZH : IF cursor berada di baris paling terakhir
             if(getCursor().y == tEditor.numrows - 1)
                 return;
@@ -130,7 +130,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
             moveCursor(ARROW_UP, tEditor);
             dest.x = selection.x;
             dest.y = selection.y;
-            sizeLast =  tEditor.row[getCursor().y].size - getCursor().x;
+            sizeLast =  searchByIndex(tEditor.first_row, getCursor().y)->info.size - getCursor().x;
             dest.len -= (sizeFirst + sizeLast);
             // HAFIZH : IF pengurangan negatif
             if(dest.len < 0){
@@ -144,7 +144,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
             moveCursor(ARROW_UP, tEditor);
             dest.x = getCursor().x;
             dest.y = getCursor().y;
-            sizeLast = tEditor.row[dest.y].size - dest.x;
+            sizeLast = searchByIndex(tEditor.first_row, dest.y)->info.size - dest.x;
             dest.len += (sizeFirst + sizeLast);
         }
     }
@@ -158,7 +158,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
         int sizeFirst, sizeLast;
         // HAFIZH : IF posisi x & y selection dengan cursor sama -> select dikurangi, selection x & y mengikuti cursor
         if(selection.y == getCursor().y && selection.x == getCursor().x && selection.isOn){
-            sizeFirst = tEditor.row[getCursor().y].size - getCursor().x;
+            sizeFirst = searchByIndex(tEditor.first_row, getCursor().y)->info.size - getCursor().x;
             sizeLast = getCursor().x;
             moveCursor(ARROW_DOWN, tEditor);
             dest.x = getCursor().x;
@@ -167,8 +167,13 @@ void selectMoveCursor(int key, teksEditor tEditor)
             // HAFIZH : IF hasil pengurangan negatif
             if(dest.len < 0){
                 dest.len = abs(dest.len);
-                dest.x = selection.x + selection.len < tEditor.row[selection.y].size ? selection.x + selection.len : selection.x - dest.len;
-                dest.y = selection.x + selection.len < tEditor.row[selection.y].size ? selection.y : getCursor().y;
+                if(selection.x + selection.len < searchByIndex(tEditor.first_row, selection.y)->info.size){
+                    dest.x = selection.x + selection.len;
+                    dest.y = selection.y;
+                }else{
+                    dest.x = selection.x - dest.len;
+                    dest.y = getCursor().y;
+                }
             }
         }else{
             // HAFIZH : ELSE proses selection down normal
@@ -176,7 +181,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
                 dest.x = selection.x;
                 dest.y = selection.y;
             }
-            sizeFirst = tEditor.row[getCursor().y].size - getCursor().x;
+            sizeFirst = searchByIndex(tEditor.first_row, getCursor().y)->info.size - getCursor().x;
             sizeLast = getCursor().x;
             moveCursor(ARROW_DOWN, tEditor);
             dest.len += (sizeFirst + sizeLast);
@@ -213,11 +218,12 @@ void clearSelected()
 
 void copyLocal(erow row[])
 {
-    hasil_c = (char*) realloc(hasil_c, selection.len + 1);
+    hasil_c = (char *)realloc(hasil_c, selection.len + 1);
     memmove(hasil_c, &row[selection.y].chars[selection.x], selection.len);
     hasil_c[selection.len] = '\0';
 }
-void copyGlobal(erow row[]){
+void copyGlobal(teksEditor tEditor)
+{
     OpenClipboard(0);
     EmptyClipboard();
     // HAFIZH : Deklarasi tracker variabel
@@ -226,7 +232,8 @@ void copyGlobal(erow row[]){
     int EOL = 0;
     // HAFIZH : Looping mencari jumlah End Of line 
     for(int s = 0; s < selection.len; s++){
-        if(currentX < row[currentY].size){
+        int size_row = searchByIndex(tEditor.first_row, currentY)->info.size;
+        if(currentX < size_row){
             currentX++;
         }else{
             EOL++;
@@ -245,8 +252,10 @@ void copyGlobal(erow row[]){
     hasil_c = (char*) realloc(hasil_c, len_cpy);
     // HAFIZH : Memasukkan hasil copy ke variabel hasil_c
     for(int x = 0; x < len_cpy - 1; x++){
-        if(currentX < row[currentY].size){
-            hasil_c[x] = row[currentY].chars[currentX];
+        address_row row = searchByIndex(tEditor.first_row, currentY);
+        if(currentX < row->info.size){
+            char c = SearchCharByIndex(row->info.chars, currentX)->info;
+            hasil_c[x] = c;
             currentX++;
         }else{
             hasil_c[x] = '\r';
@@ -275,9 +284,11 @@ void pasteGlobal(teksEditor *tEditor){
     // HAFIZH : Handle paste saat select nyala
     int currentY = selection.y;
     int currentX = selection.x;
+    address_row currentRow;
     if(selection.isOn){
         for(int x = 0; x < selection.len; x++){
-            if(currentX < tEditor->row[currentY].size){
+            currentRow = searchByIndex(tEditor->first_row, currentY);
+            if(currentX < currentRow->info.size){
                 currentX++;
             }else{
                 currentX = 0;
@@ -285,12 +296,13 @@ void pasteGlobal(teksEditor *tEditor){
             }
         }
         while(currentX != selection.x || currentY != selection.y){
+            currentRow = searchByIndex(tEditor->first_row, currentY);
             if(currentX >=0){
-                rowDelChar(&tEditor->row[currentY], currentX);
+                rowDelChar(&currentRow->info, currentX);
                 currentX--;
             }else{
                 currentY--;
-                currentX = tEditor->row[currentY].size;
+                currentX = currentRow->info.size;
             }
         }
     }
@@ -318,12 +330,14 @@ void pasteGlobal(teksEditor *tEditor){
     CloseClipboard();
 }
 void cut(teksEditor *tEditor){
-    copyGlobal(tEditor->row);
+    copyGlobal(*tEditor);
     int currentY = selection.y;
     int currentX = selection.x;
+    address_row currentRow;
     if(selection.isOn){
         for(int x = 0; x < selection.len; x++){
-            if(currentX < tEditor->row[currentY].size){
+            currentRow = searchByIndex(tEditor->first_row, currentY);
+            if(currentX < currentRow->info.size){
                 currentX++;
             }else{
                 currentX = 0;
@@ -331,12 +345,13 @@ void cut(teksEditor *tEditor){
             }
         }
         while(currentX != selection.x || currentY != selection.y){
+            currentRow = searchByIndex(tEditor->first_row, currentY);
             if(currentX >=0){
-                rowDelChar(&tEditor->row[currentY], currentX);
+                rowDelChar(&currentRow->info, currentX);
                 currentX--;
             }else{
                 currentY--;
-                currentX = tEditor->row[currentY].size;
+                currentX = currentRow->info.size;
             }
         }
     }
@@ -344,46 +359,48 @@ void cut(teksEditor *tEditor){
 /** Find **/
 void findText(teksEditor tEditor)
 {
-    char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
-    if (query == NULL)
-        return;
-    int ketemu = 1;
-    int i;
-    for (i = 0; i < tEditor.numrows; i++)
-    {
-        erow *row = &tEditor.row[i];
-        char *match = strstr(row->render, query);
-        if (match)
-        {
-            setCursorY(i);
-            setCursorX(renderXToCursorX(row, match - row->render));
+    // char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
+    // if (query == NULL)
+    //     return;
+    // int ketemu = 1;
+    // int i;
+    // for (i = 0; i < tEditor.numrows; i++)
+    // {
+    //     erow *row = &tEditor.row[i];
+    //     char *match = strstr(row->render, query);
+    //     if (match)
+    //     {
+    //         setCursorY(i);
+    //         setCursorX(renderXToCursorX(row, match - row->render));
 
-            // Untuk select text
-            selection.y = getCursor().y;
-            selection.x = getCursor().x;
-            selection.len = strlen(query);
-            selection.isOn = true;
-            int screenrows = getScreenRows(); // TODO get screenrows
-            if (i >= screenrows)
-            {
-                setStartRow(getCursor().y);
-            }
+    //         // Untuk select text
+    //         selection.y = getCursor().y;
+    //         selection.x = getCursor().x;
+    //         selection.len = strlen(query);
+    //         selection.isOn = true;
+    //         int screenrows = getScreenRows(); // TODO get screenrows
+    //         if (i >= screenrows)
+    //         {
+    //             setStartRow(getCursor().y);
+    //         }
 
-            ketemu = 0;
-            break;
-        }
-    }
-    if (ketemu)
-    {
-        // COMMENTED editorSetStatusMessage("Teks Tidak Ada!");
-    }
+    //         ketemu = 0;
+    //         break;
+    //     }
+    // }
+    // if (ketemu)
+    // {
+    //     // COMMENTED editorSetStatusMessage("Teks Tidak Ada!");
+    // }
 
-    free(query);
+    // free(query);
 }
-selectionText getSelection(){
+selectionText getSelection()
+{
     return selection;
 }
-void setSelection(selectionText new_selection){
+void setSelection(selectionText new_selection)
+{
     selection = new_selection;
 }
 void selectInit(){

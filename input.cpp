@@ -3,24 +3,22 @@ teksEditor teks_editor;
 int readKey()
 {
     DWORD read;
-    char key;
+    char key[3];
     HANDLE console_in = getConsoleIn();
     // READ KEYBOARD
-    ReadFile(console_in, &key, 1, &read, NULL);
+    ReadFile(console_in, &key, 3, &read, NULL);
 
-    if (key == '\x1b')
+    if (key[0] == '\x1b' && read > 1)
     {
         char seq[3];
-        if (ReadFile(console_in, &seq[0], 1, &read, NULL) != 1)
-            return '\x1b';
-        if (ReadFile(console_in, &seq[1], 1, &read, NULL) != 1)
-            return '\x1b';
+        seq[0] = key[1];
+        seq[1] = key[2];
 
         if (seq[0] == '[')
         {
             if (seq[1] >= '0' && seq[1] <= '9')
             {
-                if (ReadFile(console_in, &seq[2], 1, &read, NULL) != 1)
+                if (ReadFile(console_in, &seq[2], 1, &read, NULL) == 0)
                     return '\x1b';
                 if (seq[2] == '~')
                 {
@@ -95,7 +93,7 @@ int readKey()
     }
     else
     {
-        return key;
+        return key[0];
     }
 }
 
@@ -132,9 +130,8 @@ void keyProcess()
         setCursorX(0);
         break;
     case END_KEY:
-
         if (cursor.y < teks_editor.numrows)
-            setCursorX(teks_editor.row[cursor.y].size);
+            setCursorX(searchByIndex(teks_editor.first_row, cursor.y)->info.size);
         break;
     case CTRL('f'):
         findText(teks_editor);
@@ -186,7 +183,7 @@ void keyProcess()
         break;
     // HANDLE COPY PASTE
     case CTRL('c'):
-        copyGlobal(teks_editor.row);
+        copyGlobal(teks_editor);
         break;
     case CTRL('v'):
         pasteGlobal(&teks_editor);
@@ -222,86 +219,123 @@ void keyProcess()
     quit_times = SWIFT_QUIT_TIMES;
 }
 
-void updateRow(erow *row)
+void updateRow(infotype *row)
 {
-    int tabs = 0;
-    int j;
-    for (j = 0; j < row->size; j++)
-        if (row->chars[j] == '\t')
-            tabs++;
+    address_column P = row->chars; // untuk pindah pindah
     int idx = 0;
-    for (j = 0; j < row->size; j++)
+    row->render = Nil;
+    while (P != Nil)
     {
-        if (row->chars[j] == '\t')
+        if (Info(P) == '\t')
         {
-            row->render[idx++] = ' ';
-            while (idx % SWIFT_TAB_STOP != 0 && idx < MAX_COLUMN)
-                row->render[idx++] = ' ';
+            InsVLastChar(&row->render, ' ');
+            idx++;
+            while (idx % SWIFT_TAB_STOP != 0)
+            {
+                InsVLastChar(&row->render, ' ');
+                idx++;
+            }
         }
         else
         {
-            row->render[idx++] = row->chars[j];
+            InsVLastChar(&row->render, Info(P));
+            idx++;
         }
-        if (idx >= MAX_COLUMN)
-            break;
+        P = NextColumn(P);
     }
-    row->render[idx] = '\0';
     row->rsize = idx;
 }
 
-void insertRow(int at,const char *s, size_t len)
+void insertRow(int at, address_column s, int len)
 {
-    if (teks_editor.numrows >= MAX_ROW)
-        return;
-    memmove(&teks_editor.row[at + 1], &teks_editor.row[at], sizeof(erow) * (teks_editor.numrows - at));
-    teks_editor.row[at].size = len;
-    memcpy(&teks_editor.row[at].chars, s, len);
-    teks_editor.row[at].chars[len] = '\0';
-    teks_editor.row[at].rsize = 0;
-    teks_editor.row[at].render[0] = '\0';
-    updateRow(&teks_editor.row[at]);
+    infotype temp;
+    address_row row_temp;
+    // setting row baru
+    columnInit(&temp);
+    while (s != Nil)
+    {
+        InsVLastChar(&temp.chars, Info(s));
+        s = NextColumn(s);
+    }
+    temp.size = len;
+    // alokasi row baru
+    row_temp = Alokasi(temp);
 
+    if (at - 1 < 0)
+    {
+        InsertFirst(&teks_editor.first_row, row_temp);
+    }
+    else
+    {
+        address_row prec_row = searchByIndex(teks_editor.first_row, at - 1);
+        InsertAfter(&teks_editor.first_row, row_temp, prec_row);
+    }
+    updateRow(&row_temp->info); // sepertinya harus diganti
     teks_editor.numrows++;
     addModified();
 }
 
 void deleteRow(int at)
 {
-    // if (at < 0 || at >= teks_editor.numrows)
-    // return;
-    // editorFreeRow(&E.row[at]);
-    memmove(&teks_editor.row[at], &teks_editor.row[at + 1], sizeof(erow) * (teks_editor.numrows - at - 1));
+    infotype temp;
+    if (at - 1 < 0)
+    {
+        DelVFirst(&teks_editor.first_row, &temp);
+    }
+    else
+    {
+        address_row row_prec = searchByIndex(teks_editor.first_row, at - 1);
+        address_row row = searchByIndex(teks_editor.first_row, at);
+        DelAfter(&teks_editor.first_row, &row, row_prec);
+    }
     teks_editor.numrows--;
     addModified();
 }
 
-void rowInsertChar(erow *row, int at, int c)
+void rowInsertChar(infotype *row, int at, int c)
 {
-    // if (at < 0 || at > row->size)
-    //     at = row->size;
-    // char *dest = row->chars;
-    // char *src = row->chars;
-    memmove(&row->chars[at + 1], &row->chars[at], row->size - at + 1);
+
+    if (at - 1 < 0)
+    {
+        InsVFirstChar(&row->chars, c);
+    }
+    else
+    {
+        address_column column_prec = SearchCharByIndex(row->chars, at - 1);
+        address_column column_temp = AlokasiChar(c);
+        InsertAfterChar(&row->chars, column_temp, column_prec);
+    }
+
     row->size++;
-    row->chars[at] = c;
-    updateRow(&(*row));
+    updateRow(&*row);
     addModified();
 }
 
-void rowAppendString(erow *row, char *s, size_t len)
+void rowAppendString(infotype *row, address_column s, int len)
 {
-    memcpy(&row->chars[row->size], s, len);
+    while (s != Nil)
+    {
+        InsVLastChar(&row->chars, Info(s));
+        s = NextColumn(s);
+    }
     row->size += len;
-    row->chars[row->size] = '\0';
     updateRow(&(*row));
     addModified();
 }
 
-void rowDelChar(erow *row, int at)
+void rowDelChar(infotype *row, int at)
 {
-    // if (at < 0 || at >= row->size)
-    //     return;
-    memmove(&row->chars[at], &row->chars[at + 1], row->size - at);
+    columnInfotype temp;
+    if (at - 1 < 0)
+    {
+        DelVFirstChar(&row->chars, &temp);
+    }
+    else
+    {
+        address_column column_prec = SearchCharByIndex(row->chars, at - 1);
+        address_column column = SearchCharByIndex(row->chars, at);
+        DelAfterChar(&row->chars, &column, column_prec);
+    }
     row->size--;
     updateRow(row);
 
@@ -312,22 +346,14 @@ void rowDelChar(erow *row, int at)
 void insertChar(int c)
 {
     cursorHandler cursor = getCursor();
-    
     if (cursor.y == teks_editor.numrows)
     {
-        insertRow(teks_editor.numrows, "", 0);
+        address_column s = Nil;
+        insertRow(teks_editor.numrows, s, 0);
     }
-
-    if (teks_editor.row[cursor.y].size < MAX_COLUMN)
-    {
-        rowInsertChar(&teks_editor.row[cursor.y], cursor.x, c);
-        addCursorX();
-
-    }
-    else
-    {
-        setMessage("PERINGATAN ! MENCAPAI BATAS COLUMN");
-    }
+    address_row cur = searchByIndex(teks_editor.first_row, cursor.y);
+    rowInsertChar(&cur->info, cursor.x, c);
+    addCursorX();
 }
 
 void deleteChar()
@@ -337,55 +363,64 @@ void deleteChar()
         return;
     if (cursor.x > 0)
     {
-        rowDelChar(&teks_editor.row[cursor.y], cursor.x - 1);
+        rowDelChar(&searchByIndex(teks_editor.first_row, cursor.y)->info, cursor.x - 1);
         setCursorX(cursor.x - 1);
     }
     else
     {
-        setCursorX(teks_editor.row[cursor.y - 1].size);
-        if (teks_editor.row[cursor.y - 1].size + teks_editor.row[cursor.y].size <= MAX_COLUMN)
+        address_row row_y = searchByIndex(teks_editor.first_row, cursor.y);
+        setCursorX(searchByIndex(teks_editor.first_row, cursor.y - 1)->info.size);
+        if (row_y->info.chars != Nil)
         {
-            rowAppendString(&teks_editor.row[cursor.y - 1], teks_editor.row[cursor.y].chars, teks_editor.row[cursor.y].size);
-            deleteRow(cursor.y);
-            setCursorY(cursor.y - 1);
+            rowAppendString(&searchByIndex(teks_editor.first_row, cursor.y - 1)->info, row_y->info.chars, row_y->info.size);
+            row_y->info.chars = Nil;
         }
-        else
-        {
-            setMessage("PERINGATAN ! TIDAK BISA MENGHAPUS, KOLOM TIDAK MEMADAI");
-            setCursorX(teks_editor.row[cursor.y].size);
-        }
+        deleteRow(cursor.y);
+        setCursorY(cursor.y - 1);
     }
 }
 
 void insertNewline()
 {
     cursorHandler cursor = getCursor();
-    if (teks_editor.numrows < MAX_ROW)
+    if (cursor.x == 0)
     {
-        if (cursor.x == 0)
+        address_column s = Nil;
+        if (teks_editor.first_row == Nil)
         {
-            insertRow(cursor.y, "", 0);
+            insertRow(cursor.y, s, 0);
+            insertRow(cursor.y + 1, s, 0);
         }
         else
         {
-            erow *row = &teks_editor.row[cursor.y];
-            insertRow(cursor.y + 1, &row->chars[cursor.x], row->size - cursor.x);
-            row = &teks_editor.row[cursor.y];
-            row->size = cursor.x;
-            row->chars[row->size] = '\0';
-            updateRow(&(*row));
+            insertRow(cursor.y, s, 0);
         }
-        setCursorY(cursor.y + 1);
-        setCursorX(0);
     }
     else
     {
-        setMessage("PERINGATAN ! MENCAPAI BATAS BARIS");
+        address_row row = searchByIndex(teks_editor.first_row, cursor.y);
+        address_column prec_x = SearchCharByIndex(row->info.chars, cursor.x - 1);
+        insertRow(cursor.y + 1, SearchCharByIndex(row->info.chars, cursor.x), row->info.size - cursor.x);
+        Next(prec_x) = Nil;
+        // replace row sebelumnya
+        row->info.size = cursor.x;
+        updateRow(&row->info);
     }
+    setCursorY(cursor.y + 1);
+    setCursorX(0);
 }
 void inputInit()
 {
     teks_editor.numrows = 0;
+    CreateRow(&teks_editor.first_row);
+}
+
+void columnInit(infotype *row)
+{
+    row->size = 0;
+    row->rsize = 0;
+    CreateColumn(&row->chars);
+    CreateColumn(&row->render);
 }
 
 teksEditor getTeksEditor()

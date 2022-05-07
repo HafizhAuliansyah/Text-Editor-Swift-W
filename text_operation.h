@@ -20,7 +20,7 @@ void selectInit();
 void addSelectionText(outputBuffer *ob, char *row, int len, selectionText *scanSelected);
 void clearSelected();
 void copyLocal(erow row[]);
-void copyGlobal(erow row[]);
+void copyGlobal(teksEditor tEditor);
 void pasteLocal();
 void pasteGlobal(teksEditor *tEditor);
 void cut(teksEditor *tEditor);

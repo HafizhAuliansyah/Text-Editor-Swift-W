@@ -9,6 +9,7 @@ void drawRows(outputBuffer *ob)
     int help_len;
     if (outputConfig.isInHelp)
     {
+        bufferAppend(ob, "\x1b[96m", 5);
         help = openHelp(&help_len);
     }
     selectionText scanSelected = getSelection();
@@ -20,6 +21,7 @@ void drawRows(outputBuffer *ob)
             if (filerow < help_len)
             {
                 int len = strlen(help[filerow]) - getCursor().start_col;
+
                 bufferAppend(ob, help[filerow], len);
             }
         }
@@ -28,7 +30,7 @@ void drawRows(outputBuffer *ob)
             teksEditor tEditor = getTeksEditor();
             if (filerow >= tEditor.numrows)
             {
-                if (tEditor.numrows == 0 && y == MAX_ROW / 2)
+                if (tEditor.numrows == 0 && y == getScreenRows() / 2)
                 {
                     char welcome[80];
                     int welcomelen = snprintf(welcome, sizeof(welcome), "Swift Text Editor");
@@ -37,7 +39,7 @@ void drawRows(outputBuffer *ob)
                     int padding = (getScrenCols() - welcomelen) / 2;
                     if (padding)
                     {
-                        if (y < MAX_ROW)
+                        if (y < getScreenRows())
                         {
                             bufferAppend(ob, "~", 1);
                         }
@@ -49,7 +51,7 @@ void drawRows(outputBuffer *ob)
                 }
                 else
                 {
-                    if (y < MAX_ROW)
+                    if (y < getScreenRows())
                     {
                         bufferAppend(ob, "~", 1);
                     }
@@ -57,15 +59,27 @@ void drawRows(outputBuffer *ob)
             }
             else
             {
-                int len = tEditor.row[filerow].rsize - getStartCol();
+                int len = searchByIndex(tEditor.first_row, filerow)->info.rsize - getStartCol();
                 if (len < 0)
                     len = 0;
                 if (len > getScrenCols())
                     len = getScrenCols();
 
                 // Konversi char ke char*
-                char *c = &tEditor.row[filerow].render[getStartCol()];
-
+                infotype row = searchByIndex(tEditor.first_row, filerow)->info;
+                // char *c = &searchByIndex(tEditor.first_row, filerow)->info.render[getStartCol()];
+                address_column column = row.render;
+                char *temp_char = (char *)malloc((row.rsize + 1) * sizeof(char));
+                temp_char[row.rsize] = '\0';
+                int i = 0;
+                while (i < row.rsize)
+                {
+                    temp_char[i] = Info(column);
+                    // setMessage("%c, rsize : %d, x: %d,y: %d", Info(column), row.rsize, getCursor().x, getCursor().y);
+                    column = NextColumn(column);
+                    i++;
+                }
+                char *c = &temp_char[getStartCol()];
                 // Select Text
                 if (filerow == scanSelected.y && getStartCol() <= getSelection().x && getSelection().isOn)
                 {
@@ -79,8 +93,9 @@ void drawRows(outputBuffer *ob)
         }
         bufferAppend(ob, "\x1b[K", 3);
         bufferAppend(ob, "\r\n", 2);
-
     }
+    if (outputConfig.isInHelp)
+        bufferAppend(ob, "\x1b[m", 3);
     free(help);
 }
 
@@ -143,7 +158,8 @@ void refreshScreen()
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
 
     bufferAppend(&ob, buf, strlen(buf));
-    bufferAppend(&ob, "\x1b[?25h", 6);
+    if (!outputConfig.isInHelp)
+        bufferAppend(&ob, "\x1b[?25h", 6);
     WriteFile(getConsoleOut(), ob.buffer, ob.len, NULL, NULL);
     bufferFree(&ob);
 }
@@ -163,15 +179,15 @@ char *rowsToString(int *buflen)
     int totlen = 0;
     int j;
     for (j = 0; j < tEditor.numrows; j++)
-        totlen += tEditor.row[j].size + 1;
+        totlen += searchByIndex(tEditor.first_row, j)->info.size + 1;
     *buflen = totlen;
 
-    char *buf = (char*) malloc(totlen);
+    char *buf = (char *)malloc(totlen);
     char *p = buf;
     for (j = 0; j < tEditor.numrows; j++)
     {
-        memcpy(p, tEditor.row[j].chars, tEditor.row[j].size);
-        p += tEditor.row[j].size;
+        memcpy(p, searchByIndex(tEditor.first_row, j)->info.chars, searchByIndex(tEditor.first_row, j)->info.size);
+        p += searchByIndex(tEditor.first_row, j)->info.size;
         *p = '\n';
         p++;
     }
@@ -255,16 +271,20 @@ char *setInputMassage(const char *prompt, int start_cx)
         setMessageCursor(stat_cursor);
     }
 }
-outputHandler getOutputHandler(){
+outputHandler getOutputHandler()
+{
     return outputConfig;
 }
-void setInStatus(bool new_status){
+void setInStatus(bool new_status)
+{
     outputConfig.isInStatus = new_status;
 }
-void setInHelp(bool new_help){
+void setInHelp(bool new_help)
+{
     outputConfig.isInHelp = new_help;
 }
-void outputInit(){
+void outputInit()
+{
     outputConfig.isInHelp = false;
     outputConfig.isInStatus = false;
     outputConfig.statusmsg[0] = '\0';

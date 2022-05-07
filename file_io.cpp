@@ -38,7 +38,13 @@ void openFile(char *filename)
         int linelen = line.length();
         while (linelen > 0 && (line[linelen - 1] == '\n') || line[linelen - 1] == '\r')
             linelen--;
-        insertRow(getTeksEditor().numrows, line.c_str(), linelen);
+        
+        address_column line_adr;
+        CreateColumn(&line_adr);
+        for(int l = 0; l < linelen; l++){
+            InsVLastChar(&line_adr, line[l]);
+        }
+        insertRow(getTeksEditor().numrows, line_adr, linelen);
     }
     file_teks.close();
     fileStatus.modified = 0;
@@ -98,9 +104,7 @@ void openNewFile(teksEditor *tEditor){
     }
     
     // HAFIZH : Clear isi teks_editor
-    erow df_row;
-    fill_n(tEditor->row, MAX_COLUMN + 1, df_row);
-    tEditor->numrows = 0;
+    inputInit();
     // HAFIZH : Proses pembacaan isi file
     string line;
     size_t linecap = 0;
@@ -110,7 +114,7 @@ void openNewFile(teksEditor *tEditor){
         int linelen = line.length();
         while (linelen > 0 && (line[linelen - 1] == '\n') || line[linelen - 1] == '\r')
             linelen--;
-        insertRow(getTeksEditor().numrows, line.c_str(), linelen);
+        //insertRow(getTeksEditor().numrows, line.c_str(), linelen);
     }
 
     file_teks.close();
@@ -147,9 +151,7 @@ void newFile(teksEditor *tEditor){
         return;
     }
     // HAFIZH : Clear isi teks_editor
-    erow df_row;
-    fill_n(tEditor->row, MAX_COLUMN + 1, df_row);
-    tEditor->numrows = 0;
+    inputInit();
 
     // HAFIZH : Create File
     ofstream file_new{filename};
