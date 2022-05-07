@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1650209042 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.cpp
+1651912664 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.cpp
 	"cursor.h"
 
 1650186836 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\cursor.h
 	"terminal.h"
 	"input.h"
 
-1650189090 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
+1651912555 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
 	<stdlib.h>
 	"input.h"
 	"output.h"
@@ -21,7 +21,7 @@
 	<windows.h>
 	"terminal.h"
 
-1650204406 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\buffer.cpp
+1651912617 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\buffer.cpp
 	"buffer.h"
 	"output.h"
 
@@ -42,7 +42,7 @@
 	"input.h"
 	"buffer.h"
 
-1651911567 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.h
+1651912617 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -53,7 +53,7 @@
 	"text_operation.h"
 	"output.h"
 
-1651911438 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\file_io.h
+1651913325 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\file_io.h
 	"terminal.h"
 	"output.h"
 	"input.h"
@@ -61,24 +61,25 @@
 	<sys/types.h>
 	<stdlib.h>
 
-1651911440 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.h
+1651913500 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.h
 	<stdbool.h>
 	"terminal.h"
 	"input.h"
 	"cursor.h"
 	"buffer.h"
 
-1651911566 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\file_io.cpp
+1651913412 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\file_io.cpp
 	"file_io.h"
 	<stdio.h>
 	<iostream>
 	<fstream>
 	<string>
+	<conio.h>
 
-1650208361 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
+1651912618 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
 	"input.h"
 
-1650213281 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
+1651912849 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
 	"output.h"
 
 1650210672 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.cpp
@@ -89,7 +90,7 @@
 1650211128 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.h
 	<stdio.h>
 
-1651911440 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
+1651917220 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
 1651051602 source:d:\new\2022\github explore\text-editor-swift-w\main.cpp
@@ -192,15 +193,18 @@
 1651177919 source:d:\new\2022\github explore\text-editor-swift-w\column.cpp
 	"column.h"
 
-1651911566 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\column.cpp
+1651912617 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\column.cpp
 	"column.h"
 
-1651911566 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\column.h
+1651912617 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\column.h
 	<stdio.h>
 	<stdlib.h>
 
-1651911567 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\row.h
+1651912617 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\row.h
 	<stdio.h>
 	<stdlib.h>
 	"column.h"
+
+1651912617 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\row.cpp
+	"row.h"
 

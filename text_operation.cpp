@@ -282,8 +282,8 @@ void pasteLocal()
 }
 void pasteGlobal(teksEditor *tEditor){
     // HAFIZH : Handle paste saat select nyala
-    int currentY = selection.y;
-    int currentX = selection.x;
+    int currentY = selection.isOn? selection.y : getCursor().y;
+    int currentX = selection.isOn? selection.x : getCursor().x;
     address_row currentRow;
     if(selection.isOn){
         for(int x = 0; x < selection.len; x++){
@@ -298,15 +298,18 @@ void pasteGlobal(teksEditor *tEditor){
         while(currentX != selection.x || currentY != selection.y){
             currentRow = searchByIndex(tEditor->first_row, currentY);
             if(currentX >=0){
-                rowDelChar(&currentRow->info, currentX);
+                rowDelChar(&currentRow->info, currentX - 1);
                 currentX--;
             }else{
                 currentY--;
+                currentRow = searchByIndex(tEditor->first_row, currentY);
                 currentX = currentRow->info.size;
             }
         }
+        setCursorX(selection.x);
+        setCursorY(selection.y);
+         currentY = selection.y;
     }
-    currentY = getCursor().y;
     OpenClipboard(0);
     HANDLE clipboardText = GetClipboardData(CF_TEXT);
     int len_paste = strlen((char*) clipboardText);
@@ -347,13 +350,16 @@ void cut(teksEditor *tEditor){
         while(currentX != selection.x || currentY != selection.y){
             currentRow = searchByIndex(tEditor->first_row, currentY);
             if(currentX >=0){
-                rowDelChar(&currentRow->info, currentX);
+                rowDelChar(&currentRow->info, currentX - 1);
                 currentX--;
             }else{
                 currentY--;
+                currentRow = searchByIndex(tEditor->first_row, currentY);
                 currentX = currentRow->info.size;
             }
         }
+        setCursorY(selection.y);
+        setCursorX(selection.x);
     }
 }
 /** Find **/
