@@ -208,3 +208,85 @@
 1651912617 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\row.cpp
 	"row.h"
 
+1651943477 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\buffer.cpp
+	"buffer.h"
+	"output.h"
+
+1651943477 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\buffer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1651943478 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\output.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<time.h>
+	"cursor.h"
+	"file_io.h"
+	"input.h"
+	"buffer.h"
+
+1651943477 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\cursor.h
+	"terminal.h"
+	"input.h"
+
+1651943478 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\terminal.h
+	<windows.h>
+	<stdio.h>
+	<ctype.h>
+
+1651943477 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\input.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"row.h"
+	"cursor.h"
+	"file_io.h"
+	"text_operation.h"
+	"output.h"
+
+1651943478 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\row.h
+	<stdio.h>
+	<stdlib.h>
+	"column.h"
+
+1651943477 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\column.h
+	<stdio.h>
+	<stdlib.h>
+
+1651943477 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\file_io.h
+	"terminal.h"
+	"output.h"
+	"input.h"
+	<string.h>
+	<sys/types.h>
+	<stdlib.h>
+
+1651943478 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\text_operation.h
+	<stdbool.h>
+	"terminal.h"
+	"input.h"
+	"cursor.h"
+	"buffer.h"
+
+1651943477 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\column.cpp
+	"column.h"
+
+1651943477 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\cursor.cpp
+	"cursor.h"
+
+1651943477 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\file_io.cpp
+	"file_io.h"
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<conio.h>
+
+1651943477 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\input.cpp
+	"input.h"
+
