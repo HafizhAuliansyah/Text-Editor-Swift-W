@@ -250,13 +250,7 @@ void insertRow(int at, address_column s, int len)
     temp.size = len;
     // alokasi row baru
     row_temp = Alokasi(temp);
-    // insert after prec
-    // if (teks_editor.first_row == Nil)
-    // {
-    //     InsertFirst(&teks_editor.first_row, row_temp);
-    // }
-    // else
-    // {
+
     if (at - 1 < 0)
     {
         InsertFirst(&teks_editor.first_row, row_temp);
@@ -266,7 +260,6 @@ void insertRow(int at, address_column s, int len)
         address_row prec_row = searchByIndex(teks_editor.first_row, at - 1);
         InsertAfter(&teks_editor.first_row, row_temp, prec_row);
     }
-    // }
     updateRow(&row_temp->info); // sepertinya harus diganti
     teks_editor.numrows++;
     addModified();

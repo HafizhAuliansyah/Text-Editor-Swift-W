@@ -130,7 +130,7 @@ void cursorScroll(teksEditor tEditor)
     // Pengaturan row offset ketika scroll kebawah
     if (cursor.y >= cursor.start_row + screenrows)
     {
-        cursor.start_col = cursor.y - screenrows + 1;
+        cursor.start_row = cursor.y - screenrows + 1;
     }
     // Pengaturan coll offset ketika scroll ke kiri
     if (cursor.rx < cursor.start_col)
