@@ -64,6 +64,13 @@ void drawRows(outputBuffer *ob)
             }
             else
             {
+                // LINE NUMBERING
+                // std::stringstream line_number;
+                // line_number << "[";
+                // line_number << filerow;
+                // line_number << "]";
+                // const char* line_num_c = line_number.str().c_str();
+                // bufferAppend(ob, line_num_c, strlen(line_num_c));
                 int len = searchByIndex(tEditor.first_row, filerow)->info.rsize - getStartCol();
                 if (len < 0)
                     len = 0;
@@ -167,7 +174,7 @@ void refreshScreen()
 
     char buf[32];
     int y = outputConfig.isInStatus ? getMessageCursor().y + 1 : (getCursor().y - getStartRow()) + 1;
-    int x = outputConfig.isInStatus ? getMessageCursor().x + 1 : (getCursor().rx - getStartCol()) + 1;
+    int x = outputConfig.isInStatus ? getMessageCursor().x + 1 : (getCursor().rx - getStartCol()) + 8;
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
 
     bufferAppend(&ob, buf, strlen(buf));

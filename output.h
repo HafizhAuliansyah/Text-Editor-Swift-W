@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <time.h>
+#include <sstream>
 
 #include "cursor.h"
 #include "file_io.h"
