@@ -13,6 +13,7 @@ void drawRows(outputBuffer *ob)
         help = openHelp(&help_len);
     }
     selectionText scanSelected = getSelection();
+    //Membuat Jumlah Baris Sesuai Dengan ScreenRows
     for (y = 0; y < getScreenRows(); y++)
     {
         int filerow = y + getCursor().start_row;
@@ -32,11 +33,13 @@ void drawRows(outputBuffer *ob)
             {
                 if (tEditor.numrows == 0 && y == getScreenRows() / 2)
                 {
+                    //Menampilkan Welcome Messege Saat Pertama Kali Memubuka Aplikasi
                     char welcome[80];
                     int welcomelen = snprintf(welcome, sizeof(welcome), "Swift Text Editor");
                     if (welcomelen > getScrenCols())
                         welcomelen = getScrenCols();
                     int padding = (getScrenCols() - welcomelen) / 2;
+                    //Menambah tanda "~" untuk tanda baris
                     if (padding)
                     {
                         if (y < getScreenRows())
@@ -45,12 +48,14 @@ void drawRows(outputBuffer *ob)
                         }
                         padding--;
                     }
+                    //Bila Menampilkan Welcome Messege Maka Tanda "~" tidak di print
                     while (padding--)
                         bufferAppend(ob, " ", 1);
                     bufferAppend(ob, welcome, welcomelen);
                 }
                 else
                 {
+                    //Menambah tanda "~" untuk tanda baris
                     if (y < getScreenRows())
                     {
                         bufferAppend(ob, "~", 1);
@@ -103,15 +108,20 @@ void addStatusBar(outputBuffer *ob)
 {
     cursorHandler C = getCursor();
     teksEditor tEditor = getTeksEditor();
+    //Mengubah Warna BG nya Menjadi Negative
     bufferAppend(ob, "\x1b[7m", 4);
     char status[80], rstatus[80];
+    //Untuk Menampilkan Jumlah Baris
     int len = snprintf(status, sizeof(status), "%.20s - %d baris %s",
-                       getFileHandler().filename ? getFileHandler().filename : "[File Kosong]", tEditor.numrows,
-                       getFileHandler().modified ? "(modified)" : "");
+    //Untuk Menampilkan Nama File dan bila belum ada file nya akan muncul [File Kosong]
+    getFileHandler().filename ? getFileHandler().filename : "[File Kosong]", tEditor.numrows,
+    //Bila Si File Di Ubah Akan Menampilkan (Modified)
+    getFileHandler().modified ? "(modified)" : "");
     int rlen = snprintf(rstatus, sizeof(rstatus), "%d/%d", C.y + 1, tEditor.numrows);
     if (len > getScrenCols())
         len = getScrenCols();
     bufferAppend(ob, status, len);
+    //Meminta Posisi Paling Bawah Pada Layar 
     while (len < getScrenCols())
     {
         if (getScrenCols() - len == rlen)
@@ -144,12 +154,15 @@ void refreshScreen()
     cursorScroll(getTeksEditor());
 
     outputBuffer ob = OUTPUT_INIT;
-
+    //Memposisikan Cursor Di Sudut Kiri Atas
     bufferAppend(&ob, "\x1b[?25l", 6);
     bufferAppend(&ob, "\x1b[H", 3);
 
+    //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit 
     drawRows(&ob);
+    //Menampilkan Status Bar
     addStatusBar(&ob);
+    //Menampilkan Status Messege
     addMessageBar(&ob);
 
     char buf[32];
