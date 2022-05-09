@@ -186,7 +186,12 @@ char *rowsToString(int *buflen)
     char *p = buf;
     for (j = 0; j < tEditor.numrows; j++)
     {
-        memcpy(p, searchByIndex(tEditor.first_row, j)->info.chars, searchByIndex(tEditor.first_row, j)->info.size);
+        address_row row = searchByIndex(tEditor.first_row, j);
+        for(int k=0; k < row->info.size; k++){
+            address_column col = SearchCharByIndex(row->info.chars, k);
+            char c = col->info;
+            p[k] = c;
+        }
         p += searchByIndex(tEditor.first_row, j)->info.size;
         *p = '\n';
         p++;
