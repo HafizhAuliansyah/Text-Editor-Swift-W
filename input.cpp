@@ -139,9 +139,13 @@ void keyProcess()
         break;
     case BACKSPACE:
     case DEL_KEY:
-        if (c == DEL_KEY)
-            moveCursor(ARROW_RIGHT, teks_editor);
-        deleteChar();
+        if(getSelection().isOn){
+            deleteSelect(&teks_editor);
+        }else{
+            if (c == DEL_KEY)
+                moveCursor(ARROW_RIGHT, teks_editor);
+            deleteChar();
+        }
         break;
     case PAGE_UP:
     case PAGE_DOWN:

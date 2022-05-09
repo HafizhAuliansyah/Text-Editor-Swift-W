@@ -35,6 +35,7 @@ void openFile(char *filename)
     int linelen;
     while (getline(file_teks, line))
     {
+        setMessage("%s", line);
         int linelen = line.length();
         while (linelen > 0 && (line[linelen - 1] == '\n') || line[linelen - 1] == '\r')
             linelen--;
@@ -114,7 +115,13 @@ void openNewFile(teksEditor *tEditor){
         int linelen = line.length();
         while (linelen > 0 && (line[linelen - 1] == '\n') || line[linelen - 1] == '\r')
             linelen--;
-        //insertRow(getTeksEditor().numrows, line.c_str(), linelen);
+        
+        address_column line_adr;
+        CreateColumn(&line_adr);
+        for(int l = 0; l < linelen; l++){
+            InsVLastChar(&line_adr, line[l]);
+        }
+        insertRow(getTeksEditor().numrows, line_adr, linelen);
     }
 
     file_teks.close();

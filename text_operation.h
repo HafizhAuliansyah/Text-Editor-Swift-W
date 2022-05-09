@@ -29,6 +29,8 @@ void selectShift(selectionText dest);
 void selectMoveCursor(int c, teksEditor tEditor);
 void findText(teksEditor tEditor);
 
+void deleteSelect(teksEditor *tEditor);
+
 /* SELECTOR */
 selectionText getSelection();
 

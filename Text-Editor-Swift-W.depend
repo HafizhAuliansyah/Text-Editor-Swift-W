@@ -61,14 +61,14 @@
 	<sys/types.h>
 	<stdlib.h>
 
-1651913500 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.h
+1652073474 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.h
 	<stdbool.h>
 	"terminal.h"
 	"input.h"
 	"cursor.h"
 	"buffer.h"
 
-1651913412 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\file_io.cpp
+1652072417 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\file_io.cpp
 	"file_io.h"
 	<stdio.h>
 	<iostream>
@@ -76,10 +76,10 @@
 	<string>
 	<conio.h>
 
-1651912618 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
+1652073657 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
 	"input.h"
 
-1651912849 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
+1652073362 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
 	"output.h"
 
 1650210672 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.cpp
@@ -90,7 +90,7 @@
 1650211128 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.h
 	<stdio.h>
 
-1651917220 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
+1652076078 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
 1651051602 source:d:\new\2022\github explore\text-editor-swift-w\main.cpp

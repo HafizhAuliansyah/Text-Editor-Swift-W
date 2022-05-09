@@ -15,7 +15,7 @@ void addSelectionText(outputBuffer *ob, char *row, int len, selectionText *scanS
     // Select Text sesuai kolom selection.x, sejumlah selection.len ke kanan
     bufferAppend(ob, "\x1b[7m", 4);
     at = scanSelected->x;
-    
+
     if(lenAvailable < scanSelected->len){
         lenSelect = lenAvailable;
         scanSelected->len -= lenAvailable;
@@ -42,7 +42,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
     dest.y = getCursor().y;
     dest.len = selection.len;
     // Kondisional Shift Select
-    
+    setMessage("\x1b[31m SELECT !! \x1b[m");
     switch (key)
     {
     case SHIFT_ARROW_LEFT:
@@ -114,7 +114,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
                 dest.len += 1;
             }
         }
-        
+
     }
         break;
     case SHIFT_ARROW_UP:
@@ -154,7 +154,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
         // HAFIZH : IF cursor berada di baris paling akhir -> return
         if(getCursor().y == tEditor.numrows - 1)
             return;
-        
+
         int sizeFirst, sizeLast;
         // HAFIZH : IF posisi x & y selection dengan cursor sama -> select dikurangi, selection x & y mengikuti cursor
         if(selection.y == getCursor().y && selection.x == getCursor().x && selection.isOn){
@@ -199,7 +199,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
     }else{
         selectShift(dest);
     }
-    
+
 }
 void selectShift(selectionText dest)
 {
@@ -230,7 +230,7 @@ void copyGlobal(teksEditor tEditor)
     int currentY = selection.y;
     int currentX = selection.x;
     int EOL = 0;
-    // HAFIZH : Looping mencari jumlah End Of line 
+    // HAFIZH : Looping mencari jumlah End Of line
     for(int s = 0; s < selection.len; s++){
         int size_row = searchByIndex(tEditor.first_row, currentY)->info.size;
         if(currentX < size_row){
@@ -276,7 +276,7 @@ void copyGlobal(teksEditor tEditor)
 void pasteLocal()
 {
     int column_len = MAX_COLUMN - getCursor().x;
-    
+
     for (int x = 0; x < strlen(hasil_c); x++)
         insertChar(hasil_c[x]);teksEditor *tEditor;
 }
@@ -291,41 +291,27 @@ void pasteGlobal(teksEditor *tEditor){
             if(currentX < currentRow->info.size){
                 currentX++;
             }else{
-                currentX = 0;
+                currentX = 1;
                 currentY++;
             }
         }
-        while(currentX != selection.x || currentY != selection.y){
-            currentRow = searchByIndex(tEditor->first_row, currentY);
-            if(currentX >=0){
-                rowDelChar(&currentRow->info, currentX - 1);
-                currentX--;
-            }else{
-                currentY--;
-                currentRow = searchByIndex(tEditor->first_row, currentY);
-                currentX = currentRow->info.size;
-            }
+        setCursorX(currentX);
+        setCursorY(currentY);
+        while(getCursor().x != selection.x || getCursor().y != selection.y){
+            deleteChar();
         }
-        setCursorX(selection.x);
-        setCursorY(selection.y);
-         currentY = selection.y;
+        currentY = selection.y;
     }
     OpenClipboard(0);
     HANDLE clipboardText = GetClipboardData(CF_TEXT);
     int len_paste = strlen((char*) clipboardText);
-    
+
     for (int x = 0; x < len_paste; x++){
         if(((char*) clipboardText)[x] == '\n'){
             continue;
         }
         if(((char*) clipboardText)[x] == '\r'){
-            currentY++;
-            if(tEditor->numrows - 1 < currentY)
-                insertNewline();
-            else{
-                setCursorX(0);
-                addCursorY();
-            }
+            insertNewline();
             continue;
         }
         insertChar( ((char*) clipboardText)[x]);
@@ -334,8 +320,8 @@ void pasteGlobal(teksEditor *tEditor){
 }
 void cut(teksEditor *tEditor){
     copyGlobal(*tEditor);
-    int currentY = selection.y;
-    int currentX = selection.x;
+    int currentY = selection.isOn? selection.y : getCursor().y;
+    int currentX = selection.isOn? selection.x : getCursor().x;
     address_row currentRow;
     if(selection.isOn){
         for(int x = 0; x < selection.len; x++){
@@ -343,24 +329,37 @@ void cut(teksEditor *tEditor){
             if(currentX < currentRow->info.size){
                 currentX++;
             }else{
-                currentX = 0;
+                currentX = 1;
                 currentY++;
             }
         }
-        while(currentX != selection.x || currentY != selection.y){
+        setCursorX(currentX);
+        setCursorY(currentY);
+        while(getCursor().x != selection.x || getCursor().y != selection.y){
+            deleteChar();
+        }
+
+    }
+}
+
+void deleteSelect(teksEditor *tEditor){
+    int currentY = selection.y;
+    int currentX = selection.x;
+    address_row currentRow;
+    for(int x = 0; x < selection.len; x++){
             currentRow = searchByIndex(tEditor->first_row, currentY);
-            if(currentX >=0){
-                rowDelChar(&currentRow->info, currentX - 1);
-                currentX--;
+            if(currentX < currentRow->info.size){
+                currentX++;
             }else{
-                currentY--;
-                currentRow = searchByIndex(tEditor->first_row, currentY);
-                currentX = currentRow->info.size;
+                currentX = 1;
+                currentY++;
             }
         }
-        setCursorY(selection.y);
-        setCursorX(selection.x);
-    }
+        setCursorX(currentX);
+        setCursorY(currentY);
+        while(getCursor().x != selection.x || getCursor().y != selection.y){
+            deleteChar();
+        }
 }
 /** Find **/
 void findText(teksEditor tEditor)
@@ -412,7 +411,7 @@ void setSelection(selectionText new_selection)
 void selectInit(){
     clearSelected();
     free(hasil_c);
-    
+
 }
 int abs(int x){
     if(x < 0){
