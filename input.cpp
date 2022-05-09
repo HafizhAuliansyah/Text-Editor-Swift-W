@@ -213,6 +213,8 @@ void keyProcess()
     default:
         if ((c > 26 || c == 9) && !output.isInHelp)
         {
+            if(getSelection().isOn)
+                deleteSelect(&teks_editor);
             insertChar(c);
         }
         break;
