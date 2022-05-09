@@ -364,41 +364,54 @@ void deleteSelect(teksEditor *tEditor){
 /** Find **/
 void findText(teksEditor tEditor)
 {
-    // char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
-    // if (query == NULL)
-    //     return;
-    // int ketemu = 1;
-    // int i;
-    // for (i = 0; i < tEditor.numrows; i++)
-    // {
-    //     erow *row = &tEditor.row[i];
-    //     char *match = strstr(row->render, query);
-    //     if (match)
-    //     {
-    //         setCursorY(i);
-    //         setCursorX(renderXToCursorX(row, match - row->render));
+    char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
+    if (query == NULL)
+        return;
+    int ketemu = 0;
+    int i;
+    for (i = 0; i < tEditor.numrows; i++)
+    {
+        // Konversi list ke char*
+        infotype row = searchByIndex(tEditor.first_row, i)->info;
+        address_column column = row.render;
+        char *tempRow = (char *)malloc((row.rsize + 1) * sizeof(char));
+        tempRow[row.rsize] = '\0';
+        int index = 0;
+        while (index < row.rsize)
+        {
+            tempRow[index] = Info(column);
+            // setMessage("%c, rsize : %d, x: %d,y: %d", Info(column), row.rsize, getCursor().x, getCursor().y);
+            column = NextColumn(column);
+            index++;
+        }
+        // char *tempRow = rowsToString(&len);
+        char *match = strstr(tempRow, query);
+        if (match)
+        {
+            setCursorY(i);
+            setCursorX(renderXToCursorX(&row, match - tempRow));
 
-    //         // Untuk select text
-    //         selection.y = getCursor().y;
-    //         selection.x = getCursor().x;
-    //         selection.len = strlen(query);
-    //         selection.isOn = true;
-    //         int screenrows = getScreenRows(); // TODO get screenrows
-    //         if (i >= screenrows)
-    //         {
-    //             setStartRow(getCursor().y);
-    //         }
+            // Untuk select text
+            selection.y = getCursor().y;
+            selection.x = getCursor().x;
+            selection.len = strlen(query);
+            selection.isOn = true;
+            int screenrows = getScreenRows(); // TODO get screenrows
+            if (i >= screenrows)
+            {
+                setStartRow(getCursor().y);
+            }
 
-    //         ketemu = 0;
-    //         break;
-    //     }
-    // }
-    // if (ketemu)
-    // {
-    //     // COMMENTED editorSetStatusMessage("Teks Tidak Ada!");
-    // }
-
-    // free(query);
+            ketemu = 1;
+            break;
+        }
+    }
+    if (!ketemu)
+    {
+        setMessage("Teks Tidak Ada!");
+    }
+    
+    free(query);
 }
 selectionText getSelection()
 {
