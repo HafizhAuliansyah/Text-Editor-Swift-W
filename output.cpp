@@ -174,7 +174,7 @@ void refreshScreen()
 
     char buf[32];
     int y = outputConfig.isInStatus ? getMessageCursor().y + 1 : (getCursor().y - getStartRow()) + 1;
-    int x = outputConfig.isInStatus ? getMessageCursor().x + 1 : (getCursor().rx - getStartCol()) + 8;
+    int x = outputConfig.isInStatus ? getMessageCursor().x + 1 : (getCursor().rx - getStartCol()) + 1;
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
 
     bufferAppend(&ob, buf, strlen(buf));
