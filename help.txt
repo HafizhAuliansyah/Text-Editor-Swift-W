@@ -1,4 +1,3 @@
-[ ESC untuk keluar ]
 ========================================================
                          HELP
 ========================================================
@@ -19,10 +18,15 @@ membuka, melihat, dan mengedit file plain text atau teks biasa.
 
 
 Perintah
-Pilih : shift + arrow
-Salin : ctrl + c
-Tempel : ctrl + v
-Cari : ctrl + f
-Simpan : ctrl + s
-Keluar : ctrl + q
-Bantuan : ctrl + h
+Shift + Arrow = memilih data
+Ctrl + X = cut/memotong teks yang dipilih
+Ctrl + C = copy/menduplikat teks yang dipilih
+Ctrl + V = paste/meletakan teks yang dicopy/cut sebelumnya
+Ctrl + A = memilih semua teks dalam satu halaman aktif
+Ctrl + N = membuat berkas baru/New
+Ctrl + O = open/membuka berkas sebelumnya/yang sudah disimpan
+Ctrl + S = menyimpan berkas yang sedang aktif
+Ctrl + F = menampilkan form pencarian
+Ctrl + H = membuka menu help
+Ctrl + Q = exit/keluar
+
