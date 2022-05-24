@@ -303,11 +303,11 @@
 1652072218 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\row.cpp
 	"row.h"
 
-1652072218 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\terminal.cpp
+1653379447 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\terminal.cpp
 	<stdio.h>
 	<windows.h>
 	"terminal.h"
 
-1652077558 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\text_operation.cpp
+1653378447 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 

@@ -410,9 +410,10 @@ void findText(teksEditor tEditor)
     {
         setMessage("Teks Tidak Ada!");
     }
-    
+
     free(query);
 }
+
 selectionText getSelection()
 {
     return selection;
