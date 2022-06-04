@@ -268,7 +268,7 @@
 	<sys/types.h>
 	<stdlib.h>
 
-1652077558 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\text_operation.h
+1654358513 d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\text_operation.h
 	<stdbool.h>
 	"terminal.h"
 	"input.h"
@@ -289,7 +289,7 @@
 	<string>
 	<conio.h>
 
-1652077558 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\input.cpp
+1654354438 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\input.cpp
 	"input.h"
 
 1652072218 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\main.cpp
@@ -303,11 +303,11 @@
 1652072218 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\row.cpp
 	"row.h"
 
-1653379447 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\terminal.cpp
+1653379840 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\terminal.cpp
 	<stdio.h>
 	<windows.h>
 	"terminal.h"
 
-1653378447 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\text_operation.cpp
+1654358340 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 

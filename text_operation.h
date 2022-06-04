@@ -27,8 +27,8 @@ void cut(teksEditor *tEditor);
 
 void selectShift(selectionText dest);
 void selectMoveCursor(int c, teksEditor tEditor);
-void findText(teksEditor tEditor);
-
+void findText(teksEditor tEditor,bool replaceAll,char *textPengganti,char *textDicari);
+void replace (teksEditor *tEditor,char *pengganti);
 void deleteSelect(teksEditor *tEditor);
 
 /* SELECTOR */

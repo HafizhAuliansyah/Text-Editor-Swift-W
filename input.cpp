@@ -134,7 +134,7 @@ void keyProcess()
             setCursorX(searchByIndex(teks_editor.first_row, cursor.y)->info.size);
         break;
     case CTRL('f'):
-        findText(teks_editor);
+        findText(teks_editor,false,NULL,NULL);
         skipClearSelect = true;
         break;
     case BACKSPACE:

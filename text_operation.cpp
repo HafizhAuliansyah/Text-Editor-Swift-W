@@ -362,9 +362,17 @@ void deleteSelect(teksEditor *tEditor){
         }
 }
 /** Find **/
-void findText(teksEditor tEditor)
+void findText(teksEditor tEditor,bool replaceAll,char *textPengganti,char *textDicari)
 {
-    char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
+    char *query;
+    if(replaceAll){
+        query = (char*)malloc(sizeof(textDicari));
+        query = textDicari;
+    } else {
+        char *temp = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
+        query = (char*)malloc(sizeof(temp));
+        query = temp;
+    }
     if (query == NULL)
         return;
     int ketemu = 0;
@@ -380,11 +388,9 @@ void findText(teksEditor tEditor)
         while (index < row.rsize)
         {
             tempRow[index] = Info(column);
-            // setMessage("%c, rsize : %d, x: %d,y: %d", Info(column), row.rsize, getCursor().x, getCursor().y);
             column = NextColumn(column);
             index++;
         }
-        // char *tempRow = rowsToString(&len);
         char *match = strstr(tempRow, query);
         if (match)
         {
@@ -403,7 +409,24 @@ void findText(teksEditor tEditor)
             }
 
             ketemu = 1;
-            break;
+            if(replaceAll){
+                replace(&tEditor,textPengganti);
+            }else{
+                char *pilih = setInputMassage("Ubah Text? : %s (Y/T)", 13);
+                if(toupper(pilih[0]) == 'Y'){
+                    char *pengganti = setInputMassage("Text Pengganti : %s ", 17);
+                    char *isReplaceAll = setInputMassage("Ubah Semua? : %s (Y/T)",14);
+                    if(toupper(isReplaceAll[0]) == 'Y'){
+                        replace(&tEditor,pengganti);
+                        findText(tEditor,true,pengganti,query);
+                        break;
+                    } else if(toupper(isReplaceAll[0]) == 'T'){
+                        replace(&tEditor,pengganti);
+                        break;
+                    }
+                } else if(toupper(pilih[0]) == 'T') break;
+                
+        }
         }
     }
     if (!ketemu)
@@ -412,6 +435,15 @@ void findText(teksEditor tEditor)
     }
 
     free(query);
+    
+}
+
+void replace (teksEditor *tEditor,char *pengganti){
+    deleteSelect(tEditor);
+    clearSelected();
+    for(int i = 0; i<strlen(pengganti); i++){
+        insertChar(pengganti[i]);
+    }
 }
 
 selectionText getSelection()
