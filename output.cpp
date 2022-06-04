@@ -3,7 +3,9 @@
 
 outputHandler outputConfig;
 
+//variabel menu
 std::string menuList[2] = {"File", "Help"};
+//variabel submenu
 std::string subMenuList[2][5] = {{"New","Open", "Save", "Exit"}, {"Help"}};
 int lenSubMenuList[2] = {4,1};
 
@@ -69,13 +71,7 @@ void drawRows(outputBuffer *ob)
             }
             else
             {
-                // LINE NUMBERING
-                // std::stringstream line_number;
-                // line_number << "[";
-                // line_number << filerow;
-                // line_number << "]";
-                // const char* line_num_c = line_number.str().c_str();
-                // bufferAppend(ob, line_num_c, strlen(line_num_c));
+                
                 int len = searchByIndex(tEditor.first_row, filerow)->info.rsize - getStartCol();
                 if (len < 0)
                     len = 0;
@@ -115,48 +111,69 @@ void drawRows(outputBuffer *ob)
         bufferAppend(ob, "\x1b[m", 3);
     free(help);
 }
+
 void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int selectedDrop){
+
+    //maksimal panjang submenu
     int maxLengthDrop = 8;
+    //panjang menu list yang select
     int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
+    //panjang submenu list yang select
     int lenSubMenu = sizeof(subMenuList[selectedMenu - 1])/sizeof(subMenuList[selectedMenu - 1][0]);
+    //mengitung kolom yang sudah terisi 
     int lenFilled = 0, filledBeforeDrop = 0;
     int currentSelected = selectedMenu;
 
+    //membersihkan baris
     bufferAppend(ob, "\x1b[K", 3);
     // Looping Menu Utama
     for(int i = 0; i < lenMenu; i++){
         if(i == currentSelected - 1){
+            //mengubah background menu yang terpilih menjadi biru
             bufferAppend(ob, "\x1b[44m", 5);
         }
         else{
+            //mengubah background menu yang tidak terpilih menjadi negative
             bufferAppend(ob, "\x1b[7m", 4);
         }
-
+        //menambah spasi pada untuk jarak permenu nya
         bufferAppend(ob, " ", 1);
+        //menampilkan nama menu
         bufferAppend(ob, menuList[i].c_str(), menuList[i].length());
+        //menambah spasi pada untuk jarak permenu nya
         bufferAppend(ob, " ", 1);
+        //mengembalikan background ke defult
         bufferAppend(ob, "\x1b[m", 3);
 
         lenFilled += (menuList[i].length() + 2 );
         if(i < currentSelected - 1)
             filledBeforeDrop += (menuList[i].length() + 2 );
     }
+    //mengubah background menjadi negative
     bufferAppend(ob, "\x1b[7m", 4);
     int x;
+    //menambah spasi sampai ke akhir dari kolom layar
     for(x = lenFilled; x < getScrenCols(); x++){
         bufferAppend(ob, " ", 1);
     }
+    //mengembalikan background ke defult
     bufferAppend(ob, "\x1b[m", 3);
+    //enter
     bufferAppend(ob, "\r\n", 2);
 
     // Looping Dropdown
     if(isDropDown){
+
         for(int i = 0; i < lenSubMenuList[selectedMenu - 1]; i++){
+
             int filledDrop = 0, filledBefore = 0;
+            //mengubah posisi x menjadi 
             int x = filledBeforeDrop + 1;
             int y = i + 2;
             char buf[32];
+            //mengubah nilai buf menjadi posisi kursor
             snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
+            //
             bufferAppend(ob, buf, strlen(buf));
 
             if(i == selectedDrop - 1){
@@ -179,28 +196,6 @@ void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int select
         }
     }
 }
-void drawShortcutBar(outputBuffer *ob){
-const char *short1="-CTRL+C = Copy    -CTRL+X = Cut   -CTRL+V = Paste     -CTRL+H = Help      -CTRL+F = Find";
-const char *short2="-CTRL+S = Save    -CTRL+N = New   -CTRL+O = Open      -CTRL+Q = Keluar    -ESC    = Menu";
- bufferAppend(ob, "\x1b[K", 3);
- bufferAppend(ob, short1,strlen(short1));
- bufferAppend(ob, "\r\n", 2);
- bufferAppend(ob, "\x1b[K", 3);
- bufferAppend(ob, short2,strlen(short2));
- bufferAppend(ob, "\r\n", 2);
-}
-
-void drawShortcutBarMenu(outputBuffer *ob){
-char *short1="-CTRL+C = Copy    -CTRL+X = Cut   -CTRL+V = Paste     -CTRL+H = Help      -CTRL+F = Find";
-char *short2="-CTRL+S = Save    -CTRL+N = New   -CTRL+O = Open      -CTRL+Q = Keluar    -ESC    = Kembali ";
- bufferAppend(ob, "\x1b[K", 3);
- bufferAppend(ob, short1,strlen(short1));
- bufferAppend(ob, "\r\n", 2);
- bufferAppend(ob, "\x1b[K", 3);
- bufferAppend(ob, short2,strlen(short2));
- bufferAppend(ob, "\r\n", 2);
-}
-
 void MenuMode(){
     bool dropOn = false;
     int selectedMenu = 1;
@@ -308,6 +303,32 @@ void MenuMode(){
         }
     }
 }
+
+void drawShortcutBar(outputBuffer *ob){
+    const char *short1="-CTRL+C = Copy    -CTRL+X = Cut   -CTRL+V = Paste     -CTRL+H = Help      -CTRL+F = Find";
+    const char *short2="-CTRL+S = Save    -CTRL+N = New   -CTRL+O = Open      -CTRL+Q = Keluar    -ESC    = Menu";
+  
+    bufferAppend(ob, "\x1b[92m", 5);
+    bufferAppend(ob, "\x1b[K", 3);
+    bufferAppend(ob, short1,strlen(short1));
+    bufferAppend(ob, "\r\n", 2);
+    bufferAppend(ob, "\x1b[K", 3);
+    bufferAppend(ob, short2,strlen(short2));
+    bufferAppend(ob, "\r\n", 2);
+}
+
+void drawShortcutBarMenu(outputBuffer *ob){
+    char *short1="-CTRL+C = Copy    -CTRL+X = Cut   -CTRL+V = Paste     -CTRL+H = Help      -CTRL+F = Find";
+    char *short2="-CTRL+S = Save    -CTRL+N = New   -CTRL+O = Open      -CTRL+Q = Keluar    -ESC    = Kembali ";
+    bufferAppend(ob, "\x1b[92m", 5);
+    bufferAppend(ob, "\x1b[K", 3);
+    bufferAppend(ob, short1,strlen(short1));
+    bufferAppend(ob, "\r\n", 2);
+    bufferAppend(ob, "\x1b[K", 3);
+    bufferAppend(ob, short2,strlen(short2));
+    bufferAppend(ob, "\r\n", 2);
+}
+
 void addStatusBar(outputBuffer *ob)
 {
     cursorHandler C = getCursor();
