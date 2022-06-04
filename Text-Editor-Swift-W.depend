@@ -6,7 +6,7 @@
 	"terminal.h"
 	"input.h"
 
-1651912555 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
+1653233718 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
 	<stdlib.h>
 	"input.h"
 	"output.h"
@@ -16,7 +16,7 @@
 	<stdio.h>
 	<ctype.h>
 
-1650213426 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\terminal.cpp
+1653280714 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\terminal.cpp
 	<stdio.h>
 	<windows.h>
 	"terminal.h"
@@ -30,7 +30,7 @@
 	<stdlib.h>
 	<string.h>
 
-1652076836 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.h
+1653289451 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -77,10 +77,10 @@
 	<string>
 	<conio.h>
 
-1652076269 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
+1653231379 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
 	"input.h"
 
-1652073362 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
+1653289497 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
 	"output.h"
 
 1650210672 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.cpp
@@ -91,7 +91,7 @@
 1650211128 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.h
 	<stdio.h>
 
-1652076078 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
+1653289219 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
 1651051602 source:d:\new\2022\github explore\text-editor-swift-w\main.cpp
@@ -290,4 +290,106 @@
 
 1651943477 source:d:\kuliah\semester_2\proyek\windowsver\text-editor-swift-w\input.cpp
 	"input.h"
+
+1651912617 source:d:\kuliah\semester 2\proyek 2\menubackup-w\buffer.cpp
+	"buffer.h"
+	"output.h"
+
+1650186628 d:\kuliah\semester 2\proyek 2\menubackup-w\buffer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1653231360 d:\kuliah\semester 2\proyek 2\menubackup-w\output.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<time.h>
+	<sstream>
+	"cursor.h"
+	"file_io.h"
+	"input.h"
+	"buffer.h"
+
+1650186836 d:\kuliah\semester 2\proyek 2\menubackup-w\cursor.h
+	"terminal.h"
+	"input.h"
+
+1650209455 d:\kuliah\semester 2\proyek 2\menubackup-w\terminal.h
+	<windows.h>
+	<stdio.h>
+	<ctype.h>
+
+1651912617 d:\kuliah\semester 2\proyek 2\menubackup-w\input.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"row.h"
+	"cursor.h"
+	"file_io.h"
+	"text_operation.h"
+	"output.h"
+
+1651912617 d:\kuliah\semester 2\proyek 2\menubackup-w\row.h
+	<stdio.h>
+	<stdlib.h>
+	"column.h"
+
+1651912617 d:\kuliah\semester 2\proyek 2\menubackup-w\column.h
+	<stdio.h>
+	<stdlib.h>
+
+1651913325 d:\kuliah\semester 2\proyek 2\menubackup-w\file_io.h
+	"terminal.h"
+	"output.h"
+	"input.h"
+	<string.h>
+	<sys/types.h>
+	<stdlib.h>
+
+1652073474 d:\kuliah\semester 2\proyek 2\menubackup-w\text_operation.h
+	<stdbool.h>
+	"terminal.h"
+	"input.h"
+	"cursor.h"
+	"buffer.h"
+
+1651912617 source:d:\kuliah\semester 2\proyek 2\menubackup-w\column.cpp
+	"column.h"
+
+1651912664 source:d:\kuliah\semester 2\proyek 2\menubackup-w\cursor.cpp
+	"cursor.h"
+
+1652072417 source:d:\kuliah\semester 2\proyek 2\menubackup-w\file_io.cpp
+	"file_io.h"
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<conio.h>
+
+1653231379 source:d:\kuliah\semester 2\proyek 2\menubackup-w\input.cpp
+	"input.h"
+
+1653233718 source:d:\kuliah\semester 2\proyek 2\menubackup-w\main.cpp
+	<stdlib.h>
+	"input.h"
+	"output.h"
+
+1653280656 source:d:\kuliah\semester 2\proyek 2\menubackup-w\output.cpp
+	"output.h"
+
+1651912617 source:d:\kuliah\semester 2\proyek 2\menubackup-w\row.cpp
+	"row.h"
+
+1653280714 source:d:\kuliah\semester 2\proyek 2\menubackup-w\terminal.cpp
+	<stdio.h>
+	<windows.h>
+	"terminal.h"
+
+1652076078 source:d:\kuliah\semester 2\proyek 2\menubackup-w\text_operation.cpp
+	"text_operation.h"
 

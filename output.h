@@ -18,7 +18,8 @@ struct outputHandler
     char statusmsg[100];
     time_t statusmsg_time;
     bool isInStatus;
-    bool isInHelp; 
+    bool isInHelp;
+    bool isInMenu;
 };
 
 
@@ -46,6 +47,9 @@ void setInHelp(bool new_help);
 /* Initialize Value */
 void outputInit();
 
+void drawMenuBar(outputBuffer *ob, int selected, bool isDropDown);
+void MenuMode();
+void setInMenu(bool new_menu);
 
 
 #endif

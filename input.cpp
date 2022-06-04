@@ -208,6 +208,8 @@ void keyProcess()
     {
         if (output.isInHelp)
             setInHelp(false);
+        if (!output.isInMenu)
+            setInMenu(true);
     }
     break;
     default:

@@ -1,7 +1,8 @@
 #include "output.h"
 
 outputHandler outputConfig;
-
+std::string menuList[2] = {"File", "Help"};
+std::string subMenuList[2][5] = {{"Open, Save"}, {"Help"}};
 void drawRows(outputBuffer *ob)
 {
     int y;
@@ -9,7 +10,7 @@ void drawRows(outputBuffer *ob)
     int help_len;
     if (outputConfig.isInHelp)
     {
-        bufferAppend(ob, "\x1b[96m", 5);
+        bufferAppend(ob, "\x1b[lkkji", 5);
         help = openHelp(&help_len);
     }
     selectionText scanSelected = getSelection();
@@ -110,7 +111,86 @@ void drawRows(outputBuffer *ob)
         bufferAppend(ob, "\x1b[m", 3);
     free(help);
 }
+void drawMenuBar(outputBuffer *ob, int selected, bool isDropDown){
 
+    bufferAppend(ob, "\x1b[K", 3);
+    int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
+    int lenFilled = 0;
+    int currentSelected = selected;
+    for(int i = 0; i < lenMenu; i++){
+        if(i == currentSelected - 1){
+            bufferAppend(ob, "\x1b[44m", 5);
+
+        }
+        else{
+            bufferAppend(ob, "\x1b[7m", 4);
+        }
+
+        bufferAppend(ob, " ", 1);
+        bufferAppend(ob, menuList[i].c_str(), menuList[i].length());
+        bufferAppend(ob, " ", 1);
+        bufferAppend(ob, "\x1b[m", 3);
+        lenFilled += (menuList[i].length() + 2 );
+
+    }
+    bufferAppend(ob, "\x1b[7m", 4);
+    int x;
+    for(x = lenFilled; x < getScrenCols(); x++){
+        bufferAppend(ob, " ", 1);
+    }
+    bufferAppend(ob, "\x1b[m", 3);
+    bufferAppend(ob, "\r\n", 2);
+}
+void MenuMode(){
+    bool dropOn = false;
+    int selectedMenu = 1;
+    int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
+
+    while (1)
+    {
+        outputBuffer ob = OUTPUT_INIT;
+        setMessage("\x1b[46m MENU MODE \x1b[m");
+        //Memposisikan Cursor Di Sudut Kiri Atas
+        bufferAppend(&ob, "\x1b[?25l", 6);
+        bufferAppend(&ob, "\x1b[H", 3);
+        drawMenuBar(&ob, selectedMenu, dropOn);
+        //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit
+        drawRows(&ob);
+        //Menampilkan Status Bar
+        addStatusBar(&ob);
+        //Menampilkan Status Messege
+        addMessageBar(&ob);
+        WriteFile(getConsoleOut(), ob.buffer, ob.len, NULL, NULL);
+        // Membaca input untuk mengisi file name
+        int c = readKey();
+        // Escape, untuk keluar dari menu mode
+
+        switch(c){
+            case '\x1b':
+                outputConfig.isInMenu = false;
+                break;
+            case '\r':
+                dropOn = true;
+                return;
+                break;
+            case ARROW_LEFT:
+                if(selectedMenu > 1)
+                    selectedMenu -= 1;
+                break;
+            case ARROW_RIGHT:
+                if(selectedMenu < lenMenu)
+                    selectedMenu += 1;
+                break;
+        }
+
+        bufferFree(&ob);
+        if(outputConfig.isInMenu == false){
+            setMessage("\x1b[101m EXIT MENU MODE \x1b[m");
+            refreshScreen();
+            return;
+        }
+    }
+}
 void addStatusBar(outputBuffer *ob)
 {
     cursorHandler C = getCursor();
@@ -128,7 +208,7 @@ void addStatusBar(outputBuffer *ob)
     if (len > getScrenCols())
         len = getScrenCols();
     bufferAppend(ob, status, len);
-    //Meminta Posisi Paling Bawah Pada Layar 
+    //Meminta Posisi Paling Bawah Pada Layar
     while (len < getScrenCols())
     {
         if (getScrenCols() - len == rlen)
@@ -158,6 +238,7 @@ void addMessageBar(outputBuffer *ob)
 
 void refreshScreen()
 {
+
     cursorScroll(getTeksEditor());
 
     outputBuffer ob = OUTPUT_INIT;
@@ -165,15 +246,15 @@ void refreshScreen()
     bufferAppend(&ob, "\x1b[?25l", 6);
     bufferAppend(&ob, "\x1b[H", 3);
 
-    //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit 
+    drawMenuBar(&ob, -1, false);
+    //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit
     drawRows(&ob);
     //Menampilkan Status Bar
     addStatusBar(&ob);
     //Menampilkan Status Messege
     addMessageBar(&ob);
-
     char buf[32];
-    int y = outputConfig.isInStatus ? getMessageCursor().y + 1 : (getCursor().y - getStartRow()) + 1;
+    int y = outputConfig.isInStatus ? getMessageCursor().y + 1 : (getCursor().y - getStartRow()) + 2;
     int x = outputConfig.isInStatus ? getMessageCursor().x + 1 : (getCursor().rx - getStartCol()) + 1;
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
 
@@ -219,6 +300,7 @@ char *rowsToString(int *buflen)
 
     return buf;
 }
+
 
 char *setInputMassage(const char *prompt, int start_cx)
 {
@@ -308,10 +390,14 @@ void setInHelp(bool new_help)
 {
     outputConfig.isInHelp = new_help;
 }
+void setInMenu(bool new_menu){
+    outputConfig.isInMenu = new_menu;
+}
 void outputInit()
 {
     outputConfig.isInHelp = false;
     outputConfig.isInStatus = false;
     outputConfig.statusmsg[0] = '\0';
     outputConfig.statusmsg_time = 0;
+    outputConfig.isInMenu = false;
 }

@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	cursorInit();
 	fileInit();
     selectInit();
-	
+
     if (argc >= 2)
     {
         openFile(argv[1]);
@@ -21,7 +21,10 @@ int main(int argc, char *argv[])
 
     while (1)
     {
-        refreshScreen();
+        if(getOutputHandler().isInMenu)
+            MenuMode();
+        else
+            refreshScreen();
         keyProcess();
     }
     return 0;

@@ -42,7 +42,6 @@ void selectMoveCursor(int key, teksEditor tEditor)
     dest.y = getCursor().y;
     dest.len = selection.len;
     // Kondisional Shift Select
-    setMessage("\x1b[31m SELECT !! \x1b[m");
     switch (key)
     {
     case SHIFT_ARROW_LEFT:
