@@ -71,7 +71,7 @@ void drawRows(outputBuffer *ob)
             }
             else
             {
-                
+
                 int len = searchByIndex(tEditor.first_row, filerow)->info.rsize - getStartCol();
                 if (len < 0)
                     len = 0;
@@ -120,7 +120,7 @@ void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int select
     int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
     //panjang submenu list yang select
     int lenSubMenu = sizeof(subMenuList[selectedMenu - 1])/sizeof(subMenuList[selectedMenu - 1][0]);
-    //mengitung kolom yang sudah terisi 
+    //mengitung kolom yang sudah terisi
     int lenFilled = 0, filledBeforeDrop = 0;
     int currentSelected = selectedMenu;
 
@@ -167,7 +167,7 @@ void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int select
         for(int i = 0; i < lenSubMenuList[selectedMenu - 1]; i++){
 
             int filledDrop = 0, filledBefore = 0;
-            //mengubah posisi x menjadi 
+            //mengubah posisi x menjadi
             int x = filledBeforeDrop + 1;
             int y = i + 2;
             char buf[32];
@@ -269,6 +269,8 @@ void MenuMode(){
                         //saat submenu ketiga terpilih, jalankan fungsi saveFile
                         case 3 :{
                          saveFile();
+                          break;
+
                         }
                         //saat submenu pertama terpilih, keluar
                         case 4 :{
@@ -329,7 +331,6 @@ void MenuMode(){
 void drawShortcutBar(outputBuffer *ob){
     const char *short1="-CTRL+C = Copy    -CTRL+X = Cut   -CTRL+V = Paste     -CTRL+H = Help      -CTRL+F = Find";
     const char *short2="-CTRL+S = Save    -CTRL+N = New   -CTRL+O = Open      -CTRL+Q = Keluar    -ESC    = Menu";
-    
     bufferAppend(ob, "\x1b[92m", 5);
     bufferAppend(ob, "\x1b[K", 3);
     bufferAppend(ob, short1,strlen(short1));
@@ -337,6 +338,7 @@ void drawShortcutBar(outputBuffer *ob){
     bufferAppend(ob, "\x1b[K", 3);
     bufferAppend(ob, short2,strlen(short2));
     bufferAppend(ob, "\r\n", 2);
+    bufferAppend(ob, "\x1b[m", 3);
 }
 
 void drawShortcutBarMenu(outputBuffer *ob){
@@ -349,6 +351,7 @@ void drawShortcutBarMenu(outputBuffer *ob){
     bufferAppend(ob, "\x1b[K", 3);
     bufferAppend(ob, short2,strlen(short2));
     bufferAppend(ob, "\r\n", 2);
+    bufferAppend(ob, "\x1b[m", 3);
 }
 
 void addStatusBar(outputBuffer *ob)
@@ -356,7 +359,7 @@ void addStatusBar(outputBuffer *ob)
     cursorHandler C = getCursor();
     teksEditor tEditor = getTeksEditor();
     //Mengubah Warna BG nya Menjadi Negative
-    bufferAppend(ob, "\x1b[7m", 4);
+    bufferAppend(ob, "\x1b[44m", 5);
     char status[80], rstatus[80];
     //Untuk Menampilkan Jumlah Baris
     int len = snprintf(status, sizeof(status), "%.20s - %d baris %s",
