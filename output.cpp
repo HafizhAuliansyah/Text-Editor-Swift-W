@@ -138,7 +138,7 @@ void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int select
         }
         //menambah spasi pada untuk jarak permenu nya
         bufferAppend(ob, " ", 1);
-        //menampilkan nama menu
+        //menampilkan list menu FILE
         bufferAppend(ob, menuList[i].c_str(), menuList[i].length());
         //menambah spasi pada untuk jarak permenu nya
         bufferAppend(ob, " ", 1);
@@ -173,39 +173,52 @@ void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int select
             char buf[32];
             //mengubah nilai buf menjadi posisi kursor
             snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
-            //
+            //mengubah kursor ke posisi yang sudah di atur
             bufferAppend(ob, buf, strlen(buf));
 
+
             if(i == selectedDrop - 1){
+                //mengubah background menu yang terpilih menjadi biru
                 bufferAppend(ob, "\x1b[44m", 5);
             }
             else{
+                 //mengubah background menu yang terpilih menjadi negative
                 bufferAppend(ob, "\x1b[7m", 4);
             }
             bufferAppend(ob, " ", 1);
+            //menampilkan list menu HELP
             bufferAppend(ob, subMenuList[selectedMenu - 1][i].c_str(), subMenuList[selectedMenu - 1][i].length());
 
-            filledDrop = 1 + subMenuList[selectedMenu - 1][i].length();
+            //menghitung ukuran kolom yang terisi
+            filledDrop = 1 + subMenuList[selectedMenu - 1][i].length();\
+           //menambah spasi bila si submenu kurang dari maxLengthDrop
             while(filledDrop < maxLengthDrop){
                 bufferAppend(ob, " ", 1);
                 filledDrop++;
             }
-
+            //mereset warna background
             bufferAppend(ob, "\x1b[m", 3);
+            //enter
             bufferAppend(ob, "\r\n", 2);
         }
     }
 }
 void MenuMode(){
+    //variabel aktif tidak nya menu
     bool dropOn = false;
+    //varabel menu yg terpilih
     int selectedMenu = 1;
+    //variabel submenu yg terpilih
     int selectedDrop = -1;
+    //panjang menu list yang terpilih
     int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
+    //panjang subemenu yg terpilih
     int lenSubMenu;
     teksEditor tEditor=getTeksEditor();
 
     while (1)
-    {
+    {   
+
         lenSubMenu = lenSubMenuList[selectedMenu - 1];
         outputBuffer ob = OUTPUT_INIT;
         setMessage("\x1b[46m MENU MODE \x1b[m");
@@ -230,6 +243,7 @@ void MenuMode(){
         // Escape, untuk keluar dari menu mode
 
         switch(c){
+             
             case '\x1b':
                 if(!dropOn)
                     outputConfig.isInMenu = false;
@@ -244,15 +258,19 @@ void MenuMode(){
                     // TODO case prosses
                     if (selectedMenu == 1){
                         switch (selectedDrop){
+                        //saat submenu pertama terpilih, jalankan fungsi newFile
                         case 1 :{
                           newFile(&tEditor);
                         }
+                        //saat submenu kedua terpilih, jalankan fungsi openNewFile
                         case 2 :{
                           openNewFile(&tEditor);
                         }
+                        //saat submenu ketiga terpilih, jalankan fungsi saveFile
                         case 3 :{
                          saveFile();
                         }
+                        //saat submenu pertama terpilih, keluar
                         case 4 :{
                         static int quit_times = SWIFT_QUIT_TIMES;
                         HANDLE console_out = getConsoleOut();
@@ -277,18 +295,22 @@ void MenuMode(){
                 }
             }
                 break;
+            //saat menekan arah kiri menu yang terpilih dikurang 1
             case ARROW_LEFT:
                 if(selectedMenu > 1 && !dropOn)
                     selectedMenu -= 1;
                 break;
+            //saat menekan arah kanan menu yang terpilih ditambah 1
             case ARROW_RIGHT:
                 if(selectedMenu < lenMenu && !dropOn)
                     selectedMenu += 1;
                 break;
+            //saat menekan arah atas submenu yang terpilih dikurang 1    
             case ARROW_UP:
                 if(dropOn && selectedDrop > 1)
                     selectedDrop -= 1;
                 break;
+            //saat menekan arah atas submenu yang terpilih ditambah 1    
             case ARROW_DOWN:
                 if(dropOn && selectedDrop < lenSubMenu)
                     selectedDrop += 1;
@@ -307,7 +329,7 @@ void MenuMode(){
 void drawShortcutBar(outputBuffer *ob){
     const char *short1="-CTRL+C = Copy    -CTRL+X = Cut   -CTRL+V = Paste     -CTRL+H = Help      -CTRL+F = Find";
     const char *short2="-CTRL+S = Save    -CTRL+N = New   -CTRL+O = Open      -CTRL+Q = Keluar    -ESC    = Menu";
-  
+    
     bufferAppend(ob, "\x1b[92m", 5);
     bufferAppend(ob, "\x1b[K", 3);
     bufferAppend(ob, short1,strlen(short1));
