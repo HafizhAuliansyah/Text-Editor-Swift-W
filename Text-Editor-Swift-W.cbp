@@ -33,7 +33,6 @@
 		<Unit filename="main.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="main.h" />
 		<Unit filename="output.cpp" />
 		<Unit filename="output.h" />
 		<Unit filename="row.cpp" />

@@ -96,7 +96,6 @@ int readKey()
         return key[0];
     }
 }
-
 void keyProcess()
 {
     bool skipClearSelect = false;
@@ -206,10 +205,15 @@ void keyProcess()
     case CTRL('l'):
     case '\x1b':
     {
-        if (output.isInHelp)
-            setInHelp(false);
         if (!output.isInMenu)
             setInMenu(true);
+        if (output.isInHelp){
+            setInHelp(false);
+            setInMenu(false);
+
+        }
+
+
     }
     break;
     default:

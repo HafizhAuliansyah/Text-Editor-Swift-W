@@ -1,5 +1,6 @@
 #include "output.h"
 
+
 outputHandler outputConfig;
 
 std::string menuList[2] = {"File", "Help"};
@@ -13,7 +14,7 @@ void drawRows(outputBuffer *ob)
     int help_len;
     if (outputConfig.isInHelp)
     {
-        bufferAppend(ob, "\x1b[lkkji", 5);
+        bufferAppend(ob, "\x1b[96m", 5);
         help = openHelp(&help_len);
     }
     selectionText scanSelected = getSelection();
@@ -166,7 +167,7 @@ void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int select
             }
             bufferAppend(ob, " ", 1);
             bufferAppend(ob, subMenuList[selectedMenu - 1][i].c_str(), subMenuList[selectedMenu - 1][i].length());
-            
+
             filledDrop = 1 + subMenuList[selectedMenu - 1][i].length();
             while(filledDrop < maxLengthDrop){
                 bufferAppend(ob, " ", 1);
@@ -178,19 +179,42 @@ void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int select
         }
     }
 }
+void drawShortcutBar(outputBuffer *ob){
+const char *short1="-CTRL+C = Copy    -CTRL+X = Cut   -CTRL+V = Paste     -CTRL+H = Help      -CTRL+F = Find";
+const char *short2="-CTRL+S = Save    -CTRL+N = New   -CTRL+O = Open      -CTRL+Q = Keluar    -ESC    = Menu";
+ bufferAppend(ob, "\x1b[K", 3);
+ bufferAppend(ob, short1,strlen(short1));
+ bufferAppend(ob, "\r\n", 2);
+ bufferAppend(ob, "\x1b[K", 3);
+ bufferAppend(ob, short2,strlen(short2));
+ bufferAppend(ob, "\r\n", 2);
+}
+
+void drawShortcutBarMenu(outputBuffer *ob){
+char *short1="-CTRL+C = Copy    -CTRL+X = Cut   -CTRL+V = Paste     -CTRL+H = Help      -CTRL+F = Find";
+char *short2="-CTRL+S = Save    -CTRL+N = New   -CTRL+O = Open      -CTRL+Q = Keluar    -ESC    = Kembali ";
+ bufferAppend(ob, "\x1b[K", 3);
+ bufferAppend(ob, short1,strlen(short1));
+ bufferAppend(ob, "\r\n", 2);
+ bufferAppend(ob, "\x1b[K", 3);
+ bufferAppend(ob, short2,strlen(short2));
+ bufferAppend(ob, "\r\n", 2);
+}
+
 void MenuMode(){
     bool dropOn = false;
     int selectedMenu = 1;
     int selectedDrop = -1;
     int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
     int lenSubMenu;
+    teksEditor tEditor=getTeksEditor();
 
     while (1)
     {
         lenSubMenu = lenSubMenuList[selectedMenu - 1];
         outputBuffer ob = OUTPUT_INIT;
         setMessage("\x1b[46m MENU MODE \x1b[m");
-        
+
         //Memposisikan Cursor Di Sudut Kiri Atas
         bufferAppend(&ob, "\x1b[?25l", 6);
         bufferAppend(&ob, "\x1b[H", 3);
@@ -198,6 +222,8 @@ void MenuMode(){
         if(!dropOn){
             //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit
             drawRows(&ob);
+
+            drawShortcutBarMenu(&ob);
             //Menampilkan Status Bar
             addStatusBar(&ob);
             //Menampilkan Status Messege
@@ -219,8 +245,40 @@ void MenuMode(){
                     dropOn = true;
                     selectedDrop = 1;
                 }else{
+                     outputConfig.isInMenu = false;
                     // TODO case prosses
-                    
+                    if (selectedMenu == 1){
+                        switch (selectedDrop){
+                        case 1 :{
+                          newFile(&tEditor);
+                        }
+                        case 2 :{
+                          openNewFile(&tEditor);
+                        }
+                        case 3 :{
+                         saveFile();
+                        }
+                        case 4 :{
+                        static int quit_times = SWIFT_QUIT_TIMES;
+                        HANDLE console_out = getConsoleOut();
+                         if (getFileHandler().modified && quit_times > 0)
+                            {
+                                setMessage("PERINGATAN !! FILE BELUM DISIMPAN TEKAN Ctrl + s UNTUK SIMPAN, Ctrl + q UNTUK KELUAR", quit_times);
+                                quit_times--;
+                                return;
+                            }
+                            WriteFile(console_out, "\x1b[2J", 4, NULL, NULL);
+                            WriteFile(console_out, "\x1b[H", 3, NULL, NULL);
+                            exit(0);
+                            break;
+                        }
+                        }
+                    }
+                    else{
+                        if (selectedDrop == 1){
+                            setInHelp(true);
+                        }
+                    }
                 }
             }
                 break;
@@ -308,6 +366,14 @@ void refreshScreen()
     drawMenuBar(&ob, -1, false, -1);
     //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit
     drawRows(&ob);
+    if(outputConfig.isInHelp){
+    drawShortcutBarMenu(&ob);
+    }
+    else{
+        drawShortcutBar(&ob);
+    }
+
+
     //Menampilkan Status Bar
     addStatusBar(&ob);
     //Menampilkan Status Messege
