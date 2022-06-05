@@ -376,8 +376,8 @@ void findText(teksEditor tEditor,bool replaceAll,char *textPengganti,char *textD
     if (query == NULL)
         return;
     int ketemu = 0;
-    int i;
-    for (i = 0; i < tEditor.numrows; i++)
+    int i = 0;
+    while (i < tEditor.numrows)
     {
         // Konversi list ke char*
         infotype row = searchByIndex(tEditor.first_row, i)->info;
@@ -426,7 +426,9 @@ void findText(teksEditor tEditor,bool replaceAll,char *textPengganti,char *textD
                     }
                 } else if(toupper(pilih[0]) == 'T') break;
                 
-        }
+            }
+        } else {
+            i++;
         }
     }
     if (!ketemu)
