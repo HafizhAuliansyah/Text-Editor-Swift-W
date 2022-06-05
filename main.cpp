@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         openFile(argv[1]);
     }
 
-    setMessage("SHORTCUT: Ctrl - Q = quit; Ctrl - S  = save, Search : CTRL - q");
+    setMessage("-ctrl+c = Copy  -ctrl+x = Cut  -ctrl+v = Paste -ctrl+h = Help  -ctrl+f = Find -ctrl+s = Save ");
 
     while (1)
     {
