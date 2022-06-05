@@ -12,12 +12,18 @@
 				<Option compiler="gcc" />
 			</Target>
 		</Build>
+		<Unit filename="buffer.cpp" />
+		<Unit filename="buffer.h" />
+		<Unit filename="column.cpp" />
+		<Unit filename="column.h" />
 		<Unit filename="cursor.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="cursor.h">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="file_io.cpp" />
+		<Unit filename="file_io.h" />
 		<Unit filename="input.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -27,12 +33,18 @@
 		<Unit filename="main.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="output.cpp" />
+		<Unit filename="output.h" />
+		<Unit filename="row.cpp" />
+		<Unit filename="row.h" />
 		<Unit filename="terminal.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="terminal.h">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="text_operation.cpp" />
+		<Unit filename="text_operation.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
