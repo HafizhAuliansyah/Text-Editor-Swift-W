@@ -1,8 +1,11 @@
 #include "output.h"
 
 outputHandler outputConfig;
+
 std::string menuList[2] = {"File", "Help"};
-std::string subMenuList[2][5] = {{"Open, Save"}, {"Help"}};
+std::string subMenuList[2][5] = {{"New","Open", "Save", "Exit"}, {"Help"}};
+int lenSubMenuList[2] = {4,1};
+
 void drawRows(outputBuffer *ob)
 {
     int y;
@@ -111,16 +114,18 @@ void drawRows(outputBuffer *ob)
         bufferAppend(ob, "\x1b[m", 3);
     free(help);
 }
-void drawMenuBar(outputBuffer *ob, int selected, bool isDropDown){
+void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int selectedDrop){
+    int maxLengthDrop = 8;
+    int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
+    int lenSubMenu = sizeof(subMenuList[selectedMenu - 1])/sizeof(subMenuList[selectedMenu - 1][0]);
+    int lenFilled = 0, filledBeforeDrop = 0;
+    int currentSelected = selectedMenu;
 
     bufferAppend(ob, "\x1b[K", 3);
-    int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
-    int lenFilled = 0;
-    int currentSelected = selected;
+    // Looping Menu Utama
     for(int i = 0; i < lenMenu; i++){
         if(i == currentSelected - 1){
             bufferAppend(ob, "\x1b[44m", 5);
-
         }
         else{
             bufferAppend(ob, "\x1b[7m", 4);
@@ -130,8 +135,10 @@ void drawMenuBar(outputBuffer *ob, int selected, bool isDropDown){
         bufferAppend(ob, menuList[i].c_str(), menuList[i].length());
         bufferAppend(ob, " ", 1);
         bufferAppend(ob, "\x1b[m", 3);
-        lenFilled += (menuList[i].length() + 2 );
 
+        lenFilled += (menuList[i].length() + 2 );
+        if(i < currentSelected - 1)
+            filledBeforeDrop += (menuList[i].length() + 2 );
     }
     bufferAppend(ob, "\x1b[7m", 4);
     int x;
@@ -140,26 +147,62 @@ void drawMenuBar(outputBuffer *ob, int selected, bool isDropDown){
     }
     bufferAppend(ob, "\x1b[m", 3);
     bufferAppend(ob, "\r\n", 2);
+
+    // Looping Dropdown
+    if(isDropDown){
+        for(int i = 0; i < lenSubMenuList[selectedMenu - 1]; i++){
+            int filledDrop = 0, filledBefore = 0;
+            int x = filledBeforeDrop + 1;
+            int y = i + 2;
+            char buf[32];
+            snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
+            bufferAppend(ob, buf, strlen(buf));
+
+            if(i == selectedDrop - 1){
+                bufferAppend(ob, "\x1b[44m", 5);
+            }
+            else{
+                bufferAppend(ob, "\x1b[7m", 4);
+            }
+            bufferAppend(ob, " ", 1);
+            bufferAppend(ob, subMenuList[selectedMenu - 1][i].c_str(), subMenuList[selectedMenu - 1][i].length());
+            
+            filledDrop = 1 + subMenuList[selectedMenu - 1][i].length();
+            while(filledDrop < maxLengthDrop){
+                bufferAppend(ob, " ", 1);
+                filledDrop++;
+            }
+
+            bufferAppend(ob, "\x1b[m", 3);
+            bufferAppend(ob, "\r\n", 2);
+        }
+    }
 }
 void MenuMode(){
     bool dropOn = false;
     int selectedMenu = 1;
+    int selectedDrop = -1;
     int lenMenu = sizeof(menuList)/sizeof(menuList[0]);
+    int lenSubMenu;
 
     while (1)
     {
+        lenSubMenu = lenSubMenuList[selectedMenu - 1];
         outputBuffer ob = OUTPUT_INIT;
         setMessage("\x1b[46m MENU MODE \x1b[m");
+        
         //Memposisikan Cursor Di Sudut Kiri Atas
         bufferAppend(&ob, "\x1b[?25l", 6);
         bufferAppend(&ob, "\x1b[H", 3);
-        drawMenuBar(&ob, selectedMenu, dropOn);
-        //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit
-        drawRows(&ob);
-        //Menampilkan Status Bar
-        addStatusBar(&ob);
-        //Menampilkan Status Messege
-        addMessageBar(&ob);
+        drawMenuBar(&ob, selectedMenu, dropOn, selectedDrop);
+        if(!dropOn){
+            //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit
+            drawRows(&ob);
+            //Menampilkan Status Bar
+            addStatusBar(&ob);
+            //Menampilkan Status Messege
+            addMessageBar(&ob);
+        }
         WriteFile(getConsoleOut(), ob.buffer, ob.len, NULL, NULL);
         // Membaca input untuk mengisi file name
         int c = readKey();
@@ -167,19 +210,35 @@ void MenuMode(){
 
         switch(c){
             case '\x1b':
-                outputConfig.isInMenu = false;
+                if(!dropOn)
+                    outputConfig.isInMenu = false;
+                dropOn = false;
                 break;
-            case '\r':
-                dropOn = true;
-                return;
+            case '\r':{
+                if(!dropOn){
+                    dropOn = true;
+                    selectedDrop = 1;
+                }else{
+                    // TODO case prosses
+                    
+                }
+            }
                 break;
             case ARROW_LEFT:
-                if(selectedMenu > 1)
+                if(selectedMenu > 1 && !dropOn)
                     selectedMenu -= 1;
                 break;
             case ARROW_RIGHT:
-                if(selectedMenu < lenMenu)
+                if(selectedMenu < lenMenu && !dropOn)
                     selectedMenu += 1;
+                break;
+            case ARROW_UP:
+                if(dropOn && selectedDrop > 1)
+                    selectedDrop -= 1;
+                break;
+            case ARROW_DOWN:
+                if(dropOn && selectedDrop < lenSubMenu)
+                    selectedDrop += 1;
                 break;
         }
 
@@ -246,7 +305,7 @@ void refreshScreen()
     bufferAppend(&ob, "\x1b[?25l", 6);
     bufferAppend(&ob, "\x1b[H", 3);
 
-    drawMenuBar(&ob, -1, false);
+    drawMenuBar(&ob, -1, false, -1);
     //Menampilkan Setiap Baris Buffer Teks Yang Sedang Di Edit
     drawRows(&ob);
     //Menampilkan Status Bar

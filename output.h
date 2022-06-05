@@ -22,8 +22,6 @@ struct outputHandler
     bool isInMenu;
 };
 
-
-
 void drawRows(outputBuffer *ob);
 
 void addStatusBar(outputBuffer *ob);
@@ -47,7 +45,7 @@ void setInHelp(bool new_help);
 /* Initialize Value */
 void outputInit();
 
-void drawMenuBar(outputBuffer *ob, int selected, bool isDropDown);
+void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int selectedDrop);
 void MenuMode();
 void setInMenu(bool new_menu);
 

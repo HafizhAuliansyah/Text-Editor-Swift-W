@@ -13,6 +13,7 @@ void bufferAppend(outputBuffer *ob, const char *s, int len)
   memcpy(&to_append[ob->len], s, len);
   ob->buffer = to_append;
   ob->len += len;
+  
 }
 
 void bufferFree(outputBuffer *ob)
