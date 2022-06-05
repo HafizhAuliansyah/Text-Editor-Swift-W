@@ -361,44 +361,92 @@ void deleteSelect(teksEditor *tEditor){
         }
 }
 /** Find **/
-void findText(teksEditor tEditor)
+void findText(teksEditor tEditor,bool replaceAll,char *textPengganti,char *textDicari)
 {
-    // char *query = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
-    // if (query == NULL)
-    //     return;
-    // int ketemu = 1;
-    // int i;
-    // for (i = 0; i < tEditor.numrows; i++)
-    // {
-    //     erow *row = &tEditor.row[i];
-    //     char *match = strstr(row->render, query);
-    //     if (match)
-    //     {
-    //         setCursorY(i);
-    //         setCursorX(renderXToCursorX(row, match - row->render));
+    char *query;
+    if(replaceAll){
+        query = (char*)malloc(sizeof(textDicari));
+        query = textDicari;
+    } else {
+        char *temp = setInputMassage("Cari : %s (Tekan ESC Untuk Batalkan)", 7);
+        query = (char*)malloc(sizeof(temp));
+        query = temp;
+    }
+    if (query == NULL)
+        return;
+    int ketemu = 0;
+    int i = 0;
+    while (i < tEditor.numrows)
+    {
+        // Konversi list ke char*
+        infotype row = searchByIndex(tEditor.first_row, i)->info;
+        address_column column = row.render;
+        char *tempRow = (char *)malloc((row.rsize + 1) * sizeof(char));
+        tempRow[row.rsize] = '\0';
+        int index = 0;
+        while (index < row.rsize)
+        {
+            tempRow[index] = Info(column);
+            column = NextColumn(column);
+            index++;
+        }
+        char *match = strstr(tempRow, query);
+        if (match)
+        {
+            setCursorY(i);
+            setCursorX(renderXToCursorX(&row, match - tempRow));
 
-    //         // Untuk select text
-    //         selection.y = getCursor().y;
-    //         selection.x = getCursor().x;
-    //         selection.len = strlen(query);
-    //         selection.isOn = true;
-    //         int screenrows = getScreenRows(); // TODO get screenrows
-    //         if (i >= screenrows)
-    //         {
-    //             setStartRow(getCursor().y);
-    //         }
+            // Untuk select text
+            selection.y = getCursor().y;
+            selection.x = getCursor().x;
+            selection.len = strlen(query);
+            selection.isOn = true;
+            int screenrows = getScreenRows(); // TODO get screenrows
+            if (i >= screenrows)
+            {
+                setStartRow(getCursor().y);
+            }
 
-    //         ketemu = 0;
-    //         break;
-    //     }
-    // }
-    // if (ketemu)
-    // {
-    //     // COMMENTED editorSetStatusMessage("Teks Tidak Ada!");
-    // }
+            ketemu = 1;
+            if(replaceAll){
+                replace(&tEditor,textPengganti);
+            }else{
+                char *pilih = setInputMassage("Ubah Text? : %s (Y/T)", 13);
+                if(toupper(pilih[0]) == 'Y'){
+                    char *pengganti = setInputMassage("Text Pengganti : %s ", 17);
+                    char *isReplaceAll = setInputMassage("Ubah Semua? : %s (Y/T)",14);
+                    if(toupper(isReplaceAll[0]) == 'Y'){
+                        replace(&tEditor,pengganti);
+                        findText(tEditor,true,pengganti,query);
+                        break;
+                    } else if(toupper(isReplaceAll[0]) == 'T'){
+                        replace(&tEditor,pengganti);
+                        break;
+                    }
+                } else if(toupper(pilih[0]) == 'T') break;
+                
+            }
+        } else {
+            i++;
+        }
+    }
+    if (!ketemu)
+    {
+        setMessage("Teks Tidak Ada!");
+    }
 
-    // free(query);
+    free(query);
+    
 }
+
+void replace (teksEditor *tEditor,char *pengganti){
+    deleteSelect(tEditor);
+    clearSelected();
+    for(int i = 0; i<strlen(pengganti); i++){
+        insertChar(pengganti[i]);
+    }
+}
+
 selectionText getSelection()
 {
     return selection;
