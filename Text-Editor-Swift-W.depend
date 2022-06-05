@@ -21,7 +21,7 @@
 	<windows.h>
 	"terminal.h"
 
-1651912617 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\buffer.cpp
+1654356946 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\buffer.cpp
 	"buffer.h"
 	"output.h"
 
@@ -30,7 +30,7 @@
 	<stdlib.h>
 	<string.h>
 
-1654349622 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.h
+1654356840 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -80,7 +80,7 @@
 1653231379 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
 	"input.h"
 
-1654351904 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
+1654406245 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
 	"output.h"
 
 1650210672 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.cpp

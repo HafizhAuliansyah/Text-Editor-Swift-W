@@ -22,8 +22,6 @@ struct outputHandler
     bool isInMenu;
 };
 
-
-
 void drawRows(outputBuffer *ob);
 
 void addStatusBar(outputBuffer *ob);

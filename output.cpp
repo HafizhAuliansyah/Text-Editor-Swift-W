@@ -152,10 +152,11 @@ void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int select
     if(isDropDown){
         for(int i = 0; i < lenSubMenuList[selectedMenu - 1]; i++){
             int filledDrop = 0, filledBefore = 0;
-            while(filledBefore < filledBeforeDrop){
-                filledBefore++;
-                bufferAppend(ob, " ", 1);
-            }
+            int x = filledBeforeDrop + 1;
+            int y = i + 2;
+            char buf[32];
+            snprintf(buf, sizeof(buf), "\x1b[%d;%dH", y, x);
+            bufferAppend(ob, buf, strlen(buf));
 
             if(i == selectedDrop - 1){
                 bufferAppend(ob, "\x1b[44m", 5);
