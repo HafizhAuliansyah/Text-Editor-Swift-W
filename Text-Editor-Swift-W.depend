@@ -413,7 +413,8 @@
 1652076078 source:d:\kuliah\semester 2\proyek 2\menubackup-w\text_operation.cpp
 	"text_operation.h"
 
-<<<<<<< HEAD
+1654411004 D
+
 1654407666 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\column.cpp
 	"column.h"
 
@@ -429,7 +430,7 @@
 	"input.h"
 
 1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\terminal.h
-=======
+
 1652062788 source:d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\column.cpp
 	"column.h"
 
@@ -445,16 +446,11 @@
 	"input.h"
 
 1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\terminal.h
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
+
+1654409593 a3eb357be4ff7358c83d04a354a93ab16c796
 	<windows.h>
 	<stdio.h>
 	<ctype.h>
-
-<<<<<<< HEAD
-1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\input.h
-=======
-1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\input.h
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -464,33 +460,57 @@
 	"file_io.h"
 	"text_operation.h"
 	"output.h"
-
-<<<<<<< HEAD
-1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\row.h
-=======
-1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\row.h
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
 	<stdio.h>
 	<stdlib.h>
 	"column.h"
-
-<<<<<<< HEAD
-1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\file_io.h
-=======
-1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\file_io.h
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
 	"terminal.h"
 	"output.h"
 	"input.h"
 	<string.h>
 	<sys/types.h>
 	<stdlib.h>
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<time.h>
+	<sstream>
+	"cursor.h"
+	"file_io.h"
+	"input.h"
+	"buffer.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	"terminal.h"
+	"input.h"
+	"cursor.h"
+	"buffer.h"
+	"file_io.h"
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<conio.h>
+	<stdlib.h>
+	"input.h"
+	"output.h"
 
-<<<<<<< HEAD
-1654412704 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\output.h
-=======
-1654409593 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\output.h
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
+1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\input.h
+
+1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\input.h
+
+1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\row.h
+
+1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\row.h
+
+1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\file_io.h
+
+1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\file_io.h
+
+1654420448 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\output.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -503,40 +523,26 @@
 	"input.h"
 	"buffer.h"
 
-<<<<<<< HEAD
-1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\buffer.h
-=======
-1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\buffer.h
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
+1654409593 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\output.h
 
-<<<<<<< HEAD
-1654412704 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\text_operation.h
-=======
-1654409585 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\text_operation.h
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
+1654407666 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\buffer.h
+
+1652062788 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\buffer.h
+
+1654420432 d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\text_operation.h
 	<stdbool.h>
 	"terminal.h"
 	"input.h"
 	"cursor.h"
 	"buffer.h"
 
-<<<<<<< HEAD
-1654407666 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\file_io.cpp
-=======
-1654409585 source:d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\file_io.cpp
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
-	"file_io.h"
-	<stdio.h>
-	<iostream>
-	<fstream>
-	<string>
-	<conio.h>
+1654409585 d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\text_operation.h
 
-<<<<<<< HEAD
-1654415830 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\input.cpp
+1654407666 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\file_io.cpp
+
+1654409585 source:d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\file_io.cpp
+
+1654420655 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\input.cpp
 	"input.h"
 
 1654419772 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\output.cpp
@@ -545,31 +551,28 @@
 1654407666 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\row.cpp
 	"row.h"
 
-1654417434 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\terminal.cpp
+1654420655 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\terminal.cpp
 	<stdio.h>
 	<windows.h>
 	"terminal.h"
 
-1654412704 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\text_operation.cpp
+1654420432 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
-1654412704 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\buffer.cpp
+1654420448 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\buffer.cpp
 	"buffer.h"
 	"output.h"
 
-1654417434 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\main.cpp
-=======
-1654409593 source:d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\input.cpp
-	"input.h"
-
-1654411004 source:d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\main.cpp
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796
+1654420655 source:d:\tugas\1 tugas polban\semester 2\proyek2\find&replace\text-editor-swift-w\main.cpp
 	<stdlib.h>
 	"input.h"
 	"output.h"
 
-<<<<<<< HEAD
-=======
+1654409593 source:d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\input.cpp
+	"input.h"
+
+1654411004 source:d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\main.cpp
+
 1654409593 source:d:\tugas\1 tugas polban\semester 2\proyek2\text-editor-swift-w\output.cpp
 	"output.h"
 
@@ -588,4 +591,3 @@
 	"buffer.h"
 	"output.h"
 
->>>>>>> 074a3eb357be4ff7358c83d04a354a93ab16c796

@@ -440,7 +440,7 @@ char *setInputMassage(const char *prompt, int start_cx)
     // HAFIZH : Pindah cursor kebawah
     outputConfig.isInStatus = true;
     cursorHandler stat_cursor = getMessageCursor();
-    stat_cursor.y = getScreenRows() + 2;
+    stat_cursor.y = getScreenRows() + 4;
     stat_cursor.x = start_cx;
     setMessageCursor(stat_cursor);
 
