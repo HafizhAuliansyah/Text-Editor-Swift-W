@@ -58,7 +58,7 @@ void terminalInit(){
 	newScreenBuffer.Y = bufferInfo.srWindow.Bottom - bufferInfo.srWindow.Top + 1;
 	SetConsoleScreenBufferSize(ConsoleOut,newScreenBuffer);
 	SetConsoleTitle("Text Editor Swift");
-	terminalConfig.screenrows -= 3;
+	terminalConfig.screenrows -= 5;
 
 }
 int getScreenRows(){

@@ -17,8 +17,6 @@ int main(int argc, char *argv[])
         openFile(argv[1]);
     }
 
-    setMessage("SHORTCUT: Ctrl - Q = quit; Ctrl - S  = save, Search : CTRL - q");
-
     while (1)
     {
         if(getOutputHandler().isInMenu)
