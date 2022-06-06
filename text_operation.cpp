@@ -553,31 +553,36 @@ int abs(int x)
     }
 }
 
-teksEditor getUndo(teksEditor tEditor){
-    if(!IsEmpty(undo)){
-        teksEditor temp = undo.Info[REAR(undo)];
-        pushToRedo(temp);
-        Pop(&undo);
-        return temp;
-    }else{
-        return tEditor;
-    } 
+void getUndo(teksEditor *tEditor){
+        if(!IsEmpty(undo)){
+            teksEditor temp = undo.Info[REAR(undo)];
+            pushToRedo(temp);
+            Pop(&undo);
+            if(!IsEmpty(undo)){
+                clearTeksEditor(tEditor);
+                *tEditor = temp;
+            }
+        }
 }
-teksEditor getRedo(teksEditor tEditor){
+void getRedo(teksEditor *tEditor){
     if(!IsEmpty(redo)){
-        teksEditor temp = redo.Info[REAR(redo)];
-        pushToUndo(temp, false);
-        Pop(&redo);
-        return temp;
-    }else{
-        return tEditor;
-    } 
+            teksEditor temp = redo.Info[REAR(redo)];
+            pushToRedo(temp);
+            Pop(&redo);
+            if(!IsEmpty(redo)){
+                clearTeksEditor(tEditor);
+                *tEditor = temp;
+            }
+    }
 }
 void pushToUndo(teksEditor tEditor, bool state){
-    if(!IsEmpty(redo) && state){
-        CreateQueue(&redo);
-    }
-    Enqueue(&undo,tEditor);
+    teksEditor temp;
+    temp.first_row = Nil;
+    // if(!IsEmpty(redo) && state){
+        // CreateQueue(&redo);
+    // }
+    copyTeksEditor(tEditor, &temp);
+    Enqueue(&undo,temp);
 }
 void pushToRedo(teksEditor tEditor){
     Enqueue(&redo,tEditor);

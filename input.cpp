@@ -197,6 +197,21 @@ void keyProcess()
     case CTRL('x'):
         cut(&teks_editor);
         break;
+    case CTRL('j'):
+    {
+        // inputInit();
+        // teksEditor temp = getUndo();
+        getUndo(&teks_editor);
+        setCursorY(teks_editor.numrows-1);
+        setCursorX(searchByIndex(teks_editor.first_row,getCursor().y-1)->info.size);
+        break;
+    }
+    case CTRL('y'):
+        getRedo(&teks_editor);
+        // cursorInit();
+        setCursorY(teks_editor.numrows-1);
+        setCursorX(searchByIndex(teks_editor.first_row,getCursor().y-1)->info.size);
+        break;
         // SELECT
     case SHIFT_ARROW_RIGHT:
     case SHIFT_ARROW_LEFT:
@@ -220,6 +235,9 @@ void keyProcess()
     default:
         if ((c > 26 || c == 9) && !output.isInHelp)
         {
+            if(c == 32){
+                pushToUndo(teks_editor,true);
+            }
             if (getSelection().isOn)
                 deleteSelect(&teks_editor);
             insertChar(c);
@@ -443,17 +461,20 @@ teksEditor getTeksEditor()
 
 void clearTeksEditor(teksEditor *tEditor)
 {
-    for (int i = 0; i < tEditor->numrows; i++)
-    {
-        DelAllChar(&searchByIndex(tEditor->first_row, i)->info.chars);
-        DelAllChar(&searchByIndex(tEditor->first_row, i)->info.render);
+    if(tEditor->first_row != Nil){
+        for (int i = 0; i < tEditor->numrows; i++)
+        {
+            DelAllChar(&searchByIndex(tEditor->first_row, i)->info.chars);
+            DelAllChar(&searchByIndex(tEditor->first_row, i)->info.render);
+        }
+        DelAll(&tEditor->first_row);
     }
-    DelAll(tEditor->first_row);
+
 }
 
 void copyTeksEditor(teksEditor from, teksEditor *to)
 {
-    CreateRow(to->first_row);
+    CreateRow(&to->first_row);
     to->numrows = from.numrows;
     address_row P = from.first_row; // untuk perpindahan row
     // keperluan copy
@@ -469,12 +490,12 @@ void copyTeksEditor(teksEditor from, teksEditor *to)
 
 void copyRow(infotype from, infotype *to)
 {
-    ColumnInit(&to);
+    columnInit(to);
     to->size = from.size;
     address_column P = from.chars; // untuk perpindahan column / karakter
     while (P != Nil)
     {
-        InsVLastChar(&to->chars, from.chars->info);
+        InsVLastChar(&to->chars, P->info);
         P = NextColumn(P);
     }
     updateRow(to);
