@@ -114,7 +114,7 @@ void keyProcess()
     case CTRL('q'):
         if (getFileHandler().modified && quit_times > 0)
         {
-            setMessage("PERINGATAN !! FILE BELUM DISIMPAN TEKAN Ctrl + s UNTUK SIMPAN, Ctrl + q UNTUK KELUAR", quit_times);
+            setMessage("\x1b[91mPERINGATAN !! FILE BELUM DISIMPAN TEKAN Ctrl + s UNTUK SIMPAN, Ctrl + q UNTUK KELUAR\x1b[m", quit_times);
             quit_times--;
             return;
         }

@@ -215,7 +215,7 @@ void MenuMode(){
     //panjang subemenu yg terpilih
     int lenSubMenu;
     teksEditor tEditor=getTeksEditor();
-
+    static int quit_times = SWIFT_QUIT_TIMES;
     while (1)
     {   
 
@@ -262,23 +262,24 @@ void MenuMode(){
                         case 1 :{
                           newFile(&tEditor);
                         }
+                        break;
                         //saat submenu kedua terpilih, jalankan fungsi openNewFile
                         case 2 :{
                           openNewFile(&tEditor);
                         }
+                        break;
                         //saat submenu ketiga terpilih, jalankan fungsi saveFile
                         case 3 :{
                          saveFile();
-                          break;
 
                         }
+                          break;
                         //saat submenu pertama terpilih, keluar
                         case 4 :{
-                        static int quit_times = SWIFT_QUIT_TIMES;
-                        HANDLE console_out = getConsoleOut();
-                         if (getFileHandler().modified && quit_times > 0)
+                            HANDLE console_out = getConsoleOut();
+                            if (getFileHandler().modified && quit_times > 0)
                             {
-                                setMessage("PERINGATAN !! FILE BELUM DISIMPAN TEKAN Ctrl + s UNTUK SIMPAN, Ctrl + q UNTUK KELUAR", quit_times);
+                                setMessage("\x1b[91mPERINGATAN !! FILE BELUM DISIMPAN TEKAN Ctrl + s UNTUK SIMPAN, Ctrl + q UNTUK KELUAR\x1b[m", quit_times);
                                 quit_times--;
                                 return;
                             }

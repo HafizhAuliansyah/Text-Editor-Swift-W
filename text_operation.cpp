@@ -15,7 +15,7 @@ void addSelectionText(outputBuffer *ob, char *row, int len, selectionText *scanS
     // Select Text sesuai kolom selection.x, sejumlah selection.len ke kanan
     bufferAppend(ob, "\x1b[7m", 4);
     at = scanSelected->x;
-
+    // Handle select multiline, mengubah awal select Y ke baris setelahnya
     if(lenAvailable < scanSelected->len){
         lenSelect = lenAvailable;
         scanSelected->len -= lenAvailable;
@@ -41,7 +41,7 @@ void selectMoveCursor(int key, teksEditor tEditor)
     dest.x = getCursor().x;
     dest.y = getCursor().y;
     dest.len = selection.len;
-    // Kondisional Shift Select
+    // HAFIZH : Kondisional Shift Select
     switch (key)
     {
     case SHIFT_ARROW_LEFT:
@@ -217,13 +217,16 @@ void clearSelected()
 
 void copyLocal(erow row[])
 {
+    // HAFIZH : Proses mengisi hasil_c, untuk digunakan secara lokal
     hasil_c = (char *)realloc(hasil_c, selection.len + 1);
     memmove(hasil_c, &row[selection.y].chars[selection.x], selection.len);
     hasil_c[selection.len] = '\0';
 }
 void copyGlobal(teksEditor tEditor)
 {
+    // HAFIZH : Membuka clipboard berdasarkan proses/task saat ini
     OpenClipboard(0);
+    // HAFIZH : Mengosongkan isi clipboard
     EmptyClipboard();
     // HAFIZH : Deklarasi tracker variabel
     int currentY = selection.y;
@@ -257,6 +260,7 @@ void copyGlobal(teksEditor tEditor)
             hasil_c[x] = c;
             currentX++;
         }else{
+            // Handle MultiLine
             hasil_c[x] = '\r';
             x += 1;
             hasil_c[x] = '\n';
@@ -265,11 +269,15 @@ void copyGlobal(teksEditor tEditor)
         }
     }
     hasil_c[len_cpy] = '\0';
-    // HAFIZH : Proses memasukkan ke clipboard
+    // HAFIZH : Alokasi ClipboardText sesuai panjang hasil_c
     HGLOBAL clipboardText = GlobalAlloc(GMEM_MOVEABLE, len_cpy);
+    // HAFIZH : clopboardText diisi hasil_c
     memcpy(GlobalLock(clipboardText), hasil_c, len_cpy);
+    // HAFIZH : Mengubah clopboardTetxt yang asalnya pointer menjadi tidak
     GlobalUnlock(clipboardText);
+    // HAFIZH : Mengubah isi clipboard text
     SetClipboardData(CF_TEXT, clipboardText);
+    // HAFIZH : Tutup Clipboard
     CloseClipboard();
 }
 void pasteLocal()
@@ -284,7 +292,9 @@ void pasteGlobal(teksEditor *tEditor){
     int currentY = selection.isOn? selection.y : getCursor().y;
     int currentX = selection.isOn? selection.x : getCursor().x;
     address_row currentRow;
+    // HAFIZH : Looping menghapus teks yang terselect terlebih dahulu
     if(selection.isOn){
+         // HAFIZH : Looping mencari awal index untuk penhapusan
         for(int x = 0; x < selection.len; x++){
             currentRow = searchByIndex(tEditor->first_row, currentY);
             if(currentX < currentRow->info.size){
@@ -294,17 +304,21 @@ void pasteGlobal(teksEditor *tEditor){
                 currentY++;
             }
         }
+         // HAFIZH : Memindahkan cursor ke posisi tersebut
         setCursorX(currentX);
         setCursorY(currentY);
+        // HAFIZH : Mulai penghapusan
         while(getCursor().x != selection.x || getCursor().y != selection.y){
             deleteChar();
         }
         currentY = selection.y;
     }
+    // HAFIZH : Membuka clipboard
     OpenClipboard(0);
+    // HAFIZH : Mengisi isi clipboard kedalam clipboardText, dalam format teks
     HANDLE clipboardText = GetClipboardData(CF_TEXT);
     int len_paste = strlen((char*) clipboardText);
-
+    // HAFIZH : Proses insert karakter ke teks editor
     for (int x = 0; x < len_paste; x++){
         if(((char*) clipboardText)[x] == '\n'){
             continue;
@@ -315,14 +329,18 @@ void pasteGlobal(teksEditor *tEditor){
         }
         insertChar( ((char*) clipboardText)[x]);
     }
+    // HAFIZH : menutup clipboard
     CloseClipboard();
 }
 void cut(teksEditor *tEditor){
+    // HAFIZH : Memindahkan isi teks ke clipboard terlebih dahulu
     copyGlobal(*tEditor);
+    // HAFIZH : Proses menghapus teks nya
     int currentY = selection.isOn? selection.y : getCursor().y;
     int currentX = selection.isOn? selection.x : getCursor().x;
     address_row currentRow;
     if(selection.isOn){
+        // HAFIZH : Looping mencari awal index untuk penhapusan
         for(int x = 0; x < selection.len; x++){
             currentRow = searchByIndex(tEditor->first_row, currentY);
             if(currentX < currentRow->info.size){
@@ -332,8 +350,10 @@ void cut(teksEditor *tEditor){
                 currentY++;
             }
         }
+        // HAFIZH : Memindahkan cursor ke posisi tersebut
         setCursorX(currentX);
         setCursorY(currentY);
+        // HAFIZH : Mulai penghapusan
         while(getCursor().x != selection.x || getCursor().y != selection.y){
             deleteChar();
         }
@@ -346,6 +366,7 @@ void deleteSelect(teksEditor *tEditor){
     int currentX = selection.x;
     address_row currentRow;
     for(int x = 0; x < selection.len; x++){
+        // HAFIZH : Looping mencari awal index untuk penhapusan
             currentRow = searchByIndex(tEditor->first_row, currentY);
             if(currentX < currentRow->info.size){
                 currentX++;
@@ -354,8 +375,10 @@ void deleteSelect(teksEditor *tEditor){
                 currentY++;
             }
         }
+        // HAFIZH : Memindahkan cursor ke posisi tersebut
         setCursorX(currentX);
         setCursorY(currentY);
+        // HAFIZH : Mulai penghapusan
         while(getCursor().x != selection.x || getCursor().y != selection.y){
             deleteChar();
         }
