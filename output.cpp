@@ -12,8 +12,11 @@ int lenSubMenuList[2] = {4,1};
 void drawRows(outputBuffer *ob)
 {
     int y;
+    // Array 2 dimensi penampung help
     char **help = NULL;
+    // Panjang baris help
     int help_len;
+    // Ketika isInHelp, ambil data dari help.txt
     if (outputConfig.isInHelp)
     {
         bufferAppend(ob, "\x1b[96m", 5);
@@ -24,13 +27,13 @@ void drawRows(outputBuffer *ob)
     for (y = 0; y < getScreenRows(); y++)
     {
         int filerow = y + getCursor().start_row;
+        // Ketika isInHelp, tampilkan baris perbaris isi data help
         if (outputConfig.isInHelp)
         {
             if (filerow < help_len)
             {
-                int len = strlen(help[filerow]) - getCursor().start_col;
-
-                bufferAppend(ob, help[filerow], len);
+                // Mengisi buffer dengan baris isi help
+                bufferAppend(ob, help[filerow], strlen(help[filerow]));
             }
         }
         else

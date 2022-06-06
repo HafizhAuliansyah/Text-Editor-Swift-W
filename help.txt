@@ -29,4 +29,8 @@ Ctrl + S = menyimpan berkas yang sedang aktif
 Ctrl + F = menampilkan form pencarian
 Ctrl + H = membuka menu help
 Ctrl + Q = exit/keluar
+PGDN 	 = Mengubah posisi cursor ke baris paling bawah
+PGUP	 = Mengubah posisi curosr ke baris paling atas
+HOME	 = Mengubah poisis cursor ke baris paling kiri
+END	 = Mengubah poisis cursor ke baris paling kanan
 
