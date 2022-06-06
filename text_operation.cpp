@@ -1,7 +1,7 @@
 #include "text_operation.h"
 
 selectionText selection;
-Queue undo,redo;
+Queue undo, redo;
 
 char *hasil_c;
 void addSelectionText(outputBuffer *ob, char *row, int len, selectionText *scanSelected)
@@ -553,37 +553,49 @@ int abs(int x)
     }
 }
 
-void getUndo(teksEditor *tEditor){
-        if(!IsEmpty(undo)){
-            teksEditor temp = undo.Info[REAR(undo)];
-            pushToRedo(temp);
-            Pop(&undo);
-            if(!IsEmpty(undo)){
-                clearTeksEditor(tEditor);
-                *tEditor = temp;
-            }
+void getUndo(teksEditor *tEditor)
+{
+    if (!IsEmpty(undo))
+    {
+        teksEditor temp = undo.Info[REAR(undo)];
+        pushToRedo(temp);
+        Pop(&undo);
+        if (!IsEmpty(undo))
+        {
+            clearTeksEditor(tEditor);
+            *tEditor = temp;
         }
-}
-void getRedo(teksEditor *tEditor){
-    if(!IsEmpty(redo)){
-            teksEditor temp = redo.Info[REAR(redo)];
-            pushToRedo(temp);
-            Pop(&redo);
-            if(!IsEmpty(redo)){
-                clearTeksEditor(tEditor);
-                *tEditor = temp;
-            }
+        else
+        {
+            pushToUndo(temp, false);
+        }
     }
 }
-void pushToUndo(teksEditor tEditor, bool state){
+void getRedo(teksEditor *tEditor)
+{
+    if (!IsEmpty(redo))
+    {
+        teksEditor temp = redo.Info[REAR(redo)];
+        pushToUndo(temp, false);
+        Pop(&redo);
+        if (!IsEmpty(redo))
+        {
+            clearTeksEditor(tEditor);
+            *tEditor = temp;
+        }
+    }
+}
+void pushToUndo(teksEditor tEditor, bool state)
+{
     teksEditor temp;
     temp.first_row = Nil;
     // if(!IsEmpty(redo) && state){
-        // CreateQueue(&redo);
+    // CreateQueue(&redo);
     // }
     copyTeksEditor(tEditor, &temp);
-    Enqueue(&undo,temp);
+    Enqueue(&undo, temp);
 }
-void pushToRedo(teksEditor tEditor){
-    Enqueue(&redo,tEditor);
+void pushToRedo(teksEditor tEditor)
+{
+    Enqueue(&redo, tEditor);
 }

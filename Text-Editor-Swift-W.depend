@@ -703,3 +703,115 @@
 1654526440 source:c:\users\jmalf\onedrive\documents\text-editor-swift-w\input.cpp
 	"input.h"
 
+1654421076 source:d:\final\text-editor-swift-w\buffer.cpp
+	"buffer.h"
+	"output.h"
+
+1654421076 d:\final\text-editor-swift-w\buffer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1654557530 d:\final\text-editor-swift-w\output.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<time.h>
+	<sstream>
+	"cursor.h"
+	"file_io.h"
+	"input.h"
+	"buffer.h"
+
+1654421076 d:\final\text-editor-swift-w\cursor.h
+	"terminal.h"
+	"input.h"
+
+1654421077 d:\final\text-editor-swift-w\terminal.h
+	<windows.h>
+	<stdio.h>
+	<ctype.h>
+
+1654557530 d:\final\text-editor-swift-w\input.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"row.h"
+	"cursor.h"
+	"file_io.h"
+	"text_operation.h"
+	"output.h"
+
+1654509311 d:\final\text-editor-swift-w\row.h
+	<stdio.h>
+	<stdlib.h>
+	"column.h"
+
+1654421907 d:\final\text-editor-swift-w\column.h
+	<stdio.h>
+	<stdlib.h>
+
+1654421076 d:\final\text-editor-swift-w\file_io.h
+	"terminal.h"
+	"output.h"
+	"input.h"
+	<string.h>
+	<sys/types.h>
+	<stdlib.h>
+
+1654557545 d:\final\text-editor-swift-w\text_operation.h
+	<stdbool.h>
+	"terminal.h"
+	"input.h"
+	"cursor.h"
+	"buffer.h"
+	"h_queue.h"
+
+1654557530 d:\final\text-editor-swift-w\h_queue.h
+	<stdio.h>
+	"input.h"
+
+1654421076 source:d:\final\text-editor-swift-w\column.cpp
+	"column.h"
+
+1654421076 source:d:\final\text-editor-swift-w\cursor.cpp
+	"cursor.h"
+
+1654557545 source:d:\final\text-editor-swift-w\input.cpp
+	"input.h"
+
+1654421077 source:d:\final\text-editor-swift-w\main.cpp
+	<stdlib.h>
+	"input.h"
+	"output.h"
+
+1654557530 source:d:\final\text-editor-swift-w\output.cpp
+	"output.h"
+
+1654505112 source:d:\final\text-editor-swift-w\row.cpp
+	"row.h"
+
+1654421077 source:d:\final\text-editor-swift-w\terminal.cpp
+	<stdio.h>
+	<windows.h>
+	"terminal.h"
+
+1654557530 source:d:\final\text-editor-swift-w\file_io.cpp
+	"file_io.h"
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<conio.h>
+
+1654557530 source:d:\final\text-editor-swift-w\h_queue.cpp
+	<stdio.h>
+	<stdlib.h>
+	"h_queue.h"
+
+1654558417 source:d:\final\text-editor-swift-w\text_operation.cpp
+	"text_operation.h"
+
