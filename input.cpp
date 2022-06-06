@@ -445,8 +445,8 @@ void clearTeksEditor(teksEditor *tEditor)
 {
     for (int i = 0; i < tEditor->numrows; i++)
     {
-        DelAllChar(searchByIndex(tEditor->first_row, i)->info.chars);
-        DelAllChar(searchByIndex(tEditor->first_row, i)->info.render);
+        DelAllChar(&searchByIndex(tEditor->first_row, i)->info.chars);
+        DelAllChar(&searchByIndex(tEditor->first_row, i)->info.render);
     }
     DelAll(tEditor->first_row);
 }
@@ -462,19 +462,19 @@ void copyTeksEditor(teksEditor from, teksEditor *to)
     while (P != Nil)
     {
         copyRow(P->info, &temp);
-        InsVLast(to->first_row, temp);
+        InsVLast(&to->first_row, temp);
         P = Next(P);
     }
 }
 
 void copyRow(infotype from, infotype *to)
 {
-    ColumnInit(to);
+    ColumnInit(&to);
     to->size = from.size;
     address_column P = from.chars; // untuk perpindahan column / karakter
     while (P != Nil)
     {
-        InsVLastChar(to->chars, from.chars->info);
+        InsVLastChar(&to->chars, from.chars->info);
         P = NextColumn(P);
     }
     updateRow(to);
