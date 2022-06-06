@@ -75,9 +75,11 @@ void insertNewline();
 /* handle enter*/
 
 teksEditor getTeksEditor();
+/* untuk mengambil teks editor */
 
 void inputInit();
+/* init kondisi awal input */
 
 void columnInit(infotype *row);
-
+/* init kondisi column awal */
 #endif

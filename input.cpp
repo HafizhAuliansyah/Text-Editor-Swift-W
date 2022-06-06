@@ -7,13 +7,13 @@ int readKey()
     HANDLE console_in = getConsoleIn();
     // READ KEYBOARD
     ReadFile(console_in, &key, 3, &read, NULL);
-
+    // jika membaca atau inpuatn lebih dari 1 byte alias esc code
     if (key[0] == '\x1b' && read > 1)
     {
         char seq[3];
         seq[0] = key[1];
         seq[1] = key[2];
-
+        // jika setelah esc adalah ]
         if (seq[0] == '[')
         {
             if (seq[1] >= '0' && seq[1] <= '9')
@@ -133,14 +133,17 @@ void keyProcess()
             setCursorX(searchByIndex(teks_editor.first_row, cursor.y)->info.size);
         break;
     case CTRL('f'):
-        findText(teks_editor,false,NULL,NULL);
+        findText(teks_editor, false, NULL, NULL);
         skipClearSelect = true;
         break;
     case BACKSPACE:
     case DEL_KEY:
-        if(getSelection().isOn){
+        if (getSelection().isOn)
+        {
             deleteSelect(&teks_editor);
-        }else{
+        }
+        else
+        {
             if (c == DEL_KEY)
                 moveCursor(ARROW_RIGHT, teks_editor);
             deleteChar();
@@ -207,19 +210,17 @@ void keyProcess()
     {
         if (!output.isInMenu)
             setInMenu(true);
-        if (output.isInHelp){
+        if (output.isInHelp)
+        {
             setInHelp(false);
             setInMenu(false);
-
         }
-
-
     }
     break;
     default:
         if ((c > 26 || c == 9) && !output.isInHelp)
         {
-            if(getSelection().isOn)
+            if (getSelection().isOn)
                 deleteSelect(&teks_editor);
             insertChar(c);
         }
@@ -238,6 +239,7 @@ void updateRow(infotype *row)
     row->render = Nil;
     while (P != Nil)
     {
+        // rendering tab
         if (Info(P) == '\t')
         {
             InsVLastChar(&row->render, ' ');
@@ -273,16 +275,18 @@ void insertRow(int at, address_column s, int len)
     // alokasi row baru
     row_temp = Alokasi(temp);
 
+    // if kondisi di awal
     if (at - 1 < 0)
     {
         InsertFirst(&teks_editor.first_row, row_temp);
     }
     else
     {
+        // ambil prec atau sebelum posisi index yang akan diisi
         address_row prec_row = searchByIndex(teks_editor.first_row, at - 1);
         InsertAfter(&teks_editor.first_row, row_temp, prec_row);
     }
-    updateRow(&row_temp->info); // sepertinya harus diganti
+    updateRow(&row_temp->info);
     teks_editor.numrows++;
     addModified();
 }
