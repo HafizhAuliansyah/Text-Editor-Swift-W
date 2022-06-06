@@ -440,3 +440,13 @@ teksEditor getTeksEditor()
 {
     return teks_editor;
 }
+
+void clearTeksEditor(teksEditor *tEditor)
+{
+    for (int i = 0; i < tEditor->numrows; i++)
+    {
+        DelAllChar(searchByIndex(tEditor->first_row, i)->info.chars);
+        DelAllChar(searchByIndex(tEditor->first_row, i)->info.render);
+    }
+    DelAll(tEditor->first_row);
+}

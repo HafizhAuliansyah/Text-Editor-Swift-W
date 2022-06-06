@@ -80,4 +80,6 @@ void inputInit();
 
 void columnInit(infotype *row);
 
+void clearTeksEditor(teksEditor *tEditor);
+
 #endif
