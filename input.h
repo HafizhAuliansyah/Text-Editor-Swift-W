@@ -84,4 +84,5 @@ void clearTeksEditor(teksEditor *tEditor);
 
 void copyTeksEditor(teksEditor from, teksEditor *to);
 
+void copyRow(infotype from, infotype *to);
 #endif
