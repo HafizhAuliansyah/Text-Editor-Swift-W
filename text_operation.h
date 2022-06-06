@@ -6,6 +6,7 @@
 #include "input.h"
 #include "cursor.h"
 #include "buffer.h"
+#include "h_queue.h"
 
 struct selectionText{
     int x;
@@ -38,5 +39,11 @@ selectionText getSelection();
 void setSelection(selectionText new_selection);
 
 int abs(int x);
+
+/* Undo dan Redo*/
+teksEditor getUndo(teksEditor tEditor);
+teksEditor getRedo(teksEditor tEditor);
+void pushToUndo(teksEditor tEditor, bool state);
+void pushToRedo(teksEditor tEditor);
 
 #endif
