@@ -82,4 +82,6 @@ void columnInit(infotype *row);
 
 void clearTeksEditor(teksEditor *tEditor);
 
+void copyTeksEditor(teksEditor from, teksEditor *to);
+
 #endif

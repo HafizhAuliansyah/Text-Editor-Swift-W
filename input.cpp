@@ -450,3 +450,32 @@ void clearTeksEditor(teksEditor *tEditor)
     }
     DelAll(tEditor->first_row);
 }
+
+void copyTeksEditor(teksEditor from, teksEditor *to)
+{
+    CreateRow(to->first_row);
+    to->numrows = from.numrows;
+    address_row P = from.first_row; // untuk perpindahan row
+    // keperluan copy
+    address_row row_temp;
+    infotype temp;
+    while (P != Nil)
+    {
+        copyRow(P->info, &temp);
+        InsVLast(to->first_row, temp);
+        P = Next(P);
+    }
+}
+
+void copyRow(infotype from, infotype *to)
+{
+    ColumnInit(to);
+    to->size = from.size;
+    address_column P = from.chars; // untuk perpindahan column / karakter
+    while (P != Nil)
+    {
+        InsVLastChar(to->chars, from.chars->info);
+        P = NextColumn(P);
+    }
+    updateRow(to);
+}
