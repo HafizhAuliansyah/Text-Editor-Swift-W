@@ -133,14 +133,17 @@ void keyProcess()
             setCursorX(searchByIndex(teks_editor.first_row, cursor.y)->info.size);
         break;
     case CTRL('f'):
-        findText(teks_editor,false,NULL,NULL);
+        findText(teks_editor, false, NULL, NULL);
         skipClearSelect = true;
         break;
     case BACKSPACE:
     case DEL_KEY:
-        if(getSelection().isOn){
+        if (getSelection().isOn)
+        {
             deleteSelect(&teks_editor);
-        }else{
+        }
+        else
+        {
             if (c == DEL_KEY)
                 moveCursor(ARROW_RIGHT, teks_editor);
             deleteChar();
@@ -207,19 +210,17 @@ void keyProcess()
     {
         if (!output.isInMenu)
             setInMenu(true);
-        if (output.isInHelp){
+        if (output.isInHelp)
+        {
             setInHelp(false);
             setInMenu(false);
-
         }
-
-
     }
     break;
     default:
         if ((c > 26 || c == 9) && !output.isInHelp)
         {
-            if(getSelection().isOn)
+            if (getSelection().isOn)
                 deleteSelect(&teks_editor);
             insertChar(c);
         }
