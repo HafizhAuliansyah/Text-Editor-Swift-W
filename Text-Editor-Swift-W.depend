@@ -6,7 +6,7 @@
 	"terminal.h"
 	"input.h"
 
-1653233718 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
+1654504250 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\main.cpp
 	<stdlib.h>
 	"input.h"
 	"output.h"
@@ -16,12 +16,12 @@
 	<stdio.h>
 	<ctype.h>
 
-1653280714 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\terminal.cpp
+1654504250 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\terminal.cpp
 	<stdio.h>
 	<windows.h>
 	"terminal.h"
 
-1654356946 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\buffer.cpp
+1654504250 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\buffer.cpp
 	"buffer.h"
 	"output.h"
 
@@ -30,7 +30,7 @@
 	<stdlib.h>
 	<string.h>
 
-1654356840 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.h
+1654512433 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.h
 	<windows.h>
 	<stdio.h>
 	<stdlib.h>
@@ -62,7 +62,7 @@
 	<sys/types.h>
 	<stdlib.h>
 
-1652073474 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.h
+1654410366 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.h
 	<stdbool.h>
 	"terminal.h"
 	"input.h"
@@ -77,10 +77,10 @@
 	<string>
 	<conio.h>
 
-1653231379 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
+1654504250 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\input.cpp
 	"input.h"
 
-1654406245 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
+1654512659 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\output.cpp
 	"output.h"
 
 1650210672 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.cpp
@@ -91,7 +91,7 @@
 1650211128 d:\kuliah\semester 2\proyek 2\text-editor-swift-w\spnrsll.h
 	<stdio.h>
 
-1653289219 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
+1654410367 source:d:\kuliah\semester 2\proyek 2\text-editor-swift-w\text_operation.cpp
 	"text_operation.h"
 
 1651051602 source:d:\new\2022\github explore\text-editor-swift-w\main.cpp

@@ -46,6 +46,8 @@ void setInHelp(bool new_help);
 void outputInit();
 
 void drawMenuBar(outputBuffer *ob, int selectedMenu, bool isDropDown, int selectedDrop);
+void drawShortcutBar(outputBuffer *ob);
+void drawShortcutBarMenu(outputBuffer *ob);
 void MenuMode();
 void setInMenu(bool new_menu);
 
